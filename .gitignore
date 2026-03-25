@@ -1,0 +1,27 @@
+# Virtual environment — large, machine-specific, recreated from requirements.txt
+venv/
+
+# Environment variables — contains API keys, NEVER commit these
+.env
+
+# Python cache files — auto-generated when Python runs your code
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter notebook checkpoints — auto-generated, not needed in repo
+.ipynb_checkpoints/
+
+# macOS system files
+.DS_Store
+
+# IDE settings (VS Code, PyCharm, etc.)
+.vscode/
+.idea/
+
+# Large data files that shouldn't be in git (we'll document where to get them)
+data/cefr_dataset/*.csv
+data/cefr_dataset/*.tsv
+
+# Generated outputs (optional — we might want SOME in the repo as examples)
+# outputs/stories/*.json
