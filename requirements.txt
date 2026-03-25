@@ -1,0 +1,19 @@
+# API clients
+python-dotenv       # Read .env files for API keys
+anthropic           # Claude API SDK
+openai              # OpenAI SDK (also used for OpenRouter)
+
+# NLP and text analysis
+spacy               # Sentence parsing, POS tags, dependency trees
+
+# Machine learning
+scikit-learn        # Naive Bayes, Logistic Regression, evaluation metrics
+pandas              # Data manipulation (tables, CSV files)
+numpy               # Numerical operations (arrays, math)
+
+# Visualisation
+matplotlib          # Charts and plots
+seaborn             # Statistical visualisation (nicer charts on top of matplotlib)
+
+# Notebooks
+jupyter             # Jupyter notebooks for exploration and demos
