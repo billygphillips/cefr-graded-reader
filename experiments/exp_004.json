@@ -1,0 +1,31 @@
+{
+  "id": "exp_004",
+  "date": "2026-03-26",
+  "model": "claude-sonnet-4-6",
+  "agent": "Writer",
+  "target_level": "A2-mid",
+  "prompt_version": "WRITER_SYSTEM_PROMPT v1 — full thinking block, no constraints on length or drafting",
+  "max_tokens": 3500,
+  "system_prompt": "WRITER_SYSTEM_PROMPT (see src/generator/prompts.py)",
+  "episode_plan_input": {
+    "episode_number": 1,
+    "hook": "Kai is cleaning an empty back room alone when he opens a dusty cupboard and finds an old video camera with a tape still inside",
+    "key_events": [
+      "Kai finds the camera in the cupboard and his curiosity takes over immediately — THEREFORE he presses play and watches the tape instead of working: the screen shows the same back room fifty years ago, and a man and a woman hide a small metal box under the floorboard next to the window, then cover it carefully",
+      "BUT Mrs Doran calls his name from the hallway — THEREFORE Kai stops the tape and hides the camera fast in his work bag, just before she walks in and asks him sharply why the room is not clean yet; Kai lies and says he is almost finished, and she tells him she is going to the van for more bags but will be back in ten minutes",
+      "THEREFORE the moment Mrs Doran leaves, Kai goes to the floorboard next to the window — BUT when he looks closely he sees fresh scratches around the edge of one board, scratches that are not old and dusty like everything else in the room; Kai does not stop to think about this and tries to lift the board with his fingers",
+      "The board is loose but Kai cannot open it with his hands alone — THEREFORE he stands up to get a tool from his bag, and at that exact moment he hears a sound: slow, heavy footsteps, walking directly above his head, from the locked floor upstairs"
+    ],
+    "vocabulary_targets": ["abandoned", "cupboard", "tape", "floorboard", "scratch", "loose", "footsteps"],
+    "ending_hook": "The house is supposed to be completely empty — so who is walking upstairs?"
+  },
+  "output_truncated": true,
+  "output": "THINKING BLOCK ONLY — prose never reached. Full thinking block consumed all 3500 tokens.\n\nKey thinking block contents:\n- Mapped 4 key events to scenes with paragraph estimates\n- Solved solo-character dialogue problem by using Mrs Doran as antagonist (micro-conflict: she is suspicious/sharp, he is evasive/lying)\n- Planned vocabulary target placement (two appearances each)\n- Drafted full prose episode (~515 words) INSIDE the thinking block\n- Caught one CEFR grammar violation: 'You have been in here for forty minutes' — present perfect, not allowed at A2. Proposed fix: 'You came in here forty minutes ago.'\n- Counted words sentence-by-sentence — this is what consumed the token budget\n\nProse draft produced inside thinking block (excerpt):\n'The room smelled of dust and old wood. Kai moved his mop slowly across the floor. The house was abandoned — empty for many years...'\n[Full draft present in thinking block but clean prose output never reached]",
+  "observations": {
+    "thinking_self_correction": "The model caught a present perfect violation ('You have been in here for forty minutes') in its own draft and proposed a fix before writing the final output. This is valuable research data — the thinking block is functioning as a CEFR compliance checker. Research question: does the thinking block measurably improve CEFR compliance vs no thinking block? Worth testing with the classifier once it is built.",
+    "word_counting": "The model counted every sentence individually (e.g. 'The room smelled of dust and old wood. (8)'). This is not requested behaviour — it is the model's interpretation of the sentence length constraint. It consumed a large proportion of the token budget. Note: the classifier will handle measurement. We do not need the model to count. This behaviour should be noted but the thinking block should not be constrained yet (per Opus advice) — the self-correction value outweighs the token cost for now.",
+    "token_budget": "3500 max_tokens insufficient for full thinking block + clean prose output. Increasing to 6000 for next run.",
+    "prose_quality": "Draft prose inside thinking block is strong — natural dialogue, clear dramatic irony (fresh scratches, footsteps), clean A2 vocabulary. Story is more developed than exp_001 baseline.",
+    "next_steps": "Re-run with max_tokens=6000 to get clean prose output after thinking block."
+  }
+}
