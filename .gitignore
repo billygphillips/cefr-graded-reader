@@ -7,6 +7,7 @@ venv/
 # Personal project management files (not for public repo)
 CLAUDE.md
 TODO.md
+SESSION_NOTES.md
 
 # Python cache files — auto-generated when Python runs your code
 __pycache__/
