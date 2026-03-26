@@ -1,0 +1,51 @@
+{
+  "id": "exp_008",
+  "date": "2026-03-26",
+  "model": "claude-sonnet-4-6",
+  "agent": "Director + Writer",
+  "target_level": "A2-mid",
+  "max_tokens_director": 6000,
+  "max_tokens_writer": 12000,
+  "prompt_changes_from_exp_007": [
+    "Director max_tokens increased from 4000 to 6000 (Director JSON was being cut off mid-output)",
+    "Writer max_tokens increased from 10000 to 12000",
+    "Writer sentence length constraint changed from numerical ('Average sentence length: 8-9 words', 'No sentence longer than 15 words') to qualitative ('Keep sentences short. Use very short sentences for tension. Use medium sentences for description. Never write long, complex sentences with multiple clauses. Vary length deliberately.') — intended to reduce model counting behaviour"
+  ],
+  "director_output": {
+    "title": "What the Camera Saw",
+    "story_bible_summary": "Milo Vane, 17, too curious. Mr. Renn, 50s, hides things. Location: tall abandoned house at end of quiet street; upstairs room with dusty floors, large cupboard, one dirty window. Dramatic irony: woman on the tape keeps looking at the door with fear — Milo watches only the floor and does not notice. Reader sees the fear.",
+    "vocabulary_targets": ["tape", "floorboard", "cupboard", "image", "nervous"],
+    "episode_plan": {
+      "episode_number": 1,
+      "hook": "Milo is alone in a dusty upstairs room with a mop and a bucket when he opens the old cupboard and finds something he was never supposed to find.",
+      "key_events": [
+        "Milo opens the large cupboard to clean it and finds an old video camera at the back — he knows he must keep working, but his curiosity is too strong and he turns the camera on instead.",
+        "The tape inside still works: the small screen shows this exact room fifty years ago, where a woman and a young girl press a small metal box into a hole under the floorboards — the woman keeps looking back at the closed door with fear on her face, but Milo watches only the floor and does not notice her expression.",
+        "Therefore Milo crosses to that exact spot and finds one loose floorboard; he pulls it up and sees the small metal box still sitting in the dark earth below — untouched for fifty years.",
+        "But the box is locked, and before Milo can think about what to do, he hears Mr. Renn's heavy footsteps on the stairs — he shoves the box into his bag and stands up fast; Mr. Renn opens the door, looks at Milo, and his face is not angry — it is worried."
+      ],
+      "ending_hook": "Mr. Renn's face is worried, not angry — and Milo needs to know why."
+    },
+    "unresolved_threads": [
+      "What is inside the locked metal box?",
+      "Who was the woman in the tape, and why was she scared of something behind the door?",
+      "Why does Mr. Renn look worried — not angry — when he finds Milo standing in the room?"
+    ]
+  },
+  "writer_output_truncated": false,
+  "writer_output": "The room smelled of dust and old wood. Milo stood alone by the window with his mop and bucket. He looked at the grey walls and the dirty floor. This was his job. Mr. Renn paid him to clean every room in the old house, every corner, every shelf.\n\nThe large cupboard stood against the far wall. It was tall and dark. Milo pulled it open. He saw old cloth, old boxes, and then — at the very back — a small black video camera. Dust covered it completely.\n\nMilo knew he must keep working. He looked at the mop. He looked at the camera. He picked up the camera.\n\nThere was a tape inside. Milo pressed the button. He waited. Then the small screen lit up.\n\nThe image was old and grey, but the room on the screen was this room. Milo knew the window. He knew the walls. But the room on the screen looked clean and bright. This was fifty years ago.\n\nA tall woman stood in the middle of the room. A young girl stood beside her. The girl held something small and dark — a metal box. The woman pointed at the floor. The girl knelt down and pressed the box into a dark hole under a floorboard.\n\nThe woman turned and looked back at the door. Her mouth was tight. Her eyes were wide and nervous. She looked at the door again. Her body went still.\n\nMilo did not see this. He watched only the girl's hands, and the floorboard, and the dark hole.\n\nThe tape ended. The image went black.\n\nMilo walked to that exact spot on the floor. He got on his knees. He pressed his hand slowly along the wood. One floorboard moved under his fingers. He pulled it up.\n\nBelow, there was dark earth. And in the dark earth, there sat a small metal box. Cold. Heavy. No one touched it for fifty years. Until now.\n\nMilo lifted it out. He turned it over in his hands. There was a small lock on the front. He needed a key.\n\nThen he heard it. Heavy footsteps on the stairs.\n\nMilo's hands moved fast. He pushed the box deep into his bag. He stood up. He kicked the floorboard back into place. He grabbed his mop.\n\nThe door opened.\n\nMr. Renn stood in the doorway. He was a big man with grey hair and heavy hands. He looked at Milo. He looked at the open cupboard. He looked at the floor.\n\nMilo felt nervous. His hands were tight on the mop.\n\n'You are cleaning up here?' Mr. Renn said.\n\n'Yes,' Milo said. 'Just the cupboard.'\n\nMr. Renn did not move. He looked at Milo's bag on the floor. 'I will come back,' he said. His voice was flat and slow. 'To check.'\n\nMilo nodded. He stood very still. His bag sat heavy at his feet.\n\nMr. Renn's face was not angry. It was worried. And Milo needed to know why.",
+  "observations": {
+    "milestone": "FIRST COMPLETE UNCUT WRITER OUTPUT. No truncation. Thinking block + full clean prose both present.",
+    "token_fix": "Director max_tokens 4000 → 6000 fixed the Director JSON truncation. Writer max_tokens 10000 → 12000 was sufficient for the first complete output.",
+    "sentence_constraint_change": "Replacing numerical sentence length targets with qualitative guidance did not eliminate counting behaviour in the thinking block — model still planned sentences explicitly — but the thinking block was noticeably shorter and more focused than previous runs. The model spent less time on sentence-level counting and more time on scene planning and vocabulary placement. Tentative finding: qualitative constraints reduce but do not eliminate counting behaviour.",
+    "prose_quality": "Strong. Dramatic irony executed cleanly: woman looks at the door with fear twice, described physically ('Her mouth was tight. Her eyes were wide and nervous. She looked at the door again. Her body went still.'), and then 'Milo did not see this. He watched only the girl's hands.' This is the correct technique — show the irony physically, don't explain it. Dialogue micro-conflict is present: Mr. Renn's suspicious 'I will come back. To check.' Grammar appears clean: no passive voice, no relative clauses, no perfect tenses, no forbidden modals observed.",
+    "vocabulary_targets_check": {
+      "tape": ["There was a tape inside", "The tape ended"] ,
+      "floorboard": ["under a floorboard", "One floorboard moved under his fingers", "He kicked the floorboard back into place"],
+      "cupboard": ["The large cupboard stood against the far wall", "He looked at the open cupboard"],
+      "image": ["The image was old and grey", "The image went black"],
+      "nervous": ["Her eyes were wide and nervous", "Milo felt nervous"]
+    },
+    "next_run": "Build the State Manager agent. It takes the new prose + previous Story Bible → extracts state changes (character locations, key items, new events, unresolved threads updated) → outputs an updated Story Bible JSON. This feeds back to the Director for Episode 2."
+  }
+}

@@ -18,7 +18,7 @@ he is standing in fifty years ago, and the family is hiding a small metal box un
 print("--- DIRECTOR ---")
 director_response = client.messages.create(
     model="claude-sonnet-4-6",
-    max_tokens=4000,
+    max_tokens=6000,
     system=DIRECTOR_SYSTEM_PROMPT,
     messages=[
         {"role": "user", "content": f"<seed>{SEED}</seed>"}
