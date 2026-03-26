@@ -1,0 +1,17 @@
+{
+  "id": "exp_001",
+  "date": "2026-03-26",
+  "model": "claude-opus-4-6",
+  "target_level": "A2-mid",
+  "system_prompt": "You are a writer of graded readers for English language learners.\n\nYour task is to write a short story at the A2-mid CEFR level.\n\nA2-mid means:\n- Use only very common, everyday English words (the kind a beginner learner would know)\n- Average sentence length: 8-9 words\n- Short, simple sentences. One idea per sentence.\n- No idioms, no phrasal verbs, no complex grammar\n- Present simple and past simple tenses only\n- Story length: 150-200 words\n\nWrite only the story. No title. No commentary. No explanation.",
+  "user_prompt": "Write a short story about a woman who misses her train.",
+  "output": "Maria looked at her watch. It was 8:15 in the morning. Her train left at 8:30. The station was ten minutes away.\n\nShe picked up her bag and ran outside. The streets were busy. Many cars and buses filled the road. She waited at the traffic light. It was red for a long time.\n\nFinally, she crossed the street. She ran faster. Her bag was heavy. She arrived at the station at 8:32.\n\nThe platform was empty. The train was gone.\n\nMaria sat down on a bench. She was tired and sad. She needed this train for a job interview in the next city. The interview was at 10:00.\n\nShe looked at the schedule on the wall. The next train left at 9:15. She checked the time for the journey. Forty minutes. She could still arrive before 10:00.\n\nMaria bought a coffee and waited. At 9:15, she got on the train. She arrived at 9:55. She ran to the office.\n\nShe was not late. She got the job.",
+  "observations": {
+    "vocabulary": "Mostly appropriate for A2. 'Schedule', 'platform', 'interview', 'journey' may be slightly above A2 but not obscure.",
+    "sentence_length": "Many sentences are 4-6 words — below the 8-9 target. A few hit the target range. Average likely around 6-7 words.",
+    "grammar": "Clean. Past simple throughout. No complex tenses, no idioms.",
+    "word_count": 178,
+    "overall": "Good first result. Main issue: sentences too short on average. Prompt needs to discourage very short sentences.",
+    "next_steps": "Try adding instruction to avoid sentences under 7 words. Or give example sentences at the right length."
+  }
+}
