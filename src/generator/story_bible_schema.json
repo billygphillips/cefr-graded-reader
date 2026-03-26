@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "title": "",
+    "genre": "adventure",
+    "cefr_level": "A2",
+    "target_subband": "A2-mid",
+    "setting": "",
+    "tone": ""
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "",
+      "role": "protagonist",
+      "description": "",
+      "current_location": "loc_001",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "",
+      "description": ""
+    }
+  ],
+  "episode_history": [],
+  "unresolved_threads": []
+}

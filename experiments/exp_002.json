@@ -1,0 +1,79 @@
+{
+  "id": "exp_002",
+  "date": "2026-03-26",
+  "model": "claude-sonnet-4-6",
+  "agent": "Director",
+  "target_level": "A2-mid",
+  "system_prompt": "DIRECTOR_SYSTEM_PROMPT (see src/generator/prompts.py)",
+  "user_prompt": "Seed: A young man gets a weekend job helping to clean out an old, abandoned house in his town. In a dusty cupboard, he finds an old video camera. The tape inside shows the exact room he is standing in fifty years ago, and the family is hiding a small metal box under the floorboards.",
+  "output": {
+    "story_bible": {
+      "metadata": {
+        "title": "The Box Under the Floor",
+        "genre": "mystery",
+        "cefr_level": "A2",
+        "target_subband": "A2-mid",
+        "setting": "A small, quiet town where a young man takes a weekend job cleaning out an old, abandoned house at the end of a narrow street.",
+        "tone": "tense, curious"
+      },
+      "characters": [
+        {
+          "id": "char_001",
+          "name": "Marco",
+          "role": "protagonist",
+          "description": "A 19-year-old with dark hair and quick eyes who notices every small detail around him.",
+          "flaw": "Too curious — he always stops working to investigate things he finds interesting, which gets him into trouble.",
+          "current_location": "loc_002",
+          "key_items": ["video camera", "tape"]
+        },
+        {
+          "id": "char_002",
+          "name": "Mrs. Dale",
+          "role": "secondary",
+          "description": "A woman in her sixties with grey hair and a tight, nervous smile who hired Marco to clean the house.",
+          "flaw": "Hides information instead of explaining it — she gives instructions but never gives reasons.",
+          "current_location": "loc_001",
+          "key_items": []
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_001",
+          "name": "The front hallway",
+          "description": "A dark, narrow entrance with peeling yellow paint on the walls and old newspapers on the floor."
+        },
+        {
+          "id": "loc_002",
+          "name": "The back room",
+          "description": "A small, cold room at the back of the house with bare wooden floorboards, one dirty window, and a large cupboard against the far wall."
+        }
+      ],
+      "episode_history": [],
+      "unresolved_threads": [
+        "What is inside the metal box under the floorboards?",
+        "Is the box still under the floor after fifty years?",
+        "Why did Mrs. Dale tell Marco to stay in the kitchen and leave so quickly?",
+        "Who opened the front door at the end of the episode?"
+      ]
+    },
+    "episode_plan": {
+      "episode_number": 1,
+      "hook": "Marco arrives at an old, abandoned house for his first day of work, but the woman who hired him leaves before he can ask a single question.",
+      "key_events": [
+        "Mrs. Dale meets Marco at the front door, hands him a mop, and says 'Start in the kitchen — do not go to the back room'; she leaves before Marco can ask why, and the reader sees her hands are shaking as she locks her car.",
+        "Marco starts cleaning the kitchen, but he hears a soft knocking sound from the back room; he tells himself it is the wind, but his curiosity wins and he walks down the hall.",
+        "In the back room Marco finds a large, dusty cupboard and inside it an old video camera with a tape still inside; he spots an old television on the floor, connects the camera, and presses play.",
+        "The tape shows the same back room fifty years ago — a man and a woman hide a small metal box under the floorboards and then cover the boards again; Marco kneels down and touches the floor — but at that moment he hears the front door open."
+      ],
+      "vocabulary_targets": ["abandoned", "dusty", "cupboard", "tape", "floorboard", "press"],
+      "ending_hook": "Marco hides the camera behind his back and holds his breath — someone is standing in the hallway, but he cannot see who."
+    }
+  },
+  "observations": {
+    "narrative_quality": "Strong. Therefore/but causality is clean throughout. Dramatic irony (Mrs. Dale's shaking hands) is well-crafted and does real work without requiring complex vocabulary.",
+    "constraint_compliance": "Good. Physical stakes, protagonist flaw drives plot, ending hook is tight.",
+    "issues": "Director placed 'video camera' and 'tape' in Marco's key_items before the episode begins — these are found during the episode, not before. State Manager should add them after the episode is written.",
+    "vocabulary_targets": "Appropriate for A2-mid. All six words arise naturally from plot events.",
+    "overall": "First Director run is production-quality. Prompt is working well — no iteration needed before moving to Writer prompt."
+  }
+}
