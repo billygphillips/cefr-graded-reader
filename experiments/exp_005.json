@@ -1,0 +1,83 @@
+{
+  "id": "exp_005",
+  "date": "2026-03-26",
+  "model": "claude-sonnet-4-6",
+  "agent": "Director + Writer",
+  "target_level": "A2-mid",
+  "max_tokens_director": 4000,
+  "max_tokens_writer": 6000,
+  "notes": "First successful Director JSON parse. Writer still cut off — thinking block consumed all 6000 tokens by drafting full episode internally.",
+  "director_output": {
+    "thinking_summary": "Director reasoned through all 6 planning questions. Chose 'too curious' as protagonist flaw. Established therefore/but causality across 4 key events. Created dramatic irony via Mrs. Adler's suspicious rule ('do not take anything that is not rubbish'). Selected 6 vocabulary targets: dusty, camera, tape, floorboard, metal, hidden.",
+    "story_bible": {
+      "metadata": {
+        "title": "The Venn Street Box",
+        "genre": "mystery",
+        "cefr_level": "A2",
+        "target_subband": "A2-mid",
+        "setting": "A quiet present-day town built around old residential streets, centred on one long-empty two-storey house at number 14 Venn Street.",
+        "tone": "tense, curious"
+      },
+      "characters": [
+        {
+          "id": "char_001",
+          "name": "Marco",
+          "role": "protagonist",
+          "description": "A nineteen-year-old with dark hair and quick eyes who always needs to understand things he does not yet understand.",
+          "flaw": "Too curious — he cannot leave a mystery alone, even when it causes him trouble.",
+          "current_location": "loc_002",
+          "key_items": ["old video camera with tape inside"]
+        },
+        {
+          "id": "char_002",
+          "name": "Mrs. Adler",
+          "role": "secondary",
+          "description": "A woman in her late sixties with short grey hair and a careful, watchful way of speaking.",
+          "flaw": "Tells only half the truth.",
+          "current_location": "loc_001",
+          "key_items": ["key to the front door", "list of rooms for Marco to clean"]
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_001",
+          "name": "14 Venn Street — the abandoned house",
+          "description": "A tall, dark two-storey house with peeling walls, heavy curtains, and old furniture left in every room as if the family simply walked out one day."
+        },
+        {
+          "id": "loc_002",
+          "name": "The back room",
+          "description": "A small ground-floor room with bare wooden floorboards, a single cupboard against the far wall, and an old television and VCR unit standing in the corner under a grey cloth."
+        }
+      ],
+      "episode_history": [],
+      "unresolved_threads": [
+        "What is inside the metal box under the floorboards?",
+        "Why did Mrs. Adler hire Marco to clean the house now, after it stood empty for so long?",
+        "Who is on the stairs at the end of Episode 1?"
+      ]
+    },
+    "episode_plan": {
+      "episode_number": 1,
+      "hook": "Marco is alone in the back room, clearing rubbish bags, when he opens the old cupboard and finds a video camera sitting on the top shelf.",
+      "key_events": [
+        "Marco opens the cupboard to check for rubbish — Mrs. Adler's one rule was 'do not take anything that is not rubbish' — but his curiosity wins: he takes down the camera and sees a tape is already inside it. THEREFORE he decides to play it, pulling the cloth off the old TV and VCR in the corner.",
+        "The tape plays. It shows THIS room, fifty years ago, in black and white. A man and a woman are kneeling on the floor near the window. They lift a floorboard and push a small metal box into the gap beneath it. The woman's face turns toward the camera. She looks frightened. THEREFORE Marco feels certain the box is still there — no one has touched this room in decades.",
+        "Marco walks to the window and examines the floor. One board is slightly lighter than the others, as if it was replaced. He kneels and presses it with both hands. It moves. He gets his fingers under the edge and begins to lift it. BUT before he can see what is below, he hears a sound.",
+        "Slow, deliberate footsteps start on the stairs above him. Someone is walking down toward the back room. Marco lets the board fall. He steps away from the window. The footsteps stop just outside the door. [DRAMATIC IRONY: The reader recalls Mrs. Adler's strange rule — 'do not take anything that is not rubbish' — and can suspect she already knows something valuable is in the house. Marco does not suspect this yet.]"
+      ],
+      "vocabulary_targets": ["dusty", "camera", "tape", "floorboard", "metal", "hidden"],
+      "ending_hook": "The footsteps stop outside the door — is it Mrs. Adler, and does she already know about the box under the floor?"
+    }
+  },
+  "writer_output_truncated": true,
+  "writer_thinking_excerpt": "Model drafted the full episode INSIDE the thinking block (same behaviour as exp_004). Expanded the Mrs. Adler opening into a longer dialogue exchange with micro-conflict. Planned tape dialogue as a second dialogue block to hit the 40-50% dialogue target. Was mid-way through the tape scene when cut off at 6000 tokens.",
+  "writer_prose_draft_in_thinking": "The old house smelled of dust and cold air. Mrs. Adler stood in the doorway of the back room... [full draft inside thinking, cut off at: 'The man held a small metal box in his hands. The woman looked around the room. Her eyes']",
+  "observations": {
+    "director_quality": "Strong. Dramatic irony via Mrs. Adler's rule is excellent — subtle, physical, carries across episodes. Unresolved threads well-chosen.",
+    "writer_thinking_behaviour": "Model consistently drafts full episode in thinking block before producing clean output. This is the core experimental observation across exp_003, exp_004, exp_005. The behaviour is stable.",
+    "dialogue_problem": "Writer correctly identified that Marco is alone for most of the episode and cannot hit 40-50% dialogue with prose alone. Creative solution: expanded Mrs. Adler opening + tape dialogue (characters speaking on the footage). Smart workaround that stays within the episode plan.",
+    "next_run": "Increase max_tokens to 10000. Add single constraint: do not count words (classifier handles measurement). All other thinking behaviour remains unrestricted for experimental comparison.",
+    "research_value": "Three runs (exp_003, exp_004, exp_005) now document unconstrained thinking behaviour. This is the baseline. Future constrained thinking run will allow comparison of output quality vs token efficiency."
+  }
+}

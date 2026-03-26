@@ -1,0 +1,34 @@
+{
+  "id": "exp_006",
+  "date": "2026-03-26",
+  "model": "claude-sonnet-4-6",
+  "agent": "Director + Writer",
+  "target_level": "A2-mid",
+  "max_tokens_director": 4000,
+  "max_tokens_writer": 10000,
+  "prompt_changes_from_exp_005": [
+    "Writer thinking block: added 'Do not count words — the classifier handles measurement.'",
+    "Writer max_tokens increased from 6000 to 10000"
+  ],
+  "director_output": {
+    "title": "The House on Crane Street",
+    "episode_plan_summary": "Jae finds a video camera in a dusty cupboard, watches a tape showing a family hiding a metal box under the floorboard of the same room fifty years ago, investigates the floor, finds a loose board, but hears footsteps before he can look underneath.",
+    "vocabulary_targets": ["cupboard", "tape", "dusty", "floorboard", "charge", "record", "whisper"]
+  },
+  "writer_output_truncated": true,
+  "writer_output": "<thinking>\nLet me plan this out carefully.\n\n**1. Map key events to scenes:**\n\nScene 1 (paragraphs 1-2): Jae finds the camera in the dusty cupboard. Battery is dead. He searches the room for a cable — moving boxes and old cloth — finds one near the wall socket.\n\nScene 2 (paragraphs 3-4): He plugs in the camera, screen lights up. Mrs. Okon calls from downstairs. He turns his back to the door and presses PLAY anyway.\n\nScene 3 (paragraphs 5-6): The tape plays — fifty years ago, a man and woman whisper, lift a floorboard near the window, place a small metal box underneath. Jae watches, can't breathe.\n\nScene 4 (paragraphs 7-8): He walks to the window, kneels at the floor. One floorboard is loose. He puts his fingers under the edge. Then: slow, heavy footsteps coming up the stairs.\n\nEnding hook: Footsteps stop outside the door — Jae presses camera to chest, stares at loose floorboard.\n\n**2. Dialogue placement and micro-conflicts:**\n\nMain dialogue exchange: Mrs. Okon calls up to Jae.\n- Micro-conflict: She tells him to stop wasting time / come down. He deflects or gives a non-answer. She pushes back. He says he'll be down soon — but he's lying because he presses PLAY anyway.\n\n[... model planned and drafted the episode 4-5 times, each time revising for constraint violations ...]\n\nKey issues identified in thinking:\n- 'could' is not a permitted modal at A2-mid (caught and fixed)\n- 40-50% dialogue impossible for a solo-exploration scene (model tied itself in knots)\n- Model wrote Draft 1 → Draft 2 → Final Draft → Final Clean Version → Final Attempt before being cut off\n- Last line before cutoff: 'Clean faster'\n\nFinal prose draft (inside thinking block, never reached clean output):\n\nJae opened the cupboard door. Dust fell into the air.\n\n'Jae!' Mrs. Okon's voice came up from downstairs. 'Are you cleaning or sleeping?'\n\n'I am cleaning,' he called back. He coughed. The cupboard was very dusty.\n\n'Clean faster [CUTOFF]",
+  "observations": {
+    "counting_instruction_ignored": "Model continued counting words and dialogue percentages in the thinking block despite explicit instruction not to. Instruction present in prompt (line 147) but model did not follow it.",
+    "multi_draft_behaviour": "Model wrote the story 4-5 times inside the thinking block: Draft 1 → Draft 2 → Final Draft → Final Clean Version → Final Attempt. Each revision tried to fix issues found in the previous draft. This is the core token-consumption problem.",
+    "dialogue_constraint_problem": "The 40-50% dialogue target caused the model to tie itself in knots — the episode is fundamentally a solo-exploration scene. The model correctly identified this as a problem and attempted creative workarounds (tape dialogue, extended Mrs. Okon exchange) but kept revising. Constraint is too rigid.",
+    "valuable_thinking_catches": [
+      "Flagged 'could' as a modal violation (not permitted at A2-mid) — genuinely useful self-correction",
+      "Invented tape dialogue as a creative solution to the solo-character dialogue problem",
+      "Identified dramatic irony in Mrs. Okon's 'nothing important' line — strong instinct"
+    ],
+    "prompt_fixes_for_next_run": [
+      "Change dialogue constraint from '40-50%' to 'include meaningful dialogue where the story naturally calls for it'",
+      "Run again to see if multi-draft behaviour and counting persist"
+    ]
+  }
+}

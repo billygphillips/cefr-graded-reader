@@ -1,0 +1,26 @@
+{
+  "id": "exp_007",
+  "date": "2026-03-26",
+  "model": "claude-sonnet-4-6",
+  "agent": "Director + Writer",
+  "target_level": "A2-mid",
+  "max_tokens_director": 4000,
+  "max_tokens_writer": 10000,
+  "prompt_changes_from_exp_006": [
+    "Director dialogue constraint updated: removed '40-50%', replaced with 'meaningful dialogue where story naturally calls for it'"
+  ],
+  "director_output": {
+    "title": "The Last Tape",
+    "story_bible_summary": "Marco Rossi, 19, too curious. Mrs. Lewin, 60s, hides information. Location: abandoned house on Brent Street. Dramatic irony: woman on tape has same grey eyes and short hair as a younger Mrs. Lewin — Marco does not notice.",
+    "vocabulary_targets": ["cupboard", "tape", "floorboard", "dusty", "metal", "screen", "cable"]
+  },
+  "writer_output_truncated": true,
+  "writer_prose_draft_in_thinking": "The house was old and dusty. Marco stood at the front door and looked up at the dark windows. Paint fell from the walls in long strips. The garden was dead and brown.\n\nMrs. Lewin opened the door. She was a small woman with grey hair. She moved fast, like a woman with no time.\n\nShe pushed a piece of paper into Marco's hand. 'Clean everything on this list,' she said. 'Top to bottom. Start at the front.'\n\nMarco looked at the paper. There were twelve jobs on it. Then he looked at the door at the end of the hall. 'What is in the back room?' he asked.\n\nMrs. Lewin's face did not change. 'Just dust,' she said. 'Start at the front and work back.'\n\n'But can I—' Marco started.\n\n'Everything is on the list.' She turned and walked to her car.\n\nMarco looked down at the list. Her eyes, in those last seconds, moved to the window, the floor, the garden wall. But not to the back room door. Marco read the first job on the list.\n\n[... back room scene, camera discovery, tape playing, dramatic irony with woman looking at camera, floorboard investigation, footsteps ...]\n\n[CUTOFF mid-word-count in thinking block]",
+  "observations": {
+    "counting_persists": "Model continued counting words despite 'Do not count' instruction. Behaviour appears to be intrinsic to how the model verifies constraints — instruction is not sufficient to suppress it.",
+    "prose_quality": "Strong. Mrs. Lewin scene is well-constructed: micro-conflict in dialogue ('Just dust'), dramatic irony planted physically (her eyes move to window/floor/garden but never to back room door). Pacing is clean. Grammar self-checks catching real violations (flagged 'could' as not permitted).",
+    "multi_draft_still_present": "Model wrote multiple draft revisions in thinking block before being cut off at 10000 tokens.",
+    "opus_advice": "Token cost on Sonnet is negligible. Stop fighting the counting behaviour via instructions — it is a model-level default. Increase max_tokens to 12000, get the full uncut output, move on. Counting behaviour is itself a research finding: model defaults to word-level verification even when instructed not to.",
+    "next_run": "max_tokens = 12000. No other changes. Get full output."
+  }
+}
