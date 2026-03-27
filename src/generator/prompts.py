@@ -134,8 +134,10 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 
 <structure>
 - Length: 500-800 words
-- Dialogue: include meaningful dialogue where the story naturally calls for it. Aim for at least one exchange with micro-conflict per episode. Do not force dialogue into scenes where a character is alone.
-- Every dialogue exchange must have a micro-conflict — a small disagreement, evasion, or misunderstanding. No flat transactional exchanges.
+- Dialogue: The episode should feel conversational, not like a wall of description. Use dialogue and direct speech frequently throughout.
+  - When two or more characters are in a scene, dialogue carries the story. Use multiple exchanges, each with a micro-conflict.
+  - When a character is alone, use direct internal thought ("That's strange," he said to himself), phone/text messages, or social media (Instagram, WhatsApp, etc.). Keep internal thoughts in simple sentences — no reported speech.
+  - Every exchange — spoken or internal — must have a micro-conflict: a question, a doubt, a disagreement, an evasion.
 - Descriptions must be concrete and physical: what the character sees, hears, touches. No abstract thoughts or psychological analysis.
 - Follow the key_events from the episode plan in order. Do not invent new plot events.
 - End on the ending_hook from the episode plan. Last line only — do not resolve it.
@@ -151,6 +153,7 @@ Before writing, plan the following. Do not count words — the classifier handle
 3. Where do the vocabulary_targets appear? Find a natural moment for each — aim for two appearances per word.
 4. Identify the moment of dramatic irony. How do you show it without explaining it?
 5. Flag any grammar violations before writing: passive voice, perfect tenses, reported speech, relative clauses are not permitted at A2-mid.
+6. Does the episode feel conversational? If there are long stretches of pure description, add internal thoughts or dialogue to break them up. If the character is alone, plan internal thoughts, phone messages, or social media.
 </thinking>"""
 
 

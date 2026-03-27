@@ -70,76 +70,87 @@ In a dusty cupboard, he finds an old video camera. The tape inside shows the exa
 he is standing in fifty years ago, and the family is hiding a small metal box under the floorboards.
 """
 
+# Set to an experiment ID (e.g. "exp_009") to skip the Director and reuse that episode plan.
+# Set to None to run the Director fresh.
+REUSE_EPISODE_PLAN_FROM = "exp_009"
+
 # Step 1: Director generates the story bible and episode plan
-print("--- DIRECTOR ---")
-try:
-    director_response = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=6000,
-        system=DIRECTOR_SYSTEM_PROMPT,
-        messages=[
-            {"role": "user", "content": f"<seed>{SEED}</seed>"}
-        ]
-    )
-except anthropic.RateLimitError:
-    print("ERROR: Rate limit hit. Wait and retry.")
-    raise
-except anthropic.APIError as e:
-    print(f"ERROR: API error: {e}")
-    raise
-
-if director_response.stop_reason == "max_tokens":
-    print("WARNING: Director output truncated (hit max_tokens limit). Output may be incomplete.")
-
-director_output = director_response.content[0].text
-
-# Print Director thinking block if present
-thinking_end = director_output.find("</thinking>")
-if thinking_end != -1:
-    thinking_start = director_output.find("<thinking>")
-    print(director_output[thinking_start:thinking_end + len("</thinking>")])
-    after_thinking = director_output[thinking_end + len("</thinking>"):]
+if REUSE_EPISODE_PLAN_FROM:
+    reuse_path = os.path.join(EXPERIMENTS_DIR, f"{REUSE_EPISODE_PLAN_FROM}.json")
+    with open(reuse_path) as f:
+        reuse_data = json.load(f)
+    episode_plan = reuse_data["output"]["parsed"]["episode_plan"]
+    print(f"--- DIRECTOR SKIPPED: loaded episode plan from {REUSE_EPISODE_PLAN_FROM} ---")
 else:
-    after_thinking = director_output
+    print("--- DIRECTOR ---")
+    try:
+        director_response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=6000,
+            system=DIRECTOR_SYSTEM_PROMPT,
+            messages=[
+                {"role": "user", "content": f"<seed>{SEED}</seed>"}
+            ]
+        )
+    except anthropic.RateLimitError:
+        print("ERROR: Rate limit hit. Wait and retry.")
+        raise
+    except anthropic.APIError as e:
+        print(f"ERROR: API error: {e}")
+        raise
 
-# Strip markdown code fences, then parse JSON
-cleaned = after_thinking.replace("```json", "").replace("```", "").strip()
-json_start = cleaned.find("{")
-json_end = cleaned.rfind("}") + 1
-print("=== CLEANED JSON STRING ===")
-print(cleaned[json_start:json_end])
-print("=== END CLEANED JSON ===")
-try:
-    director_json = json.loads(cleaned[json_start:json_end])
-except json.JSONDecodeError as e:
-    print(f"ERROR: Failed to parse Director JSON: {e}")
-    print("Raw output for debugging:")
+    if director_response.stop_reason == "max_tokens":
+        print("WARNING: Director output truncated (hit max_tokens limit). Output may be incomplete.")
+
+    director_output = director_response.content[0].text
+
+    # Print Director thinking block if present
+    thinking_end = director_output.find("</thinking>")
+    if thinking_end != -1:
+        thinking_start = director_output.find("<thinking>")
+        print(director_output[thinking_start:thinking_end + len("</thinking>")])
+        after_thinking = director_output[thinking_end + len("</thinking>"):]
+    else:
+        after_thinking = director_output
+
+    # Strip markdown code fences, then parse JSON
+    cleaned = after_thinking.replace("```json", "").replace("```", "").strip()
+    json_start = cleaned.find("{")
+    json_end = cleaned.rfind("}") + 1
+    print("=== CLEANED JSON STRING ===")
     print(cleaned[json_start:json_end])
-    raise
+    print("=== END CLEANED JSON ===")
+    try:
+        director_json = json.loads(cleaned[json_start:json_end])
+    except json.JSONDecodeError as e:
+        print(f"ERROR: Failed to parse Director JSON: {e}")
+        print("Raw output for debugging:")
+        print(cleaned[json_start:json_end])
+        raise
 
-for key in ["story_bible", "episode_plan"]:
-    if key not in director_json:
-        raise KeyError(f"ERROR: Director JSON missing expected key: '{key}'")
+    for key in ["story_bible", "episode_plan"]:
+        if key not in director_json:
+            raise KeyError(f"ERROR: Director JSON missing expected key: '{key}'")
 
-episode_plan = director_json["episode_plan"]
+    episode_plan = director_json["episode_plan"]
 
-save_experiment(
-    agent="director",
-    model="claude-sonnet-4-6",
-    provider="anthropic",
-    prompt_version="director_v1",
-    temperature=1.0,
-    max_tokens=6000,
-    stop_reason=director_response.stop_reason,
-    token_usage={
-        "input_tokens": director_response.usage.input_tokens,
-        "output_tokens": director_response.usage.output_tokens,
-    },
-    system_prompt=DIRECTOR_SYSTEM_PROMPT,
-    user_message=f"<seed>{SEED}</seed>",
-    raw_output=director_output,
-    parsed_output=director_json,
-)
+    save_experiment(
+        agent="director",
+        model="claude-sonnet-4-6",
+        provider="anthropic",
+        prompt_version="director_v1",
+        temperature=1.0,
+        max_tokens=6000,
+        stop_reason=director_response.stop_reason,
+        token_usage={
+            "input_tokens": director_response.usage.input_tokens,
+            "output_tokens": director_response.usage.output_tokens,
+        },
+        system_prompt=DIRECTOR_SYSTEM_PROMPT,
+        user_message=f"<seed>{SEED}</seed>",
+        raw_output=director_output,
+        parsed_output=director_json,
+    )
 
 print(json.dumps(episode_plan, indent=2))
 
@@ -176,7 +187,7 @@ save_experiment(
     agent="writer",
     model="claude-sonnet-4-6",
     provider="anthropic",
-    prompt_version="writer_v1",
+    prompt_version="writer_v3",
     temperature=1.0,
     max_tokens=12000,
     stop_reason=writer_response.stop_reason,
