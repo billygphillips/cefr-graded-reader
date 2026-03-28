@@ -72,7 +72,11 @@ he is standing in fifty years ago, and the family is hiding a small metal box un
 
 # Set to an experiment ID (e.g. "exp_009") to skip the Director and reuse that episode plan.
 # Set to None to run the Director fresh.
-REUSE_EPISODE_PLAN_FROM = "exp_009"
+REUSE_EPISODE_PLAN_FROM = None
+
+# Set to a State Manager experiment ID (e.g. "exp_014") to run Episode 2+ using an existing Story Bible.
+# Set to None to run Episode 1 from the seed premise.
+STORY_BIBLE_FROM_EXPERIMENT = "exp_014"
 
 # Step 1: Director generates the story bible and episode plan
 if REUSE_EPISODE_PLAN_FROM:
@@ -84,13 +88,27 @@ if REUSE_EPISODE_PLAN_FROM:
     print(f"--- DIRECTOR SKIPPED: loaded episode plan from {REUSE_EPISODE_PLAN_FROM} ---")
 else:
     print("--- DIRECTOR ---")
+    if STORY_BIBLE_FROM_EXPERIMENT:
+        sb_path = os.path.join(EXPERIMENTS_DIR, f"{STORY_BIBLE_FROM_EXPERIMENT}.json")
+        with open(sb_path) as f:
+            sb_data = json.load(f)
+        # confirmed_story_bible is the canonical state from the last State Manager run.
+        # Used for the State Manager input — keeps the Director's speculative summaries out.
+        confirmed_story_bible = sb_data['output']['parsed']
+        story_bible_for_director = {k: v for k, v in confirmed_story_bible.items() if k != "vocabulary_introduced"}
+        director_user_message = f"<story_bible>{json.dumps(story_bible_for_director, indent=2)}</story_bible>"
+        print(f"Using story bible from {STORY_BIBLE_FROM_EXPERIMENT}")
+    else:
+        # Episode 1: Director creates the initial story bible — use it as the confirmed state.
+        confirmed_story_bible = None
+        director_user_message = f"<seed>{SEED}</seed>"
     try:
         director_response = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=6000,
+            max_tokens=8000,
             system=DIRECTOR_SYSTEM_PROMPT,
             messages=[
-                {"role": "user", "content": f"<seed>{SEED}</seed>"}
+                {"role": "user", "content": director_user_message}
             ]
         )
     except anthropic.RateLimitError:
@@ -134,13 +152,14 @@ else:
             raise KeyError(f"ERROR: Director JSON missing expected key: '{key}'")
 
     episode_plan = director_json["episode_plan"]
-    story_bible = director_json["story_bible"]
+    if confirmed_story_bible is None:
+        confirmed_story_bible = director_json["story_bible"]
 
     save_experiment(
         agent="director",
         model="claude-sonnet-4-6",
         provider="anthropic",
-        prompt_version="director_v1",
+        prompt_version="director_v2",
         temperature=1.0,
         max_tokens=6000,
         stop_reason=director_response.stop_reason,
@@ -149,7 +168,7 @@ else:
             "output_tokens": director_response.usage.output_tokens,
         },
         system_prompt=DIRECTOR_SYSTEM_PROMPT,
-        user_message=f"<seed>{SEED}</seed>",
+        user_message=director_user_message,
         raw_output=director_output,
         parsed_output=director_json,
     )
@@ -164,7 +183,10 @@ try:
         max_tokens=12000,
         system=WRITER_SYSTEM_PROMPT,
         messages=[
-            {"role": "user", "content": f"<episode_plan>{json.dumps(episode_plan, indent=2)}</episode_plan>"}
+            {"role": "user", "content": (
+                f"<character_profiles>{json.dumps([{'name': c['name'], 'description': c['description'], 'flaw': c['flaw']} for c in confirmed_story_bible['characters']], indent=2)}</character_profiles>\n"
+                f"<episode_plan>{json.dumps(episode_plan, indent=2)}</episode_plan>"
+            )}
         ]
     )
 except anthropic.RateLimitError:
@@ -198,7 +220,10 @@ save_experiment(
         "output_tokens": writer_response.usage.output_tokens,
     },
     system_prompt=WRITER_SYSTEM_PROMPT,
-    user_message=f"<episode_plan>{json.dumps(episode_plan, indent=2)}</episode_plan>",
+    user_message=(
+        f"<character_profiles>{json.dumps([{'name': c['name'], 'description': c['description'], 'flaw': c['flaw']} for c in confirmed_story_bible['characters']], indent=2)}</character_profiles>\n"
+        f"<episode_plan>{json.dumps(episode_plan, indent=2)}</episode_plan>"
+    ),
     raw_output=writer_output,
     parsed_output={"prose": writer_prose},
 )
@@ -208,13 +233,14 @@ print(writer_prose)
 # Step 3: State Manager updates the Story Bible
 print("\n--- STATE MANAGER ---")
 state_manager_user_message = (
-    f"<current_story_bible>{json.dumps(story_bible, indent=2)}</current_story_bible>\n"
+    f"<current_story_bible>{json.dumps(confirmed_story_bible, indent=2)}</current_story_bible>\n"
+    f"<vocabulary_targets>{json.dumps(episode_plan['vocabulary_targets'])}</vocabulary_targets>\n"
     f"<new_episode_prose>{writer_prose}</new_episode_prose>"
 )
 try:
     state_manager_response = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=4000,
+        max_tokens=6000,
         system=STATE_MANAGER_SYSTEM_PROMPT,
         messages=[
             {"role": "user", "content": state_manager_user_message}
