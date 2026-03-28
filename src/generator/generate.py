@@ -4,7 +4,7 @@ import json
 import glob
 import datetime
 import anthropic
-from prompts import DIRECTOR_SYSTEM_PROMPT, WRITER_SYSTEM_PROMPT
+from prompts import DIRECTOR_SYSTEM_PROMPT, WRITER_SYSTEM_PROMPT, STATE_MANAGER_SYSTEM_PROMPT
 
 load_dotenv()
 
@@ -80,6 +80,7 @@ if REUSE_EPISODE_PLAN_FROM:
     with open(reuse_path) as f:
         reuse_data = json.load(f)
     episode_plan = reuse_data["output"]["parsed"]["episode_plan"]
+    story_bible = reuse_data["output"]["parsed"]["story_bible"]
     print(f"--- DIRECTOR SKIPPED: loaded episode plan from {REUSE_EPISODE_PLAN_FROM} ---")
 else:
     print("--- DIRECTOR ---")
@@ -133,6 +134,7 @@ else:
             raise KeyError(f"ERROR: Director JSON missing expected key: '{key}'")
 
     episode_plan = director_json["episode_plan"]
+    story_bible = director_json["story_bible"]
 
     save_experiment(
         agent="director",
@@ -187,7 +189,7 @@ save_experiment(
     agent="writer",
     model="claude-sonnet-4-6",
     provider="anthropic",
-    prompt_version="writer_v3",
+    prompt_version="writer_v1",
     temperature=1.0,
     max_tokens=12000,
     stop_reason=writer_response.stop_reason,
@@ -202,3 +204,69 @@ save_experiment(
 )
 
 print(writer_prose)
+
+# Step 3: State Manager updates the Story Bible
+print("\n--- STATE MANAGER ---")
+state_manager_user_message = (
+    f"<current_story_bible>{json.dumps(story_bible, indent=2)}</current_story_bible>\n"
+    f"<new_episode_prose>{writer_prose}</new_episode_prose>"
+)
+try:
+    state_manager_response = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=4000,
+        system=STATE_MANAGER_SYSTEM_PROMPT,
+        messages=[
+            {"role": "user", "content": state_manager_user_message}
+        ]
+    )
+except anthropic.RateLimitError:
+    print("ERROR: Rate limit hit. Wait and retry.")
+    raise
+except anthropic.APIError as e:
+    print(f"ERROR: API error: {e}")
+    raise
+
+if state_manager_response.stop_reason == "max_tokens":
+    print("WARNING: State Manager output truncated (hit max_tokens limit). Output may be incomplete.")
+
+state_manager_output = state_manager_response.content[0].text
+
+# Strip thinking block
+thinking_end = state_manager_output.find("</thinking>")
+if thinking_end != -1:
+    after_thinking = state_manager_output[thinking_end + len("</thinking>"):]
+else:
+    after_thinking = state_manager_output
+
+# Strip markdown code fences, then parse JSON
+cleaned = after_thinking.replace("```json", "").replace("```", "").strip()
+json_start = cleaned.find("{")
+json_end = cleaned.rfind("}") + 1
+try:
+    updated_story_bible = json.loads(cleaned[json_start:json_end])
+except json.JSONDecodeError as e:
+    print(f"ERROR: Failed to parse State Manager JSON: {e}")
+    print("Raw output for debugging:")
+    print(cleaned[json_start:json_end])
+    raise
+
+save_experiment(
+    agent="state_manager",
+    model="claude-sonnet-4-6",
+    provider="anthropic",
+    prompt_version="state_manager_v1",
+    temperature=1.0,
+    max_tokens=4000,
+    stop_reason=state_manager_response.stop_reason,
+    token_usage={
+        "input_tokens": state_manager_response.usage.input_tokens,
+        "output_tokens": state_manager_response.usage.output_tokens,
+    },
+    system_prompt=STATE_MANAGER_SYSTEM_PROMPT,
+    user_message=state_manager_user_message,
+    raw_output=state_manager_output,
+    parsed_output=updated_story_bible,
+)
+
+print(json.dumps(updated_story_bible, indent=2))
