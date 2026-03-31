@@ -54,7 +54,7 @@ def build_feedback(result, target_level, text, classifier):
     Build a specific diagnostic feedback string for the Writer using
     feature deviations from the target level's reference bands.
     """
-    return diagnose(text, target_level, classifier)
+    return diagnose(text, target_level, classifier, predicted_level=result["level"])
 
 
 # ── Agent calls ──────────────────────────────────────────────────────────────
