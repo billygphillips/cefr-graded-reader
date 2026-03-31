@@ -16,7 +16,7 @@ import json
 import anthropic
 
 from generator.prompts import DIRECTOR_SYSTEM_PROMPT, WRITER_SYSTEM_PROMPT, STATE_MANAGER_SYSTEM_PROMPT
-from classifier.classify import load_classifier, classify
+from classifier.classify import load_classifier, classify, should_accept, diagnose
 
 load_dotenv()
 
@@ -49,23 +49,12 @@ def parse_json_response(raw_output):
     return json.loads(cleaned[json_start:json_end])
 
 
-def build_feedback(result, target_level):
-    """Turn a classifier result into a plain-English correction hint for the Writer."""
-    predicted  = result['level']
-    pred_idx   = CEFR_ORDER.index(predicted)
-    target_idx = CEFR_ORDER.index(target_level)
-
-    if pred_idx > target_idx:
-        return (
-            f"Your previous draft was classified as {predicted} — too complex for {target_level}. "
-            f"Please simplify: use shorter sentences (aim for 8-9 words each) and prefer the most "
-            f"common everyday words."
-        )
-    else:
-        return (
-            f"Your previous draft was classified as {predicted} — too simple for {target_level}. "
-            f"Please increase complexity: use longer sentences and more varied vocabulary."
-        )
+def build_feedback(result, target_level, text, classifier):
+    """
+    Build a specific diagnostic feedback string for the Writer using
+    feature deviations from the target level's reference bands.
+    """
+    return diagnose(text, target_level, classifier)
 
 
 # ── Agent calls ──────────────────────────────────────────────────────────────
@@ -170,12 +159,12 @@ def generate_and_classify(episode_plan, confirmed_story_bible, classifier,
         print(f"Classifier: predicted={predicted}  confidence={confidence:.2f}  (target={target_level})")
         print(f"All probs: {result['probs']}")
 
-        if predicted == target_level:
+        if should_accept(result, target_level):
             print(f"✓ Accepted on attempt {attempt}")
             return prose, result, attempt
 
         if attempt < max_retries:
-            feedback = build_feedback(result, target_level)
+            feedback = build_feedback(result, target_level, prose, classifier)
 
     print(f"✗ Max retries reached — accepting last output (predicted={predicted}).")
     return prose, result, max_retries
