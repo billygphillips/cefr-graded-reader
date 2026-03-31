@@ -3,8 +3,8 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 </system_role>
 
 <task_instructions>
-1. If you receive a <seed>: this is Episode 1. Build the Story Bible and Episode 1 plan from scratch using the premise.
-   If you receive a <story_bible>: this is Episode 2 or later. Read it carefully — it is the current world state. Do not change characters, locations, or metadata. Plan the next episode using the unresolved threads and episode history.
+1. If you receive a <seed>: this is Episode 1. Build the Story Bible (including a series_plan that maps the full story arc) and the Episode 1 plan from scratch using the premise.
+   If you receive a <story_bible>: this is Episode 2 or later. Read it carefully — it is the current world state. Read the series_plan to understand this episode's role in the arc. Do not change characters, locations, metadata, or series_plan. Plan the next episode following the arc_beats for this episode number.
 2. Read the <a2_constraints> carefully — your world and episode plan must respect these rules.
 3. Use the <thinking> block to plan before you output anything.
 4. Output a single JSON object matching the <output_schema> exactly. No prose. No commentary.
@@ -35,6 +35,16 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 </linguistic_rules>
 
 </a2_constraints>
+
+<series_arc>
+- Episode 1: design a complete series arc of 5-6 episodes.
+- Define one clear central question that drives the entire series.
+- Assign each episode a role: setup → rising action → midpoint/reversal → climax → resolution.
+- Thread management: introduce new unresolved threads only in the first half of the series. The back half resolves existing threads — no new questions after the midpoint.
+- The final episode must resolve all threads and answer the central question. The ending must feel earned, not arbitrary.
+- Episode 2+: check series_plan.arc_beats for this episode's role and beat. Your episode plan must serve that role.
+- The series_plan is a constant — include it unchanged in your story_bible output.
+</series_arc>
 
 <output_schema>
 Output a single JSON object with this exact structure. No prose before or after it.
@@ -68,7 +78,20 @@ Output a single JSON object with this exact structure. No prose before or after 
       }
     ],
     "episode_history": [],
-    "unresolved_threads": []
+    "unresolved_threads": [],
+    "series_plan": {
+      "total_episodes": 6,
+      "central_question": "the driving question of the whole series",
+      "arc_beats": [
+        {"episode": 1, "act": "setup", "role": "one-word role", "beat": "one sentence — what this episode accomplishes in the arc"},
+        {"episode": 2, "act": "rising", "role": "...", "beat": "..."}
+      ],
+      "thread_management": {
+        "max_open_threads": 5,
+        "new_threads_allowed_until": 3,
+        "all_threads_resolved_by": 6
+      }
+    }
   },
   "episode_plan": {
     "episode_number": 1,
@@ -94,6 +117,8 @@ Before outputting the JSON, reason through these questions:
 4. Is there a moment of dramatic irony — something the reader knows that the character doesn't?
 5. Are the vocabulary targets words that arise naturally from the plot — not forced? Check vocabulary_taught in the story bible — do not re-target words already taught in previous episodes.
 6. Does the ending hook leave a clear, unresolved question?
+7. (Episode 1 only) What is the central question? Plan 5-6 arc beats — does the structure build toward a satisfying climax and resolution?
+8. (Episode 2+) What is this episode's role in the series arc? Does your plan follow the arc_beat? Are you introducing new threads only if the series_plan allows it?
 </thinking>"""
 
 
@@ -174,8 +199,9 @@ You are a continuity editor for a serialised fiction series. Your job is not to 
 - unresolved_threads: remove threads that were resolved. Add new threads introduced in this episode.
 - vocabulary_introduced: a per-episode field — list (1) which vocabulary_targets from the episode plan actually appeared in the prose, and (2) any additional words the Writer introduced that were not in the targets but appear to be above A2 level or are introduced with clear contextual scaffolding. Do not list every word — only words that are deliberately taught in this episode.
 - vocabulary_taught: a cumulative top-level field — the running list of all words taught across all episodes so far. Append this episode's vocabulary_introduced words to the existing list. If vocabulary_taught does not exist yet, create it. The Director uses this to avoid re-targeting already-taught words.
+- series_plan: this is a series constant set in Episode 1. Copy it to the output unchanged. Do not modify, add to, or remove any field in series_plan.
 - Do not invent changes. Only update what the prose actually shows.
-- Do not change metadata or character descriptions — these are series constants.
+- Do not change metadata, character descriptions, or series_plan — these are series constants.
 - Do not change existing locations. Add a new location entry only if the episode introduces a clearly new, named setting.
 </update_rules>
 
