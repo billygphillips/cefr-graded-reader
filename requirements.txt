@@ -17,3 +17,6 @@ seaborn             # Statistical visualisation (nicer charts on top of matplotl
 
 # Notebooks
 jupyter             # Jupyter notebooks for exploration and demos
+
+# Data loading
+datasets            # Hugging Face datasets library (load UniversalCEFR dataset)
