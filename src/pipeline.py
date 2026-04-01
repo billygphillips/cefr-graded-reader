@@ -33,7 +33,8 @@ from pathlib import Path
 from datetime import datetime
 
 from dotenv import load_dotenv
-from generator.prompts import get_director_prompt, get_writer_prompt, get_state_manager_prompt
+from generator.prompts import (get_director_prompt, get_writer_prompt, get_state_manager_prompt,
+                               get_director_version, get_writer_version, get_state_manager_version)
 from classifier.classify import load_classifier, classify
 
 load_dotenv()
@@ -63,7 +64,11 @@ def call_llm_api(provider, model, max_tokens, system_prompt, user_message):
             system=system_prompt,
             messages=[{"role": "user", "content": user_message}],
         )
-        return response.content[0].text, response.stop_reason
+        usage = {
+            "input_tokens": response.usage.input_tokens,
+            "output_tokens": response.usage.output_tokens,
+        }
+        return response.content[0].text, response.stop_reason, usage
 
     elif provider == "openrouter":
         response = requests.post(
@@ -86,7 +91,12 @@ def call_llm_api(provider, model, max_tokens, system_prompt, user_message):
         data = response.json()
         content = data["choices"][0]["message"]["content"]
         stop_reason = data["choices"][0]["finish_reason"]
-        return content, stop_reason
+        raw_usage = data.get("usage", {})
+        usage = {
+            "input_tokens": raw_usage.get("prompt_tokens", 0),
+            "output_tokens": raw_usage.get("completion_tokens", 0),
+        }
+        return content, stop_reason, usage
 
     else:
         raise ValueError(f"Unknown provider: {provider!r}. Choose 'anthropic' or 'openrouter'.")
@@ -104,6 +114,7 @@ def api_call_with_retry(provider, model, max_tokens, system_prompt, user_message
     for attempt in range(max_retries):
         try:
             return call_llm_api(provider, model, max_tokens, system_prompt, user_message)
+            # Returns (content, stop_reason, usage) — callers unpack all three
 
         except anthropic.APIStatusError as e:
             if e.status_code in retryable and attempt < max_retries - 1:
@@ -224,7 +235,7 @@ def run_director(story_bible=None, seed=None, level="A2",
 
     Episode 1 (--plan mode): pass seed=..., story_bible=None
     Episode N (--generate mode): pass story_bible=<previous bible>, seed=None
-    Returns: (episode_plan dict, story_bible dict)
+    Returns: (episode_plan dict, story_bible dict, call_meta dict)
     """
     system_prompt = get_director_prompt(level)
 
@@ -238,11 +249,12 @@ def run_director(story_bible=None, seed=None, level="A2",
         user_message = f"<seed>{seed}</seed>"
 
     t0 = time.time()
-    raw_output, stop_reason = api_call_with_retry(
+    raw_output, stop_reason, usage = api_call_with_retry(
         provider=provider, model=model, max_tokens=12000,
         system_prompt=system_prompt, user_message=user_message,
     )
-    print(f"  Director took {time.time() - t0:.1f}s")
+    duration = round(time.time() - t0, 1)
+    print(f"  Director took {duration}s  ({usage['input_tokens']} in / {usage['output_tokens']} out)")
 
     if stop_reason == "max_tokens":
         print("  WARNING: Director output truncated (max_tokens).")
@@ -253,13 +265,23 @@ def run_director(story_bible=None, seed=None, level="A2",
         if key not in director_json:
             raise KeyError(f"Director JSON missing required key: '{key}'")
 
-    return director_json["episode_plan"], director_json["story_bible"]
+    meta = {
+        "model": model,
+        "provider": provider,
+        "prompt_version": get_director_version(level),
+        "max_tokens": 12000,
+        "stop_reason": stop_reason,
+        "token_usage": usage,
+        "duration_s": duration,
+        "timestamp": datetime.now().isoformat(),
+    }
+    return director_json["episode_plan"], director_json["story_bible"], meta
 
 
 def run_writer(episode_plan, confirmed_story_bible,
                provider=DEFAULT_PROVIDER, model=DEFAULT_WRITER_MODEL, level="A2"):
     """
-    Run the Writer agent once. Returns prose string (thinking block stripped).
+    Run the Writer agent once. Returns (prose string, call_meta dict).
     """
     system_prompt = get_writer_prompt(level)
 
@@ -273,23 +295,34 @@ def run_writer(episode_plan, confirmed_story_bible,
     )
 
     t0 = time.time()
-    raw_output, stop_reason = api_call_with_retry(
+    raw_output, stop_reason, usage = api_call_with_retry(
         provider=provider, model=model, max_tokens=12000,
         system_prompt=system_prompt, user_message=user_message,
     )
-    print(f"  Writer took {time.time() - t0:.1f}s")
+    duration = round(time.time() - t0, 1)
+    print(f"  Writer took {duration}s  ({usage['input_tokens']} in / {usage['output_tokens']} out)")
 
     if stop_reason == "max_tokens":
         print("  WARNING: Writer output truncated (max_tokens).")
 
-    return extract_prose(raw_output)
+    meta = {
+        "model": model,
+        "provider": provider,
+        "prompt_version": get_writer_version(level),
+        "max_tokens": 12000,
+        "stop_reason": stop_reason,
+        "token_usage": usage,
+        "duration_s": duration,
+        "timestamp": datetime.now().isoformat(),
+    }
+    return extract_prose(raw_output), meta
 
 
 def run_state_manager(prose, confirmed_story_bible, vocabulary_targets,
                       provider=DEFAULT_PROVIDER, model=DEFAULT_SM_MODEL):
     """
     Run the State Manager agent to update the Story Bible from the new episode prose.
-    Returns: updated story_bible dict.
+    Returns: (updated story_bible dict, call_meta dict)
     """
     system_prompt = get_state_manager_prompt()
 
@@ -300,16 +333,27 @@ def run_state_manager(prose, confirmed_story_bible, vocabulary_targets,
     )
 
     t0 = time.time()
-    raw_output, stop_reason = api_call_with_retry(
+    raw_output, stop_reason, usage = api_call_with_retry(
         provider=provider, model=model, max_tokens=8000,
         system_prompt=system_prompt, user_message=user_message,
     )
-    print(f"  State Manager took {time.time() - t0:.1f}s")
+    duration = round(time.time() - t0, 1)
+    print(f"  State Manager took {duration}s  ({usage['input_tokens']} in / {usage['output_tokens']} out)")
 
     if stop_reason == "max_tokens":
         print("  WARNING: State Manager output truncated (max_tokens).")
 
-    return parse_json_response(raw_output)
+    meta = {
+        "model": model,
+        "provider": provider,
+        "prompt_version": get_state_manager_version(),
+        "max_tokens": 8000,
+        "stop_reason": stop_reason,
+        "token_usage": usage,
+        "duration_s": duration,
+        "timestamp": datetime.now().isoformat(),
+    }
+    return parse_json_response(raw_output), meta
 
 
 # ── Phase 1: Plan a series ────────────────────────────────────────────────────
@@ -350,7 +394,7 @@ def cmd_plan(args):
     print(f"{'='*60}")
     print(f"\n--- DIRECTOR (series plan from seed) ---")
 
-    _, story_bible = run_director(
+    _, story_bible, director_meta = run_director(
         seed=args.seed, level=args.level,
         provider=args.provider, model=director_model,
     )
@@ -366,12 +410,13 @@ def cmd_plan(args):
     # Save metadata.json
     metadata = {
         "story_id": story_id,
-        "created": datetime.now().isoformat(),
+        "created": director_meta["timestamp"],
         "level": args.level,
         "seed": args.seed,
         "total_episodes": total_episodes,
         "provider": args.provider,
         "director_model": director_model,
+        "director_token_usage": director_meta["token_usage"],
     }
     metadata_path = story_dir / "metadata.json"
     with open(metadata_path, "w") as f:
@@ -452,7 +497,7 @@ def cmd_generate(args):
     # Pass the story_bible so Director knows the current series state.
     # For episode 1, episode_history is [] so the Director plans episode 1.
     print(f"\n--- DIRECTOR ---")
-    episode_plan, _ = run_director(
+    episode_plan, _, director_meta = run_director(
         story_bible=confirmed_story_bible,
         level=level,
         provider=provider,
@@ -466,7 +511,7 @@ def cmd_generate(args):
 
     # Run Writer (single call — no retry loop)
     print(f"\n--- WRITER ---")
-    prose = run_writer(
+    prose, writer_meta = run_writer(
         episode_plan, confirmed_story_bible,
         provider=provider, model=writer_model, level=level,
     )
@@ -479,20 +524,18 @@ def cmd_generate(args):
     print(f"\n--- CLASSIFIER (informational) ---")
     print("  Loading classifier...")
     classifier = load_classifier()
-    result = classify(prose, classifier)
-    print(f"  Predicted: {result['level']}  confidence: {result['confidence']:.2f}  target: {level}")
-    print(f"  All probs: {result['probs']}")
-    if result["level"] != level:
+    clf_result = classify(prose, classifier)
+    print(f"  Predicted: {clf_result['level']}  confidence: {clf_result['confidence']:.2f}  target: {level}")
+    print(f"  All probs: {clf_result['probs']}")
+    if clf_result["level"] != level:
         print(f"  [NOTE] Predicted level differs from target — review prose manually if needed.")
 
-    # Save classification (with model info for the record)
-    result["writer_model"] = writer_model
     with open(ep_dir / "classification.json", "w") as f:
-        json.dump(result, f, indent=2)
+        json.dump(clf_result, f, indent=2)
 
     # Run State Manager to update story bible
     print(f"\n--- STATE MANAGER ---")
-    updated_bible = run_state_manager(
+    updated_bible, sm_meta = run_state_manager(
         prose, confirmed_story_bible,
         episode_plan.get("vocabulary_targets", []),
         provider=provider, model=sm_model,
@@ -501,6 +544,24 @@ def cmd_generate(args):
     # Save updated story bible
     with open(ep_dir / "story_bible_after.json", "w") as f:
         json.dump(updated_bible, f, indent=2)
+
+    # Save episode metadata (model, tokens, timing per agent)
+    episode_metadata = {
+        "story_id": metadata["story_id"],
+        "episode": episode_num,
+        "level": level,
+        "director": director_meta,
+        "writer": writer_meta,
+        "state_manager": sm_meta,
+        "classifier": {
+            "predicted": clf_result["level"],
+            "target": level,
+            "confidence": clf_result["confidence"],
+            "probs": clf_result["probs"],
+        },
+    }
+    with open(ep_dir / "episode_metadata.json", "w") as f:
+        json.dump(episode_metadata, f, indent=2)
 
     # Print a short prose preview
     preview = prose[:300].rstrip() + "..." if len(prose) > 300 else prose
@@ -513,6 +574,7 @@ def cmd_generate(args):
     print(f"    prose.txt              episode prose")
     print(f"    classification.json    classifier verdict (informational)")
     print(f"    story_bible_after.json updated series state")
+    print(f"    episode_metadata.json  model/token/timing info per agent")
 
     if episode_num < total_episodes:
         print(f"\nNext: python src/pipeline.py --generate --story {story_dir}")

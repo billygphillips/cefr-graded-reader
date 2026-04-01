@@ -10,6 +10,25 @@ Backward-compatible aliases at the bottom preserve any code that imports the old
 """
 
 
+_VERSIONS = {
+    "director": {"A2": "director_a2_v4", "B2": "director_b2_v1"},
+    "writer":   {"A2": "writer_a2_v1",   "B2": "writer_b2_v1"},
+    "state_manager": "state_manager_v2",
+}
+
+
+def get_director_version(level: str) -> str:
+    return _VERSIONS["director"].get(level, f"director_{level.lower()}_v1")
+
+
+def get_writer_version(level: str) -> str:
+    return _VERSIONS["writer"].get(level, f"writer_{level.lower()}_v1")
+
+
+def get_state_manager_version() -> str:
+    return _VERSIONS["state_manager"]
+
+
 def get_director_prompt(level: str) -> str:
     """Return the Director system prompt for the given CEFR level (e.g. 'A2', 'B2')."""
     if level == "B2":
