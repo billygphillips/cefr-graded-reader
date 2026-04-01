@@ -34,7 +34,7 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 from generator.prompts import get_director_prompt, get_writer_prompt, get_state_manager_prompt
-from classifier.classify import load_classifier, classify, should_accept, diagnose
+from classifier.classify import load_classifier, classify
 
 load_dotenv()
 
@@ -44,7 +44,6 @@ DEFAULT_PROVIDER       = "openrouter"
 DEFAULT_DIRECTOR_MODEL = "z-ai/glm-5"          # Strong reasoning for arc planning
 DEFAULT_WRITER_MODEL   = "minimax/minimax-m2.5" # Cheap creative writing
 DEFAULT_SM_MODEL       = "qwen/qwen3-14b"       # Instruction following for JSON extraction
-MAX_RETRIES            = 3
 OUTPUTS_DIR            = Path("outputs")
 
 # ── Unified API caller ────────────────────────────────────────────────────────
@@ -234,11 +233,10 @@ def run_director(story_bible=None, seed=None, level="A2",
     return director_json["episode_plan"], director_json["story_bible"]
 
 
-def run_writer(episode_plan, confirmed_story_bible, feedback=None,
+def run_writer(episode_plan, confirmed_story_bible,
                provider=DEFAULT_PROVIDER, model=DEFAULT_WRITER_MODEL, level="A2"):
     """
-    Run the Writer agent. If feedback is provided, append it as a classifier correction hint.
-    Returns: prose string (thinking block already stripped).
+    Run the Writer agent once. Returns prose string (thinking block stripped).
     """
     system_prompt = get_writer_prompt(level)
 
@@ -250,8 +248,6 @@ def run_writer(episode_plan, confirmed_story_bible, feedback=None,
         f"<character_profiles>{json.dumps(char_profiles, indent=2)}</character_profiles>\n"
         f"<episode_plan>{json.dumps(episode_plan, indent=2)}</episode_plan>"
     )
-    if feedback:
-        user_message += f"\n\n<classifier_feedback>{feedback}</classifier_feedback>"
 
     t0 = time.time()
     raw_output, stop_reason = api_call_with_retry(
@@ -291,45 +287,6 @@ def run_state_manager(prose, confirmed_story_bible, vocabulary_targets,
         print("  WARNING: State Manager output truncated (max_tokens).")
 
     return parse_json_response(raw_output)
-
-
-# ── Classify-and-retry loop ───────────────────────────────────────────────────
-
-def generate_and_classify(episode_plan, confirmed_story_bible, classifier,
-                          target_level="A2", max_retries=MAX_RETRIES,
-                          provider=DEFAULT_PROVIDER, model=DEFAULT_WRITER_MODEL):
-    """
-    Run the Writer in a classify-and-retry loop until the output matches target_level
-    or max_retries is exhausted. Passes classifier diagnostic feedback to Writer on retry.
-
-    Returns: (prose, classification_result, attempts_taken)
-    """
-    feedback = None
-
-    for attempt in range(1, max_retries + 1):
-        print(f"\n--- WRITER (attempt {attempt}/{max_retries}) ---")
-        if feedback:
-            print(f"  Feedback: {feedback}")
-
-        prose = run_writer(
-            episode_plan, confirmed_story_bible, feedback=feedback,
-            provider=provider, model=model, level=target_level,
-        )
-        result = classify(prose, classifier)
-        predicted, confidence = result["level"], result["confidence"]
-
-        print(f"  Classifier: predicted={predicted}  confidence={confidence:.2f}  target={target_level}")
-        print(f"  All probs: {result['probs']}")
-
-        if should_accept(result, target_level):
-            print(f"  ✓ Accepted on attempt {attempt}")
-            return prose, result, attempt
-
-        if attempt < max_retries:
-            feedback = diagnose(prose, target_level, classifier, predicted_level=predicted)
-
-    print(f"  ✗ Max retries reached — accepting last output (predicted={predicted}).")
-    return prose, result, max_retries
 
 
 # ── Phase 1: Plan a series ────────────────────────────────────────────────────
@@ -484,33 +441,31 @@ def cmd_generate(args):
         json.dump(episode_plan, f, indent=2)
     print(f"  Episode plan saved.")
 
-    # Generate prose (with or without classifier loop)
-    if args.no_classify:
-        print(f"\n--- WRITER ---")
-        prose = run_writer(
-            episode_plan, confirmed_story_bible,
-            provider=provider, model=writer_model, level=level,
-        )
-        classification_result = {"level": "skipped", "confidence": 0.0, "probs": {}}
-        attempts = 1
-        print(f"  ✓ (classifier skipped)")
-    else:
-        print("\nLoading classifier...")
-        classifier = load_classifier()
-        prose, classification_result, attempts = generate_and_classify(
-            episode_plan, confirmed_story_bible, classifier,
-            target_level=level, max_retries=MAX_RETRIES,
-            provider=provider, model=writer_model,
-        )
+    # Run Writer (single call — no retry loop)
+    print(f"\n--- WRITER ---")
+    prose = run_writer(
+        episode_plan, confirmed_story_bible,
+        provider=provider, model=writer_model, level=level,
+    )
 
     # Save prose
     with open(ep_dir / "prose.txt", "w") as f:
         f.write(prose)
 
-    # Save classification (include model info for the record)
-    classification_result["writer_model"] = writer_model
+    # Classify post-hoc — informational only, never gates or retries
+    print(f"\n--- CLASSIFIER (informational) ---")
+    print("  Loading classifier...")
+    classifier = load_classifier()
+    result = classify(prose, classifier)
+    print(f"  Predicted: {result['level']}  confidence: {result['confidence']:.2f}  target: {level}")
+    print(f"  All probs: {result['probs']}")
+    if result["level"] != level:
+        print(f"  [NOTE] Predicted level differs from target — review prose manually if needed.")
+
+    # Save classification (with model info for the record)
+    result["writer_model"] = writer_model
     with open(ep_dir / "classification.json", "w") as f:
-        json.dump(classification_result, f, indent=2)
+        json.dump(result, f, indent=2)
 
     # Run State Manager to update story bible
     print(f"\n--- STATE MANAGER ---")
@@ -529,11 +484,11 @@ def cmd_generate(args):
     print(f"\n--- PROSE PREVIEW ---")
     print(preview)
 
-    print(f"\n✓ Episode {episode_num} complete  ({attempts} writer attempt(s))")
+    print(f"\n✓ Episode {episode_num} complete")
     print(f"  Saved to {ep_dir}/")
     print(f"    episode_plan.json      Director's episode plan")
-    print(f"    prose.txt              accepted episode prose")
-    print(f"    classification.json    classifier verdict")
+    print(f"    prose.txt              episode prose")
+    print(f"    classification.json    classifier verdict (informational)")
     print(f"    story_bible_after.json updated series state")
 
     if episode_num < total_episodes:
@@ -564,9 +519,6 @@ Examples:
   # Regenerate episode 3
   python src/pipeline.py --generate --story outputs/A2_001 --episode 3
 
-  # Skip classifier (faster, no retry loop)
-  python src/pipeline.py --generate --story outputs/A2_001 --no-classify
-
   # Use one model for all agents (e.g. for a quick test)
   python src/pipeline.py --generate --story outputs/A2_001 --model minimax/minimax-m2.5
 
@@ -596,8 +548,6 @@ Examples:
                         help="Path to series directory, e.g. outputs/A2_001 (required for --generate)")
     parser.add_argument("--episode", type=int,
                         help="Episode number to generate or regenerate (default: auto-detect next)")
-    parser.add_argument("--no-classify", action="store_true", dest="no_classify",
-                        help="Skip the classifier feedback loop")
 
     # Shared: provider + model routing
     parser.add_argument("--provider", type=str, default=DEFAULT_PROVIDER,
