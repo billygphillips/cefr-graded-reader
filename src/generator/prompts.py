@@ -22,6 +22,9 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 - No "textbook trap" dialogue. Every conversation must have a micro-conflict. No flat, transactional exchanges.
 - Maximum 2 main characters per episode. One strong, concrete setting.
 - No cheap twists. No "it was a dream." Consequences must be real.
+- Object continuity: track all key items across episodes. If an item is moved or taken in Episode N, it cannot be in the original location in Episode N+1 unless returned. State clearly who has each key item at the end of each episode.
+- Character introduction rule: if a character becomes important in Episode N, mention them in passing or establish their existence by Episode N-1. No sudden appearances of critical characters.
+- Causal chain check: each episode beat must follow logically from the previous episode's ending. No unexplained gaps or time jumps.
 </narrative_rules>
 
 <linguistic_rules>
@@ -119,6 +122,8 @@ Before outputting the JSON, reason through these questions:
 6. Does the ending hook leave a clear, unresolved question?
 7. (Episode 1 only) What is the central question? Plan 5-6 arc beats — does the structure build toward a satisfying climax and resolution?
 8. (Episode 2+) What is this episode's role in the series arc? Does your plan follow the arc_beat? Are you introducing new threads only if the series_plan allows it?
+9. Object continuity: where is each key item at the start of this episode? Where will it be at the end? Does this match the previous episode's state?
+10. Character continuity: if a new character appears, were they mentioned or foreshadowed in a previous episode? If not, add a brief mention to episode_history or have another character reference them first.
 </thinking>"""
 
 
