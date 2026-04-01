@@ -285,12 +285,24 @@ def run_writer(episode_plan, confirmed_story_bible,
     """
     system_prompt = get_writer_prompt(level)
 
-    char_profiles = [
-        {"name": c["name"], "description": c["description"], "flaw": c["flaw"]}
-        for c in confirmed_story_bible["characters"]
-    ]
+    continuity_packet = {
+        "last_scene_position": confirmed_story_bible.get("last_scene_position"),
+        "episode_history": confirmed_story_bible.get("episode_history", [])[-2:],
+        "unresolved_threads": confirmed_story_bible.get("unresolved_threads", []),
+        "characters": [
+            {
+                "name": c["name"],
+                "description": c["description"],
+                "flaw": c.get("flaw"),
+                "current_location": c.get("current_location"),
+                "current_state": c.get("current_state"),
+                "key_items": c.get("key_items", []),
+            }
+            for c in confirmed_story_bible["characters"]
+        ],
+    }
     user_message = (
-        f"<character_profiles>{json.dumps(char_profiles, indent=2)}</character_profiles>\n"
+        f"<continuity_packet>{json.dumps(continuity_packet, indent=2)}</continuity_packet>\n"
         f"<episode_plan>{json.dumps(episode_plan, indent=2)}</episode_plan>"
     )
 
@@ -354,6 +366,51 @@ def run_state_manager(prose, confirmed_story_bible, vocabulary_targets,
         "timestamp": datetime.now().isoformat(),
     }
     return parse_json_response(raw_output), meta
+
+
+# ── Continuity validator ──────────────────────────────────────────────────────
+
+def validate_episode_continuity(prose, episode_plan, confirmed_story_bible):
+    """
+    Rule-based continuity check between Writer output and the episode plan / story bible.
+    Returns a list of warning strings (empty if no issues found).
+    """
+    warnings = []
+    prose_lower = prose.lower()
+
+    # Check 1: thread count already exceeds budget
+    unresolved = confirmed_story_bible.get("unresolved_threads", [])
+    max_threads = (
+        confirmed_story_bible
+        .get("series_plan", {})
+        .get("thread_management", {})
+        .get("max_open_threads")
+    )
+    if max_threads is not None and len(unresolved) > max_threads:
+        warnings.append(
+            f"Thread count ({len(unresolved)}) already exceeds max_open_threads ({max_threads}) "
+            f"before this episode."
+        )
+
+    # Check 2: forbidden_moves triggered
+    for item in episode_plan.get("forbidden_moves", []):
+        # Strip instruction prefix ("Do not X" → check for X)
+        check_phrase = item.lower()
+        for prefix in ("do not ", "do not repeat ", "do not reveal ", "never "):
+            if check_phrase.startswith(prefix):
+                check_phrase = check_phrase[len(prefix):]
+                break
+        if len(check_phrase) > 10 and check_phrase in prose_lower:
+            warnings.append(f"Possible forbidden move triggered: '{item}'")
+
+    # Check 3: prose shorter than target (rough check — under 300 words)
+    word_count = len(prose.split())
+    if word_count < 300:
+        warnings.append(
+            f"Prose is very short ({word_count} words) — may be incomplete."
+        )
+
+    return warnings
 
 
 # ── Phase 1: Plan a series ────────────────────────────────────────────────────
@@ -520,6 +577,17 @@ def cmd_generate(args):
     with open(ep_dir / "prose.txt", "w") as f:
         f.write(prose)
 
+    # Run continuity validator (rule-based, between Writer and State Manager)
+    print(f"\n--- CONTINUITY VALIDATOR ---")
+    continuity_warnings = validate_episode_continuity(prose, episode_plan, confirmed_story_bible)
+    if continuity_warnings:
+        print(f"  {len(continuity_warnings)} warning(s):")
+        for w in continuity_warnings:
+            print(f"    - {w}")
+        print(f"  [NOTE] Review prose manually before using as canon.")
+    else:
+        print(f"  No issues found.")
+
     # Classify post-hoc — informational only, never gates or retries
     print(f"\n--- CLASSIFIER (informational) ---")
     print("  Loading classifier...")
@@ -541,9 +609,19 @@ def cmd_generate(args):
         provider=provider, model=sm_model,
     )
 
+    # Extract and print any continuity warnings from the State Manager's own checks
+    sm_warnings = updated_bible.pop("continuity_warnings", [])
+    if sm_warnings:
+        print(f"  State Manager continuity warnings ({len(sm_warnings)}):")
+        for w in sm_warnings:
+            print(f"    - {w}")
+
     # Save updated story bible
     with open(ep_dir / "story_bible_after.json", "w") as f:
         json.dump(updated_bible, f, indent=2)
+
+    # Merge all warnings
+    all_warnings = continuity_warnings + sm_warnings
 
     # Save episode metadata (model, tokens, timing per agent)
     episode_metadata = {
@@ -559,6 +637,8 @@ def cmd_generate(args):
             "confidence": clf_result["confidence"],
             "probs": clf_result["probs"],
         },
+        "continuity_warnings": all_warnings,
+        "review_needed": len(all_warnings) > 0,
     }
     with open(ep_dir / "episode_metadata.json", "w") as f:
         json.dump(episode_metadata, f, indent=2)
