@@ -43,7 +43,7 @@ load_dotenv()
 DEFAULT_PROVIDER       = "openrouter"
 DEFAULT_DIRECTOR_MODEL = "z-ai/glm-5"          # Strong reasoning for arc planning
 DEFAULT_WRITER_MODEL   = "minimax/minimax-m2.5" # Cheap creative writing
-DEFAULT_SM_MODEL       = "qwen/qwen3-14b"       # Instruction following for JSON extraction
+DEFAULT_SM_MODEL       = "minimax/minimax-m2.5" # JSON extraction — Qwen3 doesn't reliably output bare JSON
 OUTPUTS_DIR            = Path("outputs")
 
 # ── Unified API caller ────────────────────────────────────────────────────────
@@ -132,22 +132,45 @@ def api_call_with_retry(provider, model, max_tokens, system_prompt, user_message
 
 def parse_json_response(raw_output):
     """
-    Strip thinking block (Claude: <thinking>, DeepSeek: <think>) and code fences,
+    Strip thinking block (Claude: <thinking>, DeepSeek/Qwen: <think>) and code fences,
     then parse and return the JSON dict.
+
+    Tries two passes:
+      1. After the closing thinking tag (if present)
+      2. The full raw output (catches models that embed JSON inside the thinking block)
     """
-    # Remove thinking block if present — check both tag styles
+    def _extract_json(text):
+        cleaned = text.replace("```json", "").replace("```", "").strip()
+        start = cleaned.find("{")
+        end   = cleaned.rfind("}") + 1
+        if start == -1 or end == 0:
+            return None
+        try:
+            return json.loads(cleaned[start:end])
+        except json.JSONDecodeError:
+            return None
+
+    # Pass 1: text after thinking block
+    after_thinking = raw_output
     for close_tag in ["</thinking>", "</think>"]:
         idx = raw_output.find(close_tag)
         if idx != -1:
-            raw_output = raw_output[idx + len(close_tag):]
+            after_thinking = raw_output[idx + len(close_tag):]
             break
 
-    cleaned = raw_output.replace("```json", "").replace("```", "").strip()
-    json_start = cleaned.find("{")
-    json_end   = cleaned.rfind("}") + 1
-    if json_start == -1 or json_end == 0:
-        raise ValueError("No JSON object found in model response.")
-    return json.loads(cleaned[json_start:json_end])
+    result = _extract_json(after_thinking)
+    if result is not None:
+        return result
+
+    # Pass 2: full raw output (handles models that put JSON inside the thinking block)
+    result = _extract_json(raw_output)
+    if result is not None:
+        return result
+
+    # Both passes failed — print raw output so the user can see what happened
+    print("  [ERROR] Could not extract JSON. Raw output (first 1000 chars):")
+    print("  " + raw_output[:1000].replace("\n", "\n  "))
+    raise ValueError("No JSON object found in model response.")
 
 
 def extract_prose(raw_output):
