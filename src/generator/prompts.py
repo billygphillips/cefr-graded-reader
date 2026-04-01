@@ -11,8 +11,8 @@ Backward-compatible aliases at the bottom preserve any code that imports the old
 
 
 _VERSIONS = {
-    "director": {"A2": "director_a2_v4", "B2": "director_b2_v1"},
-    "writer":   {"A2": "writer_a2_v1",   "B2": "writer_b2_v1"},
+    "director": {"A2": "director_a2_v5", "B2": "director_b2_v2"},
+    "writer":   {"A2": "writer_a2_v2",   "B2": "writer_b2_v2"},
     "state_manager": "state_manager_v2",
 }
 
@@ -78,6 +78,7 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 - Object continuity: track all key items across episodes. If an item is moved or taken in Episode N, it cannot be in the original location in Episode N+1 unless returned. State clearly who has each key item at the end of each episode.
 - Character introduction rule: if a character becomes important in Episode N, mention them in passing or establish their existence by Episode N-1. No sudden appearances of critical characters.
 - Causal chain check: each episode beat must follow logically from the previous episode's ending. No unexplained gaps or time jumps.
+- No repeated reveals. If information was revealed in a previous episode, do not re-reveal it in the next. Characters may briefly reference past events ("You told me about your brother") but must not retell them. Each episode must contain new information or new developments.
 </narrative_rules>
 
 <linguistic_rules>
@@ -177,6 +178,7 @@ Before outputting the JSON, reason through these questions:
 8. (Episode 2+) What is this episode's role in the series arc? Does your plan follow the arc_beat? Are you introducing new threads only if the series_plan allows it?
 9. Object continuity: where is each key item at the start of this episode? Where will it be at the end? Does this match the previous episode's state?
 10. Character continuity: if a new character appears, were they mentioned or foreshadowed in a previous episode? If not, add a brief mention to episode_history or have another character reference them first.
+11. Does this episode plan repeat any reveal or exposition from a previous episode? If so, cut it. The reader already knows.
 </thinking>"""
 
 
@@ -197,10 +199,11 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 <a2_writing_constraints>
 
 <grammar>
-- Tenses: present simple, past simple, present continuous, past continuous only
+- Primary narrative tense: past simple. Use past simple for all narration and action. Do not switch narrative tense between episodes or within an episode.
+- Tenses allowed: past simple, past continuous only (for narration); present simple allowed inside dialogue
 - Modals: can, must, will (for future) only
 - Conjunctions: and, but, or only
-- Conditionals: simple if-clauses only (If he opens it, he will see...)
+- Conditionals: simple if-clauses only (If he opened it, he would see...)
 - No passive voice, no perfect tenses, no reported speech, no relative clauses
 </grammar>
 
@@ -220,11 +223,13 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 </sentences>
 
 <structure>
-- Length: 500-800 words
+- Length: 500-800 words. If your draft feels short, add physical detail and sensory description — what the character sees, hears, smells. Do not pad with repetition.
 - Dialogue: include meaningful dialogue where the story naturally calls for it. Aim for at least one exchange with micro-conflict per episode. Do not force dialogue into scenes where a character is alone.
 - Descriptions must be concrete and physical: what the character sees, hears, touches. No abstract thoughts or psychological analysis.
 - Follow the key_events from the episode plan in order. Do not invent new plot events.
-- End on the ending_hook from the episode plan. Last line only — do not resolve it.
+- Maintain a consistent third-person narrator voice throughout. Do not break into narrator summary, rhetorical questions to the reader, or present-tense commentary at the end.
+- Output clean prose only. No XML tags, no HTML, no markdown, no labels.
+- End on the ending_hook from the episode plan. Show it through action or dialogue — not narrator commentary. Do not address the reader. Do not ask rhetorical questions. The last paragraph must be a scene moment, not a summary.
 </structure>
 
 </a2_writing_constraints>
@@ -269,6 +274,7 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 - Object continuity: track all key items across episodes. If an item is moved or taken in Episode N, it cannot be in the original location in Episode N+1 unless returned. State clearly who has each key item at the end of each episode.
 - Character introduction rule: if a character becomes important in Episode N, mention them in passing or establish their existence by Episode N-1. No sudden appearances of critical characters.
 - Causal chain check: each episode beat must follow logically from the previous episode's ending. No unexplained gaps or time jumps.
+- No repeated reveals. If information was revealed in a previous episode, do not re-reveal it in the next. Characters may briefly reference past events but must not retell them. Each episode must contain new information or new developments.
 </narrative_rules>
 
 <linguistic_rules>
@@ -369,6 +375,7 @@ Before outputting the JSON, reason through these questions:
 8. (Episode 2+) What is this episode's role in the series arc? Does your plan follow the arc_beat? Are you introducing new threads only if the series_plan allows it?
 9. Object continuity: where is each key item at the start of this episode? Where will it be at the end? Does this match the previous episode's state?
 10. Character continuity: if a new character appears, were they mentioned or foreshadowed in a previous episode?
+11. Does this episode plan repeat any reveal or exposition from a previous episode? If so, cut it. The reader already knows.
 </thinking>"""
 
 
@@ -416,12 +423,14 @@ You are an award-winning author known for gripping, character-driven fiction. Yo
 </sentences>
 
 <structure>
-- Length: 1,000-1,500 words
+- Length: 1,000-1,500 words. If your draft feels short, add atmospheric detail or deepen a character moment.
 - Dialogue: rich and character-specific. Aim for at least two exchanges with subtext or micro-conflict. Characters should have distinct voices.
 - Descriptions can be atmospheric — engage multiple senses, use metaphor, let setting reflect mood.
 - Follow the key_events from the episode plan in order. Do not invent new plot events.
 - Internal monologue: use it to deepen psychological complexity.
-- End on the ending_hook from the episode plan.
+- Maintain a consistent narrator voice throughout. Do not break into rhetorical questions to the reader or present-tense commentary at the end.
+- Output clean prose only. No XML tags, no HTML, no markdown, no labels.
+- End on the ending_hook from the episode plan. Show it through action, dialogue, or internal thought — not narrator commentary. The last paragraph must be a scene moment, not a summary.
 </structure>
 
 </b2_writing_constraints>
