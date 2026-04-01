@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from dotenv import load_dotenv
 import json
+import time
 import anthropic
 
 from generator.prompts import DIRECTOR_SYSTEM_PROMPT, WRITER_SYSTEM_PROMPT, STATE_MANAGER_SYSTEM_PROMPT
@@ -37,6 +38,19 @@ CEFR_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
+
+def api_call_with_retry(func, max_retries=3, wait=15):
+    """Call func(), retrying on 529 Overloaded errors up to max_retries times."""
+    for attempt in range(max_retries):
+        try:
+            return func()
+        except anthropic.APIStatusError as e:
+            if e.status_code == 529 and attempt < max_retries - 1:
+                print(f"API overloaded — waiting {wait}s before retry {attempt + 2}/{max_retries}...")
+                time.sleep(wait)
+            else:
+                raise
 
 
 def parse_json_response(raw_output):
@@ -67,12 +81,12 @@ def run_director(story_bible=None):
     else:
         user_message = f"<seed>{SEED}</seed>"
 
-    response = client.messages.create(
+    response = api_call_with_retry(lambda: client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=8000,
         system=DIRECTOR_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_message}],
-    )
+    ))
     if response.stop_reason == "max_tokens":
         print("WARNING: Director output truncated.")
 
@@ -98,12 +112,12 @@ def run_writer(episode_plan, confirmed_story_bible, feedback=None):
     if feedback:
         user_message += f"\n\n<classifier_feedback>{feedback}</classifier_feedback>"
 
-    response = client.messages.create(
+    response = api_call_with_retry(lambda: client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=12000,
         system=WRITER_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_message}],
-    )
+    ))
     if response.stop_reason == "max_tokens":
         print("WARNING: Writer output truncated.")
 
@@ -121,12 +135,12 @@ def run_state_manager(prose, confirmed_story_bible, vocabulary_targets):
         f"<vocabulary_targets>{json.dumps(vocabulary_targets)}</vocabulary_targets>\n"
         f"<new_episode_prose>{prose}</new_episode_prose>"
     )
-    response = client.messages.create(
+    response = api_call_with_retry(lambda: client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=6000,
         system=STATE_MANAGER_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_message}],
-    )
+    ))
     if response.stop_reason == "max_tokens":
         print("WARNING: State Manager output truncated.")
 
@@ -176,19 +190,48 @@ if __name__ == "__main__":
     print("Loading classifier...")
     classifier = load_classifier()
 
-    print("\n--- DIRECTOR ---")
-    episode_plan, story_bible = run_director()
-    confirmed_story_bible = story_bible
-    print(f"Episode plan: {json.dumps(episode_plan, indent=2)}")
+    confirmed_story_bible = None
+    all_prose = []
+    total_episodes = None
 
-    prose, result, attempts = generate_and_classify(
-        episode_plan, confirmed_story_bible, classifier,
-        target_level=TARGET_LEVEL, max_retries=MAX_RETRIES,
-    )
+    episode = 1
+    while True:
+        print(f"\n{'='*60}")
+        print(f"EPISODE {episode}")
+        print(f"{'='*60}")
 
-    print(f"\n--- ACCEPTED PROSE (after {attempts} attempt(s)) ---")
-    print(prose)
+        print("\n--- DIRECTOR ---")
+        episode_plan, story_bible = run_director(story_bible=confirmed_story_bible)
 
-    print("\n--- STATE MANAGER ---")
-    updated_bible = run_state_manager(prose, confirmed_story_bible, episode_plan.get("vocabulary_targets", []))
-    print(json.dumps(updated_bible, indent=2))
+        if confirmed_story_bible is None:
+            confirmed_story_bible = story_bible
+            total_episodes = confirmed_story_bible.get("series_plan", {}).get("total_episodes", 6)
+            print(f"Series plan: {total_episodes} episodes")
+
+        print(f"Episode plan: {json.dumps(episode_plan, indent=2)}")
+
+        prose, result, attempts = generate_and_classify(
+            episode_plan, confirmed_story_bible, classifier,
+            target_level=TARGET_LEVEL, max_retries=MAX_RETRIES,
+        )
+
+        print(f"\n--- ACCEPTED PROSE (after {attempts} attempt(s)) ---")
+        print(prose)
+        all_prose.append(prose)
+
+        print("\n--- STATE MANAGER ---")
+        updated_bible = run_state_manager(prose, confirmed_story_bible, episode_plan.get("vocabulary_targets", []))
+        print(json.dumps(updated_bible, indent=2))
+
+        confirmed_story_bible = updated_bible
+
+        if episode >= total_episodes:
+            break
+        episode += 1
+
+    print(f"\n{'='*60}")
+    print(f"COMPLETE STORY ({len(all_prose)} episodes)")
+    print(f"{'='*60}")
+    for i, ep_prose in enumerate(all_prose, 1):
+        print(f"\n--- Episode {i} ---\n")
+        print(ep_prose)
