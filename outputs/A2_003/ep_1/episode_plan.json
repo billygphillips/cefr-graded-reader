@@ -1,0 +1,56 @@
+{
+  "episode_number": 1,
+  "hook": "On his first day cleaning an empty old house, Tom finds a video camera hidden in a dusty cupboard \u2014 and watches something he was never meant to see.",
+  "goal": "Tom must clean the upstairs bedroom before Mrs. Cole returns to lock up, but his curiosity pulls him away from the job.",
+  "start_state": {
+    "location": "Upstairs bedroom of the abandoned house (loc_001)",
+    "time": "Morning",
+    "with_whom": [],
+    "items": [
+      "house key given by Mrs. Cole",
+      "cleaning brush",
+      "bucket"
+    ],
+    "knowledge": [
+      "The house has been empty for many years",
+      "Mrs. Cole hired Tom to clean the rooms for a new owner",
+      "Tom must finish and leave by 5 p.m. so Mrs. Cole can lock up"
+    ],
+    "suspicions": []
+  },
+  "continuity_rules": [
+    "This is the first episode \u2014 there is no prior scene to continue from",
+    "Must not reveal the family's name or identity \u2014 reserved for Episode 2",
+    "Must not let Tom lift the loose floorboard or retrieve the box"
+  ],
+  "key_events": [
+    "Tom sweeps the upstairs bedroom and pushes old furniture aside; when he opens a dusty cupboard to clean inside it, he finds an old video camera sitting on the shelf.",
+    "Tom's curiosity takes over \u2014 he checks the camera, finds it still has battery, and presses play; he watches the small screen closely and does not examine the outside of the camera case at all.",
+    "On the screen, a recording from the past: a man and a woman with a young boy stand in the same room; the man lifts a floorboard, places a metal box beneath it, and puts the board back; the family's faces look frightened; the tape ends without explanation.",
+    "Tom kneels on the bedroom floor and finds one board that looks different from the others \u2014 it is loose; he grips the edge and is about to pull it up when Mrs. Cole calls his name from downstairs; he leaves the camera on the windowsill and goes down, the board still closed beneath him."
+  ],
+  "major_reveal": "A family once deliberately hid a metal box under the floorboards of this very room \u2014 and they looked frightened when they did it.",
+  "threads_advanced": [],
+  "threads_resolved": [],
+  "new_thread_created": "Who is the family on the tape, what did they hide in the metal box, and why did they look so afraid?",
+  "tone_guardrails": [
+    "Keep the atmosphere physical and concrete \u2014 dust, creaking boards, dim light, old furniture",
+    "The family on the tape should appear frightened but not violent \u2014 restrained dread, not drama",
+    "Mrs. Cole's arrival must feel natural and routine \u2014 she is simply doing her job, not acting suspiciously",
+    "Show Tom handling the camera without examining its outer case \u2014 he looks only at the screen; this plants the unseen label for Episode 2 without cheating"
+  ],
+  "forbidden_moves": [
+    "Do not reveal the name 'Hartley' or any identity for the family \u2014 reserved for Episode 2",
+    "Do not let Tom lift the loose floorboard or see what is beneath it",
+    "Do not make Mrs. Cole behave suspiciously or threateningly \u2014 she is neutral and businesslike",
+    "Do not have Tom notice any writing or label on the camera case"
+  ],
+  "vocabulary_targets": [
+    "floorboard",
+    "cupboard",
+    "tape",
+    "loose",
+    "beneath"
+  ],
+  "ending_hook": "Tom goes home knowing there is something hidden beneath that loose board \u2014 but what is inside the box, and why did the family on the tape look so afraid?"
+}

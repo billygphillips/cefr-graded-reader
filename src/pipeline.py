@@ -35,7 +35,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from generator.prompts import (get_director_prompt, get_writer_prompt, get_state_manager_prompt,
                                get_director_version, get_writer_version, get_state_manager_version)
-from classifier.classify import load_classifier, classify
+from classifier.classify import load_classifier, classify, diagnose
 
 load_dotenv()
 
@@ -279,9 +279,12 @@ def run_director(story_bible=None, seed=None, level="A2",
 
 
 def run_writer(episode_plan, confirmed_story_bible,
-               provider=DEFAULT_PROVIDER, model=DEFAULT_WRITER_MODEL, level="A2"):
+               provider=DEFAULT_PROVIDER, model=DEFAULT_WRITER_MODEL, level="A2",
+               level_feedback=None):
     """
     Run the Writer agent once. Returns (prose string, call_meta dict).
+    level_feedback: optional diagnostic string from a previous failed attempt — appended
+                    to the user message so the Writer can correct level violations on retry.
     """
     system_prompt = get_writer_prompt(level)
 
@@ -305,6 +308,8 @@ def run_writer(episode_plan, confirmed_story_bible,
         f"<continuity_packet>{json.dumps(continuity_packet, indent=2)}</continuity_packet>\n"
         f"<episode_plan>{json.dumps(episode_plan, indent=2)}</episode_plan>"
     )
+    if level_feedback:
+        user_message += f"\n<level_feedback>{level_feedback}</level_feedback>"
 
     t0 = time.time()
     raw_output, stop_reason, usage = api_call_with_retry(
@@ -577,18 +582,49 @@ def cmd_generate(args):
         json.dump(episode_plan, f, indent=2)
     print(f"  Episode plan saved.")
 
-    # Run Writer (single call — no retry loop)
-    print(f"\n--- WRITER ---")
-    prose, writer_meta = run_writer(
-        episode_plan, confirmed_story_bible,
-        provider=provider, model=writer_model, level=level,
-    )
+    # Load classifier once before writer loop
+    print(f"\n--- CLASSIFIER ---")
+    print("  Loading classifier...")
+    classifier = load_classifier()
 
-    # Save prose
+    # Writer loop — retries with diagnostic feedback if level doesn't match
+    max_retries = getattr(args, 'retries', 1)
+    level_feedback = None
+    prose = None
+    writer_meta = None
+    clf_result = None
+
+    for attempt in range(max_retries):
+        attempt_label = f" (attempt {attempt + 1}/{max_retries})" if max_retries > 1 else ""
+        print(f"\n--- WRITER{attempt_label} ---")
+        prose, writer_meta = run_writer(
+            episode_plan, confirmed_story_bible,
+            provider=provider, model=writer_model, level=level,
+            level_feedback=level_feedback,
+        )
+
+        clf_result = classify(prose, classifier)
+        diagnostic = diagnose(prose, level, classifier, clf_result['level'])
+        print(f"  Predicted: {clf_result['level']}  confidence: {clf_result['confidence']:.2f}  target: {level}")
+        print(f"  All probs: {clf_result['probs']}")
+        print(f"  Diagnostic: {diagnostic}")
+
+        if clf_result['level'] == level or attempt == max_retries - 1:
+            if clf_result['level'] != level:
+                print(f"  [NOTE] Level mismatch after {attempt + 1} attempt(s) — review prose manually.")
+            break
+
+        print(f"  Level mismatch — retrying with diagnostic feedback...")
+        level_feedback = (
+            f"Your previous draft was classified as {clf_result['level']}, not {level}. "
+            f"{diagnostic} Rewrite the episode, fixing these issues."
+        )
+
+    # Save final prose
     with open(ep_dir / "prose.txt", "w") as f:
         f.write(prose)
 
-    # Run continuity validator (rule-based, between Writer and State Manager)
+    # Run continuity validator on final prose
     print(f"\n--- CONTINUITY VALIDATOR ---")
     continuity_warnings = validate_episode_continuity(prose, episode_plan, confirmed_story_bible)
     if continuity_warnings:
@@ -598,16 +634,6 @@ def cmd_generate(args):
         print(f"  [NOTE] Review prose manually before using as canon.")
     else:
         print(f"  No issues found.")
-
-    # Classify post-hoc — informational only, never gates or retries
-    print(f"\n--- CLASSIFIER (informational) ---")
-    print("  Loading classifier...")
-    classifier = load_classifier()
-    clf_result = classify(prose, classifier)
-    print(f"  Predicted: {clf_result['level']}  confidence: {clf_result['confidence']:.2f}  target: {level}")
-    print(f"  All probs: {clf_result['probs']}")
-    if clf_result["level"] != level:
-        print(f"  [NOTE] Predicted level differs from target — review prose manually if needed.")
 
     with open(ep_dir / "classification.json", "w") as f:
         json.dump(clf_result, f, indent=2)
@@ -746,6 +772,8 @@ Examples:
                         help="Path to series directory, e.g. outputs/A2_001 (required for --generate)")
     parser.add_argument("--episode", type=int,
                         help="Episode number to generate or regenerate (default: auto-detect next)")
+    parser.add_argument("--retries", type=int, default=1,
+                        help="Max Writer attempts per episode — retries with classifier feedback on level mismatch (default: 1, no retry)")
 
     # Shared: provider + model routing
     parser.add_argument("--provider", type=str, default=DEFAULT_PROVIDER,

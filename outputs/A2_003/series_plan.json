@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "title": "The Box Under the Floor",
+    "genre": "mystery",
+    "cefr_level": "A2",
+    "target_subband": "A2-mid",
+    "setting": "A small English town where a young man takes a weekend job cleaning an old abandoned house that holds a long-buried secret",
+    "tone": "tense, restrained"
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Tom Reed",
+      "role": "protagonist",
+      "description": "A slim, dark-haired 19-year-old who is naturally curious and always needs to know the reason for things.",
+      "flaw": "Too curious \u2014 he cannot leave a mystery alone, even when it costs him time or causes trouble",
+      "current_location": "loc_001",
+      "key_items": []
+    },
+    {
+      "id": "char_002",
+      "name": "Mrs. Cole",
+      "role": "supporting",
+      "description": "A businesslike woman in her sixties with short gray hair who manages the abandoned property on behalf of its new owner.",
+      "flaw": null,
+      "current_location": "loc_001",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "The abandoned house",
+      "description": "A two-storey stone house on the edge of a small English town, empty for decades, with dusty rooms, creaking wooden floors, and old furniture left behind."
+    },
+    {
+      "id": "loc_002",
+      "name": "Tom's rented room",
+      "description": "A small, plain room above a shop in the town centre where Tom lives alone."
+    }
+  ],
+  "episode_history": [],
+  "unresolved_threads": [],
+  "series_plan": {
+    "total_episodes": 6,
+    "central_question": "What happened to the family in the video, and what secret does the hidden metal box hold?",
+    "arc_beats": [
+      {
+        "episode": 1,
+        "act": "setup",
+        "role": "hook",
+        "beat": "Tom finds a video camera in a dusty cupboard; the tape shows the same room fifty years ago with a family hiding a metal box under the floorboards; Tom finds the loose board but is forced to leave before he can look beneath it."
+      },
+      {
+        "episode": 2,
+        "act": "rising",
+        "role": "discovery",
+        "beat": "Tom returns and lifts the loose floorboard, finding the locked metal box; he notices the name 'Hartley' on a label inside the camera case, giving the family an identity."
+      },
+      {
+        "episode": 3,
+        "act": "rising",
+        "role": "reversal",
+        "beat": "An elderly neighbour tells Tom that a young boy named Danny Hartley disappeared from this house in 1974 and was never found; a stranger arrives in town and begins asking questions about the property."
+      },
+      {
+        "episode": 4,
+        "act": "rising",
+        "role": "confrontation",
+        "beat": "The stranger \u2014 an elderly woman \u2014 reveals she is Danny's sister and believes the box holds proof of what really happened to her brother; the box is still locked and no key has been found."
+      },
+      {
+        "episode": 5,
+        "act": "climax",
+        "role": "truth",
+        "beat": "Tom watches the tape again and spots a detail he missed before \u2014 a small key taped to the inside of the camera case; he opens the box and finds a handwritten letter and a torn document that reveal the truth about Danny."
+      },
+      {
+        "episode": 6,
+        "act": "resolution",
+        "role": "closure",
+        "beat": "Tom shares the contents of the box with Danny's sister; the full truth is understood, a long injustice is named, and Tom must decide what to do with the evidence."
+      }
+    ],
+    "thread_management": {
+      "max_open_threads": 4,
+      "new_threads_allowed_until": 3,
+      "all_threads_resolved_by": 6
+    }
+  }
+}

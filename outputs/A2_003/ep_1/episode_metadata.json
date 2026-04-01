@@ -1,0 +1,57 @@
+{
+  "story_id": "A2_003",
+  "episode": 1,
+  "level": "A2",
+  "director": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "director_a2_v7",
+    "max_tokens": 12000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 3686,
+      "output_tokens": 8192
+    },
+    "duration_s": 133.0,
+    "timestamp": "2026-04-01T21:12:14.777075"
+  },
+  "writer": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "writer_a2_v7",
+    "max_tokens": 16000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 2935,
+      "output_tokens": 7381
+    },
+    "duration_s": 99.2,
+    "timestamp": "2026-04-01T21:16:01.047720"
+  },
+  "state_manager": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "state_manager_v5",
+    "max_tokens": 16000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 3988,
+      "output_tokens": 4566
+    },
+    "duration_s": 76.1,
+    "timestamp": "2026-04-01T21:17:17.223480"
+  },
+  "classifier": {
+    "predicted": "B1",
+    "target": "A2",
+    "confidence": 0.6707467740281492,
+    "probs": {
+      "A2": 0.2276789475983434,
+      "B1": 0.6707467740281492,
+      "B2": 0.040582846868141106,
+      "C1": 0.060991431505366366
+    }
+  },
+  "continuity_warnings": [],
+  "review_needed": false
+}
