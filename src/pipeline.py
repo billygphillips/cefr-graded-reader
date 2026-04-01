@@ -35,7 +35,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from generator.prompts import (get_director_prompt, get_writer_prompt, get_state_manager_prompt,
                                get_director_version, get_writer_version, get_state_manager_version)
-from classifier.classify import load_classifier, classify, diagnose
+from classifier.classify import load_classifier, classify, diagnose, lexical_diagnostic
 
 load_dotenv()
 
@@ -587,6 +587,28 @@ def cmd_generate(args):
     print("  Loading classifier...")
     classifier = load_classifier()
 
+    # Validate Director's vocabulary targets against the target level's NGSL band.
+    # Also builds vocab_target_lemmas — used in the retry loop to avoid penalising
+    # the Writer for using above-band words the Director explicitly assigned.
+    _NGSL_BANDS = {"A2": 1000, "B1": 2000, "B2": 3000}
+    vocab_targets = episode_plan.get("vocabulary_targets", [])
+    nlp_obj = classifier["nlp"]
+    ngsl_band = _NGSL_BANDS.get(level, 1000)
+    vocab_target_lemmas = set()
+    above_band_targets = []
+    for w in vocab_targets:
+        w_lower = w.lower()
+        doc_w = nlp_obj(w_lower)
+        lemmas_w = {tok.lemma_.lower() for tok in doc_w}
+        vocab_target_lemmas.add(w_lower)
+        vocab_target_lemmas.update(lemmas_w)
+        if w_lower not in classifier["ngsl"][ngsl_band] and not (lemmas_w & classifier["ngsl"][ngsl_band]):
+            above_band_targets.append(w)
+    if above_band_targets:
+        print(f"  [WARN] Director assigned above-{level}-band targets: {', '.join(above_band_targets)}")
+    elif vocab_targets:
+        print(f"  Vocabulary targets OK — all within {level} band.")
+
     # Writer loop — retries with diagnostic feedback if level doesn't match
     max_retries = getattr(args, 'retries', 1)
     level_feedback = None
@@ -605,19 +627,49 @@ def cmd_generate(args):
 
         clf_result = classify(prose, classifier)
         diagnostic = diagnose(prose, level, classifier, clf_result['level'])
+        above_band = lexical_diagnostic(prose, level, classifier)
         print(f"  Predicted: {clf_result['level']}  confidence: {clf_result['confidence']:.2f}  target: {level}")
         print(f"  All probs: {clf_result['probs']}")
         print(f"  Diagnostic: {diagnostic}")
+        if above_band:
+            print(f"  Above-{level}-band words: {', '.join(above_band)}")
+
+        # Only retry if there is actionable feedback — feature violations or above-band vocabulary.
+        # If the classifier is working purely from TF-IDF patterns we can't explain,
+        # retrying without specific guidance tends to make things worse.
+        has_feature_violations = "no clear feature-level issues" not in diagnostic
+        # Filter Director-assigned vocab targets — don't penalise the Writer for using them
+        above_band_filtered = [
+            w for w in above_band
+            if w not in vocab_target_lemmas
+            and not ({tok.lemma_.lower() for tok in nlp_obj(w)} & vocab_target_lemmas)
+        ]
+        has_vocab_violations = len(above_band_filtered) > 0
+        if above_band and not above_band_filtered:
+            print(f"  Above-{level}-band words are all Director-assigned targets — not penalising.")
 
         if clf_result['level'] == level or attempt == max_retries - 1:
             if clf_result['level'] != level:
                 print(f"  [NOTE] Level mismatch after {attempt + 1} attempt(s) — review prose manually.")
             break
 
+        if not has_feature_violations and not has_vocab_violations:
+            print(f"  No actionable feedback — accepting prose without retry.")
+            break
+
         print(f"  Level mismatch — retrying with diagnostic feedback...")
+        feedback_parts = []
+        if has_feature_violations:
+            feedback_parts.append(diagnostic)
+        if has_vocab_violations:
+            feedback_parts.append(
+                f"These words are above the {level} vocabulary band: {', '.join(above_band_filtered)}. "
+                f"Replace them with simpler alternatives."
+            )
         level_feedback = (
             f"Your previous draft was classified as {clf_result['level']}, not {level}. "
-            f"{diagnostic} Rewrite the episode, fixing these issues."
+            + " ".join(feedback_parts)
+            + " Rewrite the episode, fixing these issues."
         )
 
     # Save final prose

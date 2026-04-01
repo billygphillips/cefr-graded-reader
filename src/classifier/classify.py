@@ -179,3 +179,41 @@ def diagnose(text, target_level, classifier, predicted_level=None, top_n=3):
         f"Your draft was classified as {predicted_level or '?'} — {direction_word} for {target_level}. "
         "Key issues: " + "; ".join(parts) + "."
     )
+
+
+# NGSL band thresholds per target level
+_LEVEL_BAND = {"A2": 1000, "B1": 2000, "B2": 3000}
+
+
+def lexical_diagnostic(text, target_level, classifier, max_words=10):
+    """
+    Return a list of the most frequent content words in the prose that are
+    above the target level's NGSL vocabulary band.
+
+    Uses lemmatisation for matching; reports surface forms for readability.
+    Returns an empty list if all content words are within the band.
+    """
+    band = _LEVEL_BAND.get(target_level, 1000)
+    nlp  = classifier["nlp"]
+    ngsl = classifier["ngsl"]
+
+    doc = nlp(text)
+    above_band: dict[str, int] = {}
+
+    for token in doc:
+        if token.is_punct or token.is_space:
+            continue
+        # Content words only — skip proper nouns (character names) and function words
+        if token.pos_ not in {"NOUN", "VERB", "ADJ", "ADV"}:
+            continue
+        if token.pos_ == "PROPN":
+            continue
+        lemma = token.lemma_.lower()
+        if len(lemma) <= 2:
+            continue
+        if lemma not in ngsl[band]:
+            surface = token.text.lower()
+            above_band[surface] = above_band.get(surface, 0) + 1
+
+    sorted_words = sorted(above_band.items(), key=lambda x: x[1], reverse=True)
+    return [word for word, _ in sorted_words[:max_words]]
