@@ -1,0 +1,73 @@
+{
+  "episode_number": 6,
+  "hook": "Jamie and Mrs. Holt leave her house for the police station with only the camera and her testimony \u2014 knowing Voss has a head start and the physical evidence locked away.",
+  "goal": "Jamie must get Mrs. Holt's eyewitness account onto the official record and the physical evidence secured before Voss can act \u2014 while facing the real possibility that the camera alone will not be enough to move the police.",
+  "start_state": {
+    "location": "Walking from Mrs. Holt's house (loc_004) toward the police station (loc_005)",
+    "time": "Late afternoon, same day as Episode 5",
+    "with_whom": [
+      "Mrs. Holt (char_003)"
+    ],
+    "items": [
+      "old video camera (scratched casing, wrapped in dark cloth)"
+    ],
+    "knowledge": [
+      "Mrs. Holt has committed to giving a formal police statement",
+      "Voss has the handwritten note, three photographs, and opened metal box locked in her desk drawer at the agency",
+      "The small key to the drawer is in Voss's jacket pocket",
+      "Voss has a head start back to the agency",
+      "Voss does not know the camera exists",
+      "Mrs. Holt witnessed the Warners fleeing, the fire starting, and Robert Voss's car at the kerb in February 1974",
+      "Robert Voss came to Mrs. Holt's door the morning after the fire and threatened her personally"
+    ],
+    "suspicions": [
+      "Voss may destroy or remove the documents before police can act",
+      "Without the physical documents in hand, the camera footage and one elderly eyewitness may not be enough"
+    ]
+  },
+  "continuity_rules": [
+    "Must open after Jamie said 'We need to go now' \u2014 do not re-show that moment or re-stage the conversation in Mrs. Holt's front room",
+    "Must not re-describe the full contents of the note or photographs \u2014 reference them only as physical objects in police custody by the end",
+    "Must not contradict Voss's established knowledge that the floorboard was loose and the box existed",
+    "The camera footage must be treated as something the police officer has not yet seen"
+  ],
+  "key_events": [
+    "Event 1 \u2014 Statement and obstacle: At the police station, Mrs. Holt gives her formal account of February 1974 to a duty officer \u2014 the Warners leaving quietly with bags, the fire an hour later, Robert Voss's car parked at the kerb. The officer listens carefully and takes notes; Jamie shows the camera footage, which confirms Voss visited the house and moved directly to the floorboard location. THEREFORE the officer is engaged \u2014 but points out that documents locked in a private office cannot simply be retrieved without proper grounds, and a fifty-year-old case with a dead suspect will take time to assess.",
+    "Event 2 \u2014 The detail that shifts everything: Mrs. Holt adds the one fact she has not yet spoken aloud to anyone: Robert Voss's exact words when he stood at her door on the morning of 15 February 1974. She has carried them for fifty years. The words constitute a direct threat against a potential witness \u2014 which is not a cold case; it connects to the present. THEREFORE the officer decides there is enough to act immediately, and agrees to accompany them to Voss Estate Agency.",
+    "Event 3 \u2014 Confrontation at the agency: Voss sees the duty officer walk in with Jamie and Mrs. Holt. For the first time, her composure breaks \u2014 her expression goes still in a way that is different from her usual control. She attempts a calm explanation: these are old property records she found during a routine inspection; she had been about to hand them in. BUT Mrs. Holt speaks quietly, without anger, and repeats Robert Voss's exact words from that morning fifty years ago \u2014 the words she has never told to anyone until now. The office goes silent. Voss does not speak.",
+    "Event 4 \u2014 The drawer opens and the truth settles: Voss takes the small key from her jacket pocket and sets it on the desk. She unlocks the drawer and places the note, the photographs, and the opened metal box in front of the officer without a word. The officer retrieves and bags them as evidence, then tells Voss the inquiry will be in contact and she should remain available. Outside on the pavement, in the cooling evening air, Jamie stands with the camera in his bag and understands something he could not have said clearly until now: Frank Warner did not simply hide the camera and the box. He placed the camera where it would be found first \u2014 in the cupboard, wrapped in cloth, behind a rag \u2014 so that whoever found it would watch the footage and then know exactly where to look. The camera was the message. The box was the proof. Frank left both deliberately, prepared for the possibility that he would never be able to speak for himself."
+  ],
+  "major_reveal": "Frank Warner placed the camera and the box as a deliberate, connected record \u2014 the camera in the cupboard to be found first and to point the way, the box beneath the floorboard to provide the proof. He was not hiding evidence out of fear alone; he was constructing a trail for whoever might eventually come looking, prepared in advance by a man who expected he might be silenced. This reframes the entire mystery: the Warners were not simply fleeing and leaving things behind. Frank was sending a message forward in time.",
+  "threads_advanced": [
+    "thread_004"
+  ],
+  "threads_resolved": [
+    "thread_004"
+  ],
+  "new_thread_created": null,
+  "tone_guardrails": [
+    "The confrontation at the agency must be quiet and controlled \u2014 Voss does not shout, plead, or break down; she simply runs out of road and makes one last practical calculation",
+    "Mrs. Holt's moment of speaking Robert Voss's exact words must land without melodrama \u2014 the power is in the plainness of it after fifty years of silence",
+    "Jamie's final understanding of Frank Warner's intent must be shown through his own thinking, not explained aloud to another character",
+    "The inquiry's outcome is deliberately left open \u2014 consequences are confirmed as real and immediate, but the story does not fast-forward to a verdict or a sentence",
+    "Resist any impulse to tidy up every strand \u2014 the Warners' whereabouts remain honestly unknown"
+  ],
+  "forbidden_moves": [
+    "Do not introduce named speaking characters beyond a generic duty officer",
+    "Do not reveal what became of the Warner family after 1974 \u2014 their fate remains unknown and should be acknowledged as such without false comfort",
+    "Do not have Voss argue, explain herself at length, or confess emotionally \u2014 her silence after Mrs. Holt speaks is her final character moment",
+    "Do not re-describe the full contents of the note or photographs \u2014 they are evidence now, not exposition",
+    "Do not show the outcome of the legal inquiry within the episode \u2014 it opens; it does not conclude"
+  ],
+  "vocabulary_targets": [
+    "secure",
+    "relief",
+    "consequence",
+    "retrieve",
+    "cooperate",
+    "confirm",
+    "expose",
+    "inquiry"
+  ],
+  "ending_hook": "The inquiry into the 1974 fire is officially open and the truth is now on the record \u2014 but the Warner family, wherever they went after that February night, does not yet know that someone finally found what Frank left behind."
+}

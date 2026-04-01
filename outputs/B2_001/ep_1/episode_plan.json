@@ -1,0 +1,60 @@
+{
+  "episode_number": 1,
+  "hook": "Jamie arrives at an empty house on Crane Street for what seems like a simple clearing job \u2014 until he opens the cupboard beside the fireplace.",
+  "goal": "Complete the clearing job Margaret hired him for; but once Jamie finds the camera and watches the footage, his real goal becomes understanding what was hidden under that floorboard \u2014 and who else already knows.",
+  "start_state": {
+    "location": "The Abandoned House, Crane Street (loc_001), moving into the Front Room (loc_002)",
+    "time": "morning",
+    "with_whom": [],
+    "items": [
+      "work gloves",
+      "rubbish bags",
+      "phone with power bank"
+    ],
+    "knowledge": [
+      "He was hired by Margaret Voss to clear the house at Crane Street",
+      "The house has been empty for many years",
+      "He will be paid when the job is done"
+    ],
+    "suspicions": []
+  },
+  "continuity_rules": [
+    "This is Episode 1 \u2014 no prior episode events to contradict or continue",
+    "The metal box must remain under the floorboard at the end of this episode \u2014 Jamie must not lift the board",
+    "Mrs. Holt must be established as watching but must not speak to Jamie in this episode"
+  ],
+  "key_events": [
+    "Jamie enters the front room and begins clearing \u2014 he opens the old cupboard beside the fireplace and finds, tucked at the back behind a folded rag, a small video camera wrapped tightly in a piece of cloth.",
+    "Jamie charges the camera using his phone's power bank and watches the footage: grainy but clear enough to follow \u2014 an unknown man carefully lifts a floorboard near the bay window, places a rectangular metal box underneath, and replaces the board. The man glances toward the camera once; his face is visible, but Jamie does not recognise him.",
+    "Margaret calls to ask how the work is going and tells Jamie firmly she wants the house cleared by the end of the week. Jamie says progress is fine. He does not mention the camera \u2014 not because he has a plan, but because something stops him on impulse; the word 'fine' is out of his mouth before he has thought about it.",
+    "Jamie crosses to the floorboard shown in the footage. He crouches and sees that the thick dust around it has been wiped away and fresh scratch marks run along the board's edge \u2014 this was done recently, not decades ago. He straightens and looks toward the bay window; through the glass, Mrs. Holt is standing at the window of the house next door, watching him without moving."
+  ],
+  "major_reveal": "The floorboard shown in the footage has been recently disturbed \u2014 meaning someone else already knows about the hiding spot and visited the house after the camera recorded the original hiding.",
+  "threads_advanced": [],
+  "threads_resolved": [],
+  "new_thread_created": "Who recently disturbed the floorboard \u2014 and why did they leave without taking what was hidden beneath it?",
+  "tone_guardrails": [
+    "Keep Jamie's reactions physical and understated \u2014 no dramatic internal speeches, no moment of sudden certainty",
+    "One major revelation only: the floorboard has been recently disturbed",
+    "Do not introduce the Warner family name or any backstory about the house's history",
+    "Margaret's phone call must feel routine on the surface; the tension lives only in what Jamie chooses to withhold, not in anything Margaret says directly"
+  ],
+  "forbidden_moves": [
+    "Do not show or name the contents of the metal box",
+    "Do not reveal who disturbed the floorboard",
+    "Do not name the Warner family",
+    "Do not let Mrs. Holt speak to Jamie or make contact in any way",
+    "Do not let Jamie lift the floorboard",
+    "Do not have Margaret appear in person \u2014 the phone call is sufficient"
+  ],
+  "vocabulary_targets": [
+    "footage",
+    "disturb",
+    "scratch",
+    "wrap",
+    "charge",
+    "tuck",
+    "investigate"
+  ],
+  "ending_hook": "Jamie stands over the disturbed floorboard in an empty house, camera in hand, knowing someone was here before him \u2014 and that Mrs. Holt, still and silent in the window next door, has probably been watching for longer than he has."
+}

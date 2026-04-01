@@ -1,0 +1,228 @@
+{
+  "metadata": {
+    "title": "What the Floor Hides",
+    "genre": "mystery",
+    "cefr_level": "B2",
+    "target_subband": "B2-mid",
+    "setting": "A quiet English town in the present day, where an abandoned terrace house on Crane Street conceals a fifty-year-old secret.",
+    "tone": "tense, grounded"
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Jamie Cole",
+      "role": "protagonist",
+      "description": "A 20-year-old with dark hair and restless eyes who is quick to notice things other people overlook.",
+      "flaw": "Acts on impulse without thinking through the risk to himself or others, which consistently puts him in danger before he is ready.",
+      "current_location": "loc_002",
+      "current_state": "sitting alone in the front room with the opened note and photographs, certain he holds written evidence of planned arson and that Voss suspects he has it",
+      "key_items": [
+        "old video camera (scratched casing, found wrapped in dark cloth behind the cupboard rag)",
+        "opened metal box (rusted lock forced open with a flat-head screwdriver, retrieved from beneath the third floorboard)",
+        "three black-and-white photographs (showing the Crane Street house with smoke-marked windows and scorched plaster; two unidentified figures with their backs to the camera in the third photograph)",
+        "handwritten note dated 14 February 1974 (names R. Voss at the top; describes a planned arrangement to clear the Crane Street property by arson while the Warners were still living there; ink faded to brown; no second signature)"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Margaret Voss",
+      "role": "antagonist",
+      "description": "A 45-year-old estate agent with neat clothes and a businesslike manner who hired Jamie to clear the house quickly.",
+      "flaw": "Prioritises protecting her family's reputation above honesty, which makes her reckless when she feels cornered.",
+      "current_location": "loc_002",
+      "current_state": "departed the house after questioning Jamie directly about unusual finds and looking at his bag; warned him to call immediately if he found anything; whereabouts now unknown",
+      "key_items": []
+    },
+    {
+      "id": "char_003",
+      "name": "Mrs. Holt",
+      "role": "supporting",
+      "description": "A sharp-eyed woman in her mid-seventies who has lived next door to the abandoned house for decades and notices everything.",
+      "flaw": "Stays silent when speaking out would help, because she fears the trouble that telling the truth might bring.",
+      "current_location": "loc_004",
+      "current_state": "deliberately withholding further information, having closed the door on Jamie after confirming the Warners' disappearance",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "The Abandoned House, Crane Street",
+      "description": "A narrow two-storey terrace house, empty for decades, its walls streaked with damp and its hallway thick with the smell of old plaster."
+    },
+    {
+      "id": "loc_002",
+      "name": "The Front Room",
+      "description": "The largest room in the house, with a wide bay window facing the street, wide bare floorboards, and a single old cupboard set into the wall beside the fireplace."
+    },
+    {
+      "id": "loc_003",
+      "name": "Voss Estate Agency",
+      "description": "A glass-fronted office on the high street, always tidy, with a framed photo of the town on the wall and a strong smell of fresh coffee."
+    },
+    {
+      "id": "loc_004",
+      "name": "Mrs. Holt's House",
+      "description": "The terrace house immediately next door, its front window offering a direct view of the Crane Street property's entrance and front room."
+    }
+  ],
+  "episode_history": [
+    {
+      "episode": 1,
+      "summary": "Jamie begins clearing the abandoned house on Crane Street and finds an old video camera tucked behind a rag in the front-room cupboard, wrapped in dark cloth. The camera footage shows an unidentified middle-aged man hiding a rectangular object beneath a floorboard near the bay window. When Jamie investigates the same floorboard, he finds the dust wiped away and fresh scratch marks along its edge, showing it has been disturbed recently \u2014 someone else has already located the hiding spot but left without taking what is there. Jamie says nothing to Margaret Voss when she calls, and as he stands by the window he notices Mrs. Holt next door watching him with silent, unbroken attention."
+    },
+    {
+      "episode": 2,
+      "summary": "Jamie knocks on Mrs. Holt's door and shows her the camera footage; she identifies the man as Frank Warner and reveals that the Warner family \u2014 Frank, his wife, and their young daughter \u2014 vanished overnight from the house in 1974, with the property sitting empty ever since, before closing the door and refusing to say more. Back in the front room, Jamie lifts the third floorboard and retrieves a small metal box wrapped in grey cloth, its lock rusted solid; he hides it in his bag and replaces the floorboard so the room appears undisturbed. Margaret Voss arrives unexpectedly to check on progress and, while appearing casual, moves her eyes directly to the exact floorboard spot and holds them there one beat too long \u2014 leaving Jamie unable to tell whether she already knows the box is gone."
+    },
+    {
+      "episode": 3,
+      "summary": "Voss, still in the front room, asked Jamie directly whether he had found anything unusual, then warned him to call her immediately if he did before departing. Once her car had left Crane Street, Jamie forced open the metal box with a screwdriver and found three black-and-white photographs of the house showing severe fire and smoke damage, and a sealed envelope containing a handwritten note dated 14 February 1974. The note names R. Voss at the top and describes a deliberate plan to clear the Crane Street property by arson while the Warners were still living there, constituting written evidence of the crime. Jamie sits with the opened evidence, aware that the name on the note matches the woman who just walked out and that she very likely suspects he has it."
+    }
+  ],
+  "unresolved_threads": [
+    {
+      "id": "thread_002",
+      "description": "Someone recently disturbed the floorboard and located the hiding spot but left without taking the box \u2014 Voss's visit in Episode 3, in which she asked Jamie specifically about unusual finds and looked directly at his bag before leaving, further implicates her, but her role in the original disturbance has still not been confirmed on the page."
+    },
+    {
+      "id": "thread_003",
+      "description": "Mrs. Holt confirmed the Warners vanished overnight in 1974 but then deliberately closed the door \u2014 she knows more than she has said, and it is unclear what she is protecting or afraid of."
+    },
+    {
+      "id": "thread_004",
+      "description": "Jamie is concealing the camera, the opened box, the photographs, and the note from Margaret Voss \u2014 he has now lied to her face when she asked directly, and the episode ends with Jamie convinced she suspects he has it. What he will do with the evidence and what happens when she acts on her suspicion remain open."
+    },
+    {
+      "id": "thread_006",
+      "description": "The handwritten note found in the box names 'R. Voss' in connection with planned arson in 1974 \u2014 who is R. Voss, and what is their relationship to Margaret Voss?"
+    }
+  ],
+  "series_plan": {
+    "total_episodes": 6,
+    "central_question": "What secret did the Warner family hide in that house fifty years ago, and who is willing to bury it again today?",
+    "arc_beats": [
+      {
+        "episode": 1,
+        "act": "setup",
+        "role": "establish",
+        "beat": "Jamie finds the old camera, watches the footage of the hiding, and discovers the floorboard has already been recently disturbed \u2014 someone else knows."
+      },
+      {
+        "episode": 2,
+        "act": "rising",
+        "role": "complicate",
+        "beat": "Jamie finds the metal box still hidden beneath the floor, and Mrs. Holt tells him who the family on the tape were \u2014 the Warners, who vanished from the street overnight in 1974."
+      },
+      {
+        "episode": 3,
+        "act": "rising",
+        "role": "reveal",
+        "beat": "Jamie opens the box and finds photographs and a handwritten note that point to a deliberate arson in 1974 \u2014 and the name on the note is Voss."
+      },
+      {
+        "episode": 4,
+        "act": "midpoint",
+        "role": "pressure",
+        "beat": "Margaret confronts Jamie, takes the box from him, and warns him to stop; Jamie is left with nothing physical \u2014 only the camera footage."
+      },
+      {
+        "episode": 5,
+        "act": "climax",
+        "role": "confront",
+        "beat": "Jamie uses the camera footage and Mrs. Holt's testimony to force the truth into the open, facing direct intimidation from Margaret."
+      },
+      {
+        "episode": 6,
+        "act": "resolution",
+        "role": "resolve",
+        "beat": "The truth about the 1974 arson and the Warner family's disappearance is exposed; consequences fall on those responsible, and Jamie's choice to act despite real risk is shown to matter."
+      }
+    ],
+    "thread_management": {
+      "max_open_threads": 4,
+      "new_threads_allowed_until": 3,
+      "all_threads_resolved_by": 6
+    }
+  },
+  "vocabulary_introduced": {
+    "episode": 3,
+    "from_targets": [
+      {
+        "word": "examine",
+        "context": "\"He began examining the photographs one by one.\" / \"He examined each line carefully.\""
+      },
+      {
+        "word": "signature",
+        "context": "\"He looked for a signature further down, but there wasn't one \u2014 just eight lines of close writing.\""
+      },
+      {
+        "word": "contents",
+        "context": "\"The contents surprised him.\" / \"The contents of the note were plain enough.\""
+      },
+      {
+        "word": "sealed",
+        "context": "\"the lid was sealed \u2014 rust had worked into the lock and packed the thin gap around the seam\" / \"It had been sealed shut and was slightly swollen\""
+      },
+      {
+        "word": "evidence",
+        "context": "\"It was evidence of arson \u2014 real and readable, fifty years old.\" / \"He was holding physical evidence of a plan to burn this house down\""
+      },
+      {
+        "word": "arson",
+        "context": "\"The method was fire \u2014 arson, planned deliberately while the Warners were still living on this street.\""
+      },
+      {
+        "word": "envelope",
+        "context": "\"a small envelope\" / \"He picked up the envelope. It had been sealed shut\" / \"He opened it carefully along the top edge\""
+      }
+    ],
+    "additional_scaffolded_words": [
+      {
+        "word": "scorched",
+        "context": "\"the plaster around the frames was scorched\" \u2014 meaning: burned and marked on the surface by fire, used alongside 'smoke marks' and 'severe damage' to make meaning clear"
+      },
+      {
+        "word": "swollen",
+        "context": "\"slightly swollen, the paper soft from years of damp\" \u2014 meaning: expanded and distorted from absorbing moisture over time"
+      },
+      {
+        "word": "faded",
+        "context": "\"The ink had faded to brown\" \u2014 meaning: lost its original colour over time, becoming weaker and less distinct"
+      }
+    ]
+  },
+  "vocabulary_taught": [
+    "footage",
+    "disturb",
+    "scratch",
+    "wrap",
+    "charge",
+    "tuck",
+    "investigate",
+    "grainy",
+    "brisk",
+    "compact",
+    "vanish",
+    "hesitate",
+    "convince",
+    "property",
+    "lock",
+    "recognise",
+    "clue",
+    "rusted",
+    "casual",
+    "level",
+    "examine",
+    "signature",
+    "contents",
+    "sealed",
+    "evidence",
+    "arson",
+    "envelope",
+    "scorched",
+    "swollen",
+    "faded"
+  ],
+  "last_scene_position": "Jamie is sitting on the bare floor of the front room (loc_002), holding the handwritten note dated 14 February 1974, with the three photographs of the fire-damaged Crane Street house laid out beside him and the opened metal box nearby. He has just read the note a second time, confirmed that it names R. Voss in connection with planned arson, and connected that name to the woman who stood in this room minutes ago and asked him \u2014 pleasantly, directly \u2014 whether he had found anything unusual. What he will do with the evidence, and whether Voss will act on her suspicion before he can, remains unresolved. Episode 4 begins after this moment."
+}

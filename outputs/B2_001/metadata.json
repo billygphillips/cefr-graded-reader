@@ -1,0 +1,13 @@
+{
+  "story_id": "B2_001",
+  "created": "2026-04-01T19:04:13.379700",
+  "level": "B2",
+  "seed": "A young man gets a weekend job helping to clean out an old, abandoned house. In a dusty cupboard, he finds an old video camera. The tape inside shows the exact room he is standing in, fifty years ago \u2014 and the family is hiding a small metal box under the floorboards.",
+  "total_episodes": 6,
+  "provider": "anthropic",
+  "director_model": "claude-sonnet-4-6",
+  "director_token_usage": {
+    "input_tokens": 2870,
+    "output_tokens": 8099
+  }
+}

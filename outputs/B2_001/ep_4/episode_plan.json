@@ -1,0 +1,72 @@
+{
+  "episode_number": 4,
+  "hook": "Jamie, sitting alone in the front room with the evidence in his lap, makes the worst possible decision: he packs everything into his bag and walks straight to Margaret Voss.",
+  "goal": "Jamie wants to confront Voss with the note and force her to explain herself \u2014 but he has no plan beyond that, and walking into her office on her terms gives her every advantage.",
+  "start_state": {
+    "location": "loc_002 (The Front Room), moving quickly to loc_003 (Voss Estate Agency)",
+    "time": "afternoon",
+    "with_whom": [],
+    "items": [
+      "old video camera (scratched casing, wrapped in dark cloth, in bag)",
+      "opened metal box (in bag)",
+      "three black-and-white photographs (in bag)",
+      "handwritten note dated 14 February 1974 (in bag)"
+    ],
+    "knowledge": [
+      "The note names R. Voss in connection with a planned arson while the Warners were still living in the house",
+      "The photographs show severe fire and smoke damage to the Crane Street house",
+      "Voss asked him directly about unusual finds and looked at his bag before leaving",
+      "Mrs. Holt confirmed the Warner family vanished overnight in 1974 and then closed the door"
+    ],
+    "suspicions": [
+      "Voss was the person who recently disturbed the floorboard \u2014 she knew what was hidden there",
+      "Voss will try to take the evidence before Jamie can act on it"
+    ]
+  },
+  "continuity_rules": [
+    "Must begin after Jamie has read the note a second time in the front room \u2014 do not re-show that moment",
+    "Must not describe the contents of the note or photographs again in detail \u2014 the reader already knows them",
+    "Must not have Mrs. Holt appear or speak in this episode \u2014 save her for Episode 5",
+    "Must not contradict that Voss has already left Crane Street by car at the end of Episode 3",
+    "The camera must remain in Jamie's bag throughout the confrontation and must not be mentioned by Voss"
+  ],
+  "key_events": [
+    "Jamie stands up from the front-room floor, unable to sit still \u2014 he has written evidence naming Voss and no idea what to do with it, so he acts on instinct: he zips his bag shut, leaves the house, and walks directly to Voss Estate Agency on the high street, telling himself he will make her explain the note to his face, though he has no plan beyond that first moment.",
+    "Voss receives him at her desk with a stillness that unsettles him \u2014 when he sets the note and the photographs down in front of her, she does not flinch; she tells him calmly that she had already been inside the Crane Street house before his first day of work, that she had found the loose floorboard and searched beneath it, but that she had run out of time and left before she could take the box \u2014 confirming, without Jamie having to ask, that she was the one who disturbed the hiding spot.",
+    "Voss picks up the note, reads it without any change in expression, and then tells Jamie that R. Voss was her father, Robert Voss, dead now for twenty years; she says the note is not the full story and that he does not understand what he is involved in; she slides a figure across the desk \u2014 the rest of his payment plus extra \u2014 and tells him the job is finished and he should go home.",
+    "Jamie does not take the money and does not speak; Voss does not wait \u2014 she collects the note, the photographs, and the box, places them in her desk drawer, and turns the small key in the lock; she tells him quietly that asking questions about 1974 will not help him or anyone else, and that she expects not to hear from him again; Jamie walks out of the office with his bag on his shoulder and the camera still inside it, never mentioned by either of them."
+  ],
+  "major_reveal": "R. Voss, named in the 1974 note, was Margaret Voss's father, Robert Voss \u2014 explaining why she has gone to these lengths to recover the evidence and why her family's reputation is the thing she is most afraid of losing.",
+  "threads_advanced": [
+    "thread_003 \u2014 Voss's claim that the note 'does not tell the full story' signals that the 1974 events are more complicated than the note alone reveals, pointing toward what Mrs. Holt is still withholding",
+    "thread_004 \u2014 Voss takes the box, note, and photographs but does not ask about the camera; Jamie leaves the agency still holding the one piece of evidence Voss does not know exists"
+  ],
+  "threads_resolved": [
+    "thread_002 \u2014 Voss confirms directly that she entered the Crane Street house before Jamie's first day and searched beneath the floorboard herself, resolving who disturbed the hiding spot",
+    "thread_006 \u2014 R. Voss is identified as Robert Voss, Margaret Voss's father, answering the question of the name on the note and its connection to her"
+  ],
+  "new_thread_created": null,
+  "tone_guardrails": [
+    "Voss must be intimidating through calm authority and professional control \u2014 no physical threats, no raised voices, no melodrama",
+    "The offer of money must feel like a real and uncomfortable pressure on Jamie, not a cartoon bribe",
+    "Only one major revelation: R. Voss is her father \u2014 do not also reveal what actually happened to the Warners",
+    "Jamie's decision to walk into Voss's office must read as a genuine character flaw \u2014 impulsive and underplanned \u2014 not as bravery or cleverness"
+  ],
+  "forbidden_moves": [
+    "Do not describe the note's contents again in detail \u2014 reference it, do not retell it",
+    "Do not have Voss mention or notice the camera",
+    "Do not reveal what happened to the Warner family \u2014 that belongs to Episode 5 and 6",
+    "Do not introduce any new character or location not already established in the story bible",
+    "Do not have Jamie successfully resist or outmanoeuvre Voss \u2014 she wins this encounter"
+  ],
+  "vocabulary_targets": [
+    "confront",
+    "deny",
+    "demand",
+    "reputation",
+    "threaten",
+    "pressure",
+    "bluff"
+  ],
+  "ending_hook": "Jamie walks away from Voss's office with only the camera in his bag \u2014 the one thing she never asked about. The note is gone, the photographs are gone, the box is gone. All he has left is footage of a man who vanished fifty years ago. He turns back toward Crane Street, and when he reaches Mrs. Holt's door, he stops and raises his hand to knock."
+}

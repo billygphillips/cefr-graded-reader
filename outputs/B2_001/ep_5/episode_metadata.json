@@ -1,0 +1,59 @@
+{
+  "story_id": "B2_001",
+  "episode": 5,
+  "level": "B2",
+  "director": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "director_b2_v5",
+    "max_tokens": 12000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 5632,
+      "output_tokens": 14596
+    },
+    "duration_s": 240.3,
+    "timestamp": "2026-04-01T19:42:13.838148"
+  },
+  "writer": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "writer_b2_v6",
+    "max_tokens": 12000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 4429,
+      "output_tokens": 7569
+    },
+    "duration_s": 110.3,
+    "timestamp": "2026-04-01T19:44:04.121470"
+  },
+  "state_manager": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "state_manager_v4",
+    "max_tokens": 16000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 5544,
+      "output_tokens": 6897
+    },
+    "duration_s": 127.4,
+    "timestamp": "2026-04-01T19:46:11.813843"
+  },
+  "classifier": {
+    "predicted": "B1",
+    "target": "B2",
+    "confidence": 0.577843537170775,
+    "probs": {
+      "A2": 0.03271517572244943,
+      "B1": 0.577843537170775,
+      "B2": 0.16257142356627016,
+      "C1": 0.22686986354050537
+    }
+  },
+  "continuity_warnings": [
+    "Voss arrives at Mrs. Holt's house and immediately looks at Jamie, indicating she knew he was there, but no on-page explanation is given for how she learned his location. She offers only 'I was just passing' as cover, which the prose frames as a pretext, but whether she followed him from Crane Street, drove past and saw him enter, or guessed is never shown."
+  ],
+  "review_needed": true
+}

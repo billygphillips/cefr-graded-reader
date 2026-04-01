@@ -1,0 +1,65 @@
+{
+  "episode_number": 2,
+  "hook": "Kai stands in the hallway with a drag mark at his feet and a dark staircase above him, and he must choose: go up, or go back.",
+  "goal": "Find the correct floorboard in the back room.",
+  "start_state": {
+    "location": "The hallway of the Old House (loc_001)",
+    "time": "daytime, continuous from Episode 1 ending",
+    "with_whom": [],
+    "items": [
+      "old video camera (in bag)",
+      "bag of cleaning supplies (including a screwdriver)",
+      "house key given by Mr. Holt"
+    ],
+    "knowledge": [
+      "A frightened family hid a metal box under a floorboard in the back room",
+      "The tape shows the hiding, but the correct board was not identified in Episode 1",
+      "A long straight drag mark appeared in the hallway dust between his arrival and departure in Episode 1"
+    ],
+    "suspicions": [
+      "Someone else was in the house during or after his last visit",
+      "The box may still be under the floor"
+    ]
+  },
+  "continuity_rules": [
+    "Must open at the moment Kai turns away from the staircase \u2014 do not re-stage the drag mark discovery as a new event",
+    "Camera is already in his bag from Episode 1 \u2014 do not describe finding it again",
+    "Must not reveal the intruder's identity or connect them to any named character yet",
+    "Must not open the box \u2014 that is Episode 3's beat",
+    "Holt's phone manner should be curt and dismissive, not obviously sinister \u2014 the HOLT connection is reserved for Episode 3"
+  ],
+  "key_events": [
+    "Kai stares at the dark staircase but does not climb it \u2014 the box is his priority, and the drag mark has already unnerved him. He turns away and walks back to the back room.",
+    "In the back room, Kai replays the tape on the camera screen very slowly. This time he notices a detail he missed before: the board the family knelt beside, in the corner nearest the window, has a thin crack running across it. He looks at the real floor and finds the matching board \u2014 the crack is still there. He is certain this is the right one.",
+    "Before Kai can try to lift the board, he sees a fresh bootprint in the dust near the cupboard. It is wide and flat. His own boot makes a narrower print beside it. Someone else entered this room after his last visit. Kai does not leave. His curiosity is stronger than his fear.",
+    "Kai phones Mr. Holt and asks if anyone else has a key to the house. Holt says no \u2014 only Kai has one. Holt asks why Kai is asking. Kai says he noticed some marks in the dust. Holt says old houses are full of dust and tells Kai to finish the job. He ends the call before Kai can say anything more.",
+    "Kai presses the screwdriver into the edge of the cracked board and pushes hard. The board does not move. It is nailed in tight on every side. He needs a crowbar \u2014 a tool he does not have with him. He puts the screwdriver back, picks up his bag, and leaves the house."
+  ],
+  "major_reveal": "Kai identifies the correct floorboard \u2014 the cracked board in the corner of the back room nearest the window \u2014 by matching a detail on the tape to the real floor.",
+  "threads_advanced": [
+    "thread_001 \u2014 Kai now knows the exact board beneath which the box is hidden",
+    "thread_002 \u2014 the fresh bootprint confirms the unknown person has returned to the back room since Kai's last visit, making the threat active rather than past"
+  ],
+  "threads_resolved": [],
+  "new_thread_created": "thread_003 \u2014 Does the unknown person already know which floorboard hides the metal box?",
+  "tone_guardrails": [
+    "The intruder must remain entirely off-screen \u2014 only their physical trace is visible",
+    "Holt's curtness on the phone should read as an employer being impatient, not a villain being evasive",
+    "Do not stack suspicion on Holt \u2014 keep the dramatic irony light at this stage"
+  ],
+  "forbidden_moves": [
+    "Do not show Kai climbing or exploring the staircase in this episode",
+    "Do not reveal the identity of the person who made the bootprint or the drag mark",
+    "Do not open or move the floorboard \u2014 Kai cannot lift it",
+    "Do not re-present the drag mark as a fresh discovery \u2014 Kai already knows it was there",
+    "Do not make Holt's reaction on the phone feel threatening \u2014 save that tension for Episode 3 and beyond"
+  ],
+  "vocabulary_targets": [
+    "crack \u2014 a thin break or line running across a hard surface",
+    "footprint \u2014 the mark a shoe or boot leaves in dust or soft ground",
+    "corner \u2014 the place inside a room where two walls meet",
+    "tight \u2014 fixed very firmly so it cannot easily move",
+    "crowbar \u2014 a heavy metal bar used to force open or lift something"
+  ],
+  "ending_hook": "Kai knows exactly where the box is \u2014 but someone else keeps coming back to that same room, and he cannot be sure they do not already know the same thing."
+}

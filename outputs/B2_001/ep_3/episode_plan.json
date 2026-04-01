@@ -1,0 +1,73 @@
+{
+  "episode_number": 3,
+  "hook": "Voss asks Jamie directly whether he has found anything unusual in the house \u2014 a question that sounds polite but isn't.",
+  "goal": "Jamie must get Voss out of the house without revealing he has the box, then open it alone and find out what it contains.",
+  "start_state": {
+    "location": "The Front Room, Crane Street (loc_002)",
+    "time": "afternoon",
+    "with_whom": [
+      "Margaret Voss (char_002)"
+    ],
+    "items": [
+      "old video camera (wrapped in dark cloth, in bag)",
+      "small metal box (wrapped in grey cloth, in bag, lock still rusted shut)",
+      "flat-head screwdriver and other clearing tools in tool bag"
+    ],
+    "knowledge": [
+      "The Warners \u2014 Frank, his wife, and daughter \u2014 vanished overnight from this house in 1974",
+      "The camera footage shows Frank Warner hiding something beneath the third floorboard",
+      "The floorboard had been disturbed before Jamie arrived \u2014 someone found the hiding spot recently",
+      "The metal box has a rusted lock he has not yet opened",
+      "Voss's eyes went directly to the exact floorboard spot at the end of Episode 2"
+    ],
+    "suspicions": [
+      "Voss is the person who disturbed the floorboard before Jamie arrived",
+      "Voss came to the house today specifically to look for the box",
+      "Mrs. Holt knows more about the Warners' disappearance than she has said"
+    ]
+  },
+  "continuity_rules": [
+    "Must begin immediately after Voss's eyes moved to the floorboard spot \u2014 do not re-show that discovery",
+    "Must not repeat the information that the Warners vanished in 1974 as a new revelation \u2014 it is already known",
+    "Must not contradict: box is in Jamie's bag, floorboard has been replaced and looks undisturbed, camera is also in the bag",
+    "Voss has not yet asked about the bag directly \u2014 she only glanced at it; this episode may escalate that tension",
+    "The box has not been opened yet \u2014 its contents are unknown until this episode"
+  ],
+  "key_events": [
+    "Voss asks, with exaggerated calm, whether Jamie has come across anything 'unusual' in the house \u2014 her eyes still carrying the weight of that glance toward the floorboard. Jamie says no, just old rubbish, nothing worth keeping. Voss holds the pause one beat too long before giving him a Friday deadline and telling him to call her immediately if he finds anything; her voice is pleasant but the instruction feels like a warning. As she moves toward the door, her eyes pass over the bag on the floor. She says nothing about it and leaves. [THEREFORE Jamie is alone \u2014 BUT Voss's glance at the bag tells him the question was not really about the floorboard: she suspects the box may be gone]",
+    "Jamie waits by the bay window until Voss's car turns off Crane Street, then kneels beside the bag and takes out the metal box. The lid is sealed tight \u2014 rust has fused the lock and filled the small gap around the seam. He takes a flat-head screwdriver from his tool bag and works it into the edge. The metal resists. He tries again with more force. [THEREFORE he is working to open it \u2014 BUT the difficulty stretches the tension and gives him time to think about what Voss just said]",
+    "The lock gives with a dull crack. Jamie opens the box. Inside, wrapped in a piece of folded cloth, are three black-and-white photographs and a small envelope. He examines the photographs one by one: they show the front of the Crane Street house, but the windows are dark with smoke marks and the plaster around the frames is scorched. In one photograph, two figures stand near the front step, but their faces are turned away from the camera. [THEREFORE the photographs point clearly to a fire at this house \u2014 BUT the envelope is what Jamie reaches for next]",
+    "Jamie opens the envelope and unfolds the single sheet inside. The handwriting is tight and slanted, the ink faded to brown. At the top, a date: 14 February 1974. Below it, a name: R. Voss. The note is short \u2014 no more than eight lines \u2014 but its contents are unmistakable: it describes an arrangement between two parties to 'clear the Crane Street property' using fire, and refers to the Warner family leaving before it happens. Jamie reads it twice. He turns it over. There is no other signature, no address. He sets it down on the floorboard beside him and stares at it. The name Voss is written in the same careful hand as the rest of the note \u2014 not added later, not accidental. It was always there. [THEREFORE this is real, physical evidence of planned arson connecting the Voss name to the Warners' disappearance \u2014 BUT Jamie now faces a harder question: Voss told him to call her immediately if he found anything, and he suspects she already knows the box is missing]"
+  ],
+  "major_reveal": "The handwritten note in the box, dated February 1974 and addressed to 'R. Voss', describes a deliberate plan to clear the Crane Street house by fire \u2014 linking the Voss family directly to the Warner family's disappearance fifty years ago.",
+  "threads_advanced": [
+    "thread_004: Jamie now knows exactly what he is hiding from Voss, and the stakes are much higher \u2014 this is not just a box but evidence of arson",
+    "thread_002: Voss's glance at the bag in this episode, combined with her pointed warning, makes it more strongly implied \u2014 though still not confirmed \u2014 that she is the one who disturbed the floorboard and knows the box should have been there"
+  ],
+  "threads_resolved": [
+    "thread_005: the metal box has been opened; its contents are now known \u2014 three photographs showing fire damage at the Crane Street house and a handwritten note addressed to R. Voss describing a plan to commit arson in February 1974"
+  ],
+  "new_thread_created": "The note is addressed to 'R. Voss' \u2014 who is R. Voss, what is their relationship to Margaret, and how much does Margaret know about what the note says?",
+  "tone_guardrails": [
+    "The revelation comes through a physical object \u2014 a handwritten note \u2014 not through dialogue or exposition; keep it concrete",
+    "Only one major revelation: the Voss name on the arson note; do not also confirm Voss disturbed the floorboard in this episode",
+    "Jamie's reaction should be quiet and unsettled, not dramatic \u2014 he is a young man sitting alone in an empty room with something he did not expect to find",
+    "Voss's scene must carry subtext, not explicit threat \u2014 her politeness is the danger"
+  ],
+  "forbidden_moves": [
+    "Do not confirm that Voss was the person who disturbed the floorboard \u2014 this remains strongly implied but unconfirmed until a later episode",
+    "Do not reveal who R. Voss is or their relationship to Margaret \u2014 that question is introduced here and answered later",
+    "Do not have Jamie contact the police or Mrs. Holt in this episode \u2014 the ending should leave him alone with the decision",
+    "Do not re-explain who the Warners were \u2014 the reader already knows this from Episode 2"
+  ],
+  "vocabulary_targets": [
+    "examine",
+    "signature",
+    "contents",
+    "sealed",
+    "evidence",
+    "arson",
+    "envelope"
+  ],
+  "ending_hook": "Jamie is sitting alone on the bare floorboard, holding a note that names Voss in a plan to burn this house down fifty years ago. Voss has just told him to call her the moment he finds anything. He knows what she wants \u2014 and he knows she may already suspect he has it."
+}

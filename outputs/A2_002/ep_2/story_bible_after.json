@@ -1,0 +1,149 @@
+{
+  "metadata": {
+    "title": "The Box Under the Floor",
+    "genre": "mystery",
+    "cefr_level": "A2",
+    "target_subband": "A2-mid",
+    "setting": "A quiet small town in the present day, centred on an old abandoned house that holds a fifty-year-old secret.",
+    "tone": "tense, grounded"
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Kai",
+      "role": "protagonist",
+      "description": "A 19-year-old with short brown hair and an honest face who takes odd jobs to earn money but cannot stop himself from investigating things he should leave alone.",
+      "flaw": "too curious \u2014 he cannot ignore a mystery, even when stopping would be the safer choice",
+      "current_location": "loc_001",
+      "current_state": "left the house; certain of the correct floorboard but cannot lift it without a crowbar, and unsettled by the unexplained bootprint",
+      "key_items": [
+        "old video camera (taken from the back-room cupboard, placed in his bag)",
+        "bag of cleaning supplies",
+        "house key given by Mr. Holt"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Mr. Holt",
+      "role": "secondary \u2014 employer, significance to grow in later episodes",
+      "description": "A quiet man in his sixties with grey hair and careful, watchful eyes who hired Kai to clean out the old house.",
+      "flaw": "secretive \u2014 he shares as little information as possible",
+      "current_location": "loc_003",
+      "current_state": "not present; curt and dismissive on the phone, ended the call before Kai could say more",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "The Old House",
+      "description": "A two-storey wooden house on the edge of town, empty for many years, with dusty rooms, creaking floors, and boards nailed over some of the windows."
+    },
+    {
+      "id": "loc_002",
+      "name": "The Back Room",
+      "description": "A small bare room at the back of the old house with old wooden floorboards, a single built-in cupboard against the wall, and one dirty window facing the yard."
+    },
+    {
+      "id": "loc_003",
+      "name": "The Town",
+      "description": "A quiet small town where everyone knows each other and old stories are still passed between neighbours."
+    }
+  ],
+  "episode_history": [
+    {
+      "episode": 1,
+      "summary": "Kai begins cleaning the back room and finds an old video camera hidden in the built-in cupboard. The camera's tape shows a frightened family hiding a metal box beneath a floorboard in that same room \u2014 Kai searches every board but cannot identify the correct one. As he leaves, he notices a long straight drag mark in the hallway dust running from the foot of the staircase to the front door \u2014 a mark that was not there when he arrived."
+    },
+    {
+      "episode": 2,
+      "summary": "Kai replays the tape slowly and identifies the cracked floorboard in the corner of the back room nearest the window as the correct hiding spot by matching a detail on the tape to the real floor. He also finds a wide, flat bootprint near the cupboard that is not his, confirming someone else entered the room after his last visit; a phone call to Mr. Holt yields only a curt dismissal. When Kai tries to lift the board with his screwdriver, it will not move \u2014 the board is nailed too tight \u2014 and he leaves the house knowing he must return with a crowbar."
+    }
+  ],
+  "unresolved_threads": [
+    {
+      "id": "thread_001",
+      "description": "Who is the frightened family on the tape, and when did they hide the metal box?"
+    },
+    {
+      "id": "thread_002",
+      "description": "Who made the long drag mark in the hallway dust and the wide bootprint in the back room, and when \u2014 given that Kai did not see either mark on his first arrival?"
+    },
+    {
+      "id": "thread_003",
+      "description": "Does the unknown person already know which floorboard hides the metal box?"
+    }
+  ],
+  "series_plan": {
+    "total_episodes": 6,
+    "central_question": "What is hidden inside the metal box under the floorboards, and who does it truly belong to?",
+    "arc_beats": [
+      {
+        "episode": 1,
+        "act": "setup",
+        "role": "inciting-incident",
+        "beat": "Kai finds the video camera and watches the tape; he sees a frightened family hiding a metal box under a floorboard in the very room he is standing in, and he begins searching for the right board."
+      },
+      {
+        "episode": 2,
+        "act": "rising",
+        "role": "complication",
+        "beat": "Kai locates the correct floorboard but cannot lift it alone; he also finds fresh evidence that someone else has been inside the house very recently, raising the danger of his search."
+      },
+      {
+        "episode": 3,
+        "act": "midpoint",
+        "role": "reversal",
+        "beat": "Kai opens the box and finds a small key and an old photograph; the name 'HOLT' scratched on the lid connects the hidden secret directly to his employer."
+      },
+      {
+        "episode": 4,
+        "act": "rising",
+        "role": "escalation",
+        "beat": "An old neighbour recognises the photograph and tells Kai that the Holt family once owned the house and that the father disappeared with money that was not his; Kai begins to suspect Mr. Holt is the son trying to recover the box."
+      },
+      {
+        "episode": 5,
+        "act": "climax",
+        "role": "confrontation",
+        "beat": "Mr. Holt discovers Kai has the box and demands it back; Kai uses the key to reach the hidden contents at the old post office before Mr. Holt can stop him."
+      },
+      {
+        "episode": 6,
+        "act": "resolution",
+        "role": "resolution",
+        "beat": "The contents of the post office box prove that Mr. Holt's father stole the house from another family fifty years ago; the rightful owner is found, the documents are returned, and all secrets are answered."
+      }
+    ],
+    "thread_management": {
+      "max_open_threads": 4,
+      "new_threads_allowed_until": 3,
+      "all_threads_resolved_by": 6
+    }
+  },
+  "vocabulary_introduced": {
+    "episode": 2,
+    "from_targets": [
+      "crack \u2014 a thin break or line running across a hard surface (used as 'a thin crack running across one of the boards'; 'A thin crack, just like the one on the tape'; 'the crack in the board')",
+      "footprint \u2014 the mark a shoe or boot leaves in dust or soft ground (used as 'he saw a footprint. It was wide and flat.'; 'The footprint near the cupboard was not his')",
+      "corner \u2014 the place inside a room where two walls meet (used as 'He walked to the corner nearest the window')",
+      "tight \u2014 fixed very firmly so it cannot easily move (used as 'The board was tight. It would not lift.')",
+      "crowbar \u2014 a heavy metal bar used to force open or lift something (used as 'He needed a crowbar. A crowbar could get under the edge and force the board up.')"
+    ],
+    "additional_scaffolded": []
+  },
+  "vocabulary_taught": [
+    "floorboard \u2014 a single long piece of wood that makes up a floor",
+    "tape \u2014 a recorded video on a small cassette inside a camera",
+    "frightened \u2014 very scared, showing fear on the face and body",
+    "screen \u2014 the small flat surface on the camera that shows the video",
+    "nail \u2014 to hammer a nail through wood to fix it in place (verb use)",
+    "drag \u2014 to pull something heavy slowly across the floor",
+    "crack \u2014 a thin break or line running across a hard surface",
+    "footprint \u2014 the mark a shoe or boot leaves in dust or soft ground",
+    "corner \u2014 the place inside a room where two walls meet",
+    "tight \u2014 fixed very firmly so it cannot easily move",
+    "crowbar \u2014 a heavy metal bar used to force open or lift something"
+  ],
+  "last_scene_position": "Kai has just left the Old House (loc_001) at the end of Episode 2. In the back room (loc_002), he identified the cracked floorboard in the corner nearest the window as the correct hiding place, but could not lift it with a screwdriver because it is nailed too tight \u2014 he needs a crowbar he does not have. He also saw a wide, flat bootprint near the cupboard that is not his, and Mr. Holt dismissed his concerns on the phone. Kai left without the box; the floorboard is still nailed down and the identity of the person who left the bootprint is still unknown. The next episode must begin after Kai has left the house \u2014 he must return with a crowbar."
+}

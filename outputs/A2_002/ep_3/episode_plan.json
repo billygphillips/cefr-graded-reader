@@ -1,0 +1,68 @@
+{
+  "episode_number": 3,
+  "hook": "Kai needs a crowbar and someone nearby has one \u2014 but borrowing it means answering questions he is not ready to answer.",
+  "goal": "Return to the back room, lift the cracked floorboard, and retrieve the metal box before the unknown intruder reaches it first.",
+  "start_state": {
+    "location": "The Town (loc_003), the morning after Episode 2",
+    "time": "morning",
+    "with_whom": [],
+    "items": [
+      "old video camera",
+      "bag of cleaning supplies",
+      "house key given by Mr. Holt"
+    ],
+    "knowledge": [
+      "The cracked floorboard in the corner nearest the window hides the metal box",
+      "The board is nailed too tight to lift with a screwdriver \u2014 he needs a crowbar",
+      "Someone else entered the back room and left a wide flat bootprint near the cupboard",
+      "Mr. Holt dismissed his concerns on the phone and ended the call quickly"
+    ],
+    "suspicions": [
+      "The person who left the bootprint may return to the house before he does",
+      "Mr. Holt may know more about the house than he admits"
+    ]
+  },
+  "continuity_rules": [
+    "Must begin after Kai has already left the Old House at the end of Episode 2 \u2014 do not re-show that departure",
+    "Must not re-identify the correct floorboard \u2014 Kai already knows which board it is",
+    "Must not repeat the bootprint discovery or the phone call to Mr. Holt",
+    "Must respect that the board was nailed tight and Kai has no crowbar at the start",
+    "The metal box must be under the board, undisturbed, exactly as the tape showed"
+  ],
+  "key_events": [
+    "Kai goes to Mrs. Webb's yard (loc_004) and asks to borrow her crowbar. She is suspicious \u2014 she wants to know why a cleaning job needs a crowbar. Kai says the job requires moving some old boards. She does not believe him fully, but she picks up the crowbar from her yard, holds it out, and says: 'That old house brings trouble. It always has.' Kai takes it without asking what she means. (micro-conflict: her warning is direct; he deflects rather than explains; her knowledge of the house is established but not yet shared \u2014 this seeds her role in Episode 4)",
+    "Kai enters the Old House and walks straight to the back room (loc_002). He kneels at the cracked floorboard in the corner nearest the window and slides the crowbar under the edge. He begins to force it up \u2014 but a loud creak sounds from directly above him, from somewhere upstairs. He pulls the crowbar out and sits very still. He waits. The creak does not repeat. The house is silent. He tells himself old houses always make sounds \u2014 but he works faster now, and he does not look away from the doorway. (dramatic irony: the reader knows someone has already been in the house; Kai suspects but cannot confirm; the threat stays off-screen)",
+    "Kai forces the crowbar down hard. The rusty nails groan and lift one by one. The floorboard comes up. He sets it aside and reaches into the dark gap below. His hand touches cold metal. He pulls out the box \u2014 heavy, dusty, exactly like the one on the tape. He stands up, tucks it under his arm, and walks quickly out of the house without stopping to look around.",
+    "Outside, a short distance down the road, Kai stops and opens the lid of the metal box. Inside: a small key on a short metal chain, and an old photograph \u2014 two adults and a young child standing in front of the old house, squinting in bright sunlight. He studies their faces. He does not know them. Then he turns the lid over and looks at the inside surface. Letters are scratched into the metal, cut deep with something sharp: H \u2014 O \u2014 L \u2014 T. He reads them twice. That is his employer's name."
+  ],
+  "major_reveal": "The name HOLT is scratched into the inside of the metal box lid, directly connecting the hidden box to Kai's employer, Mr. Holt.",
+  "threads_advanced": [
+    "thread_001 \u2014 the frightened family on the tape is now confirmed as connected to the name Holt; the photograph shows a family outside the same house, tightening this link",
+    "thread_002 \u2014 the creak from upstairs during Kai's visit suggests the unknown intruder was possibly in the house again at the same time; still unidentified"
+  ],
+  "threads_resolved": [
+    "thread_003 \u2014 the metal box was found undisturbed beneath the nailed board, confirming the unknown person had not yet located or opened it"
+  ],
+  "new_thread_created": "thread_004 \u2014 What does the small key found inside the metal box open?",
+  "tone_guardrails": [
+    "The creak from upstairs must create fear through stillness and silence \u2014 no footsteps, no voice, no figure; threat stays completely off-screen",
+    "The HOLT revelation must feel quiet and cold \u2014 Kai reads the letters, understands what they mean, and the episode ends; no dramatic reaction",
+    "Mrs. Webb's warning must be brief and understated \u2014 one pointed sentence, not an explanation",
+    "Do not stack revelations \u2014 the box contents and the HOLT name are one single connected reveal, not two separate shocks"
+  ],
+  "forbidden_moves": [
+    "Do not show or identify the person who made the creak upstairs",
+    "Do not have Mrs. Webb explain the history of the Holt family or the old house \u2014 that is Episode 4's job",
+    "Do not reveal what the small key opens",
+    "Do not show or mention Mr. Holt in this episode",
+    "Do not re-identify the correct floorboard \u2014 Kai already knows which one it is; move straight to the action of lifting it"
+  ],
+  "vocabulary_targets": [
+    "force \u2014 to push something with great strength so that it moves",
+    "rusty \u2014 covered in red-brown marks caused by old water and air",
+    "lid \u2014 the removable top cover of a box",
+    "scratch \u2014 to cut letters or marks into a surface with something sharp",
+    "photograph \u2014 a flat picture made by a camera, usually printed on paper"
+  ],
+  "ending_hook": "Kai stares at the letters H-O-L-T scratched into the metal lid and does not move \u2014 he does not know who the people in the photograph are, and he does not know what the small key opens."
+}

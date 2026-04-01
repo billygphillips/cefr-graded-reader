@@ -1,0 +1,66 @@
+{
+  "episode_number": 5,
+  "hook": "Jamie knocks on Mrs. Holt's door with nothing left but the camera and the truth.",
+  "goal": "Convince Mrs. Holt to speak openly about what she witnessed in 1974 and agree to give a formal statement to the police.",
+  "start_state": {
+    "location": "Mrs. Holt's House (loc_004)",
+    "time": "mid-morning",
+    "with_whom": [],
+    "items": [
+      "old video camera (scratched casing)"
+    ],
+    "knowledge": [
+      "Voss has taken the note, photographs, and box and locked them in her desk drawer",
+      "Voss does not know the camera exists",
+      "Mrs. Holt closed the door on Jamie in episode 2 after saying only that the Warners vanished overnight in 1974",
+      "R. Voss is Robert Voss, Margaret Voss's father, dead for twenty years",
+      "Voss entered the Crane Street house before Jamie's first day and found the loose floorboard"
+    ],
+    "suspicions": [
+      "Mrs. Holt witnessed something specific the night of the fire and has been protecting herself by staying silent",
+      "Voss may have watched when Jamie walked back from the high street toward Crane Street"
+    ]
+  },
+  "continuity_rules": [
+    "Must open with Jamie knocking \u2014 last_scene_position places him at the door, hand raised, having not yet knocked",
+    "Must not re-dramatise the Voss Agency confrontation from episode 4 \u2014 it may only be referenced briefly in dialogue",
+    "Must not contradict: camera is with Jamie; note, photos, and box are locked in Voss's drawer; Mrs. Holt has spoken once before but closed the door before revealing what she actually witnessed",
+    "Do not show the camera footage in detail \u2014 the Writer may reference it briefly but must not retell the scene from episode 1 or 2"
+  ],
+  "key_events": [
+    "Event 1 \u2014 Jamie knocks; Mrs. Holt opens the door and moves to close it again, but Jamie speaks before she can: he tells her quietly that Voss has taken everything and the camera is all that is left. The honesty of his position \u2014 that he has nothing to bargain with \u2014 is what makes her step back and let him in.",
+    "Event 2 \u2014 Inside, Jamie tells Mrs. Holt what happened at Voss Estate Agency: that Voss admitted her father planned the arson, took the evidence, and warned Jamie to stay silent. He holds up the camera as the only proof that remains. Mrs. Holt goes still. Then, for the first time, she speaks fully: the night of the fire in 1974, she saw the Warner family leave their house in the dark carrying bags; roughly an hour after they had gone, a fire started in the front room. A car was parked on the street with its lights off and she recognised it as belonging to Robert Voss. The following morning, he came to her door and warned her to say nothing. She has stayed silent for fifty years. [MAJOR REVEAL]",
+    "Event 3 \u2014 Before Jamie and Mrs. Holt can decide what to do next, there is a knock at the front door: Voss, who followed Jamie on foot from the high street. She steps inside and speaks calmly to them both \u2014 reminding Mrs. Holt that Voss Estate Agency manages her rental agreement, and telling Jamie that old camera footage of a man hiding a box proves nothing about any crime committed fifty years ago. Her voice is steady but the effort behind it is visible.",
+    "Event 4 \u2014 Voss entering her home and using the rental agreement as a threat is what finally breaks fifty years of silence. Mrs. Holt looks at Voss and tells her directly that she will give a statement to the police about what she saw that night. Voss says nothing more and leaves. As her car turns the corner and disappears, Jamie understands exactly where she is going \u2014 back to the office and the locked drawer \u2014 and realises he and Mrs. Holt need to move now."
+  ],
+  "major_reveal": "Mrs. Holt was a direct eyewitness to the night of the 1974 fire: the Warner family fled the house alive with their bags before the fire started, Robert Voss's car was parked nearby with its lights off, and he came to Mrs. Holt's door the next morning to warn her into silence.",
+  "threads_advanced": [
+    "thread_003",
+    "thread_004"
+  ],
+  "threads_resolved": [
+    "thread_003"
+  ],
+  "new_thread_created": null,
+  "tone_guardrails": [
+    "Voss must not make explicit threats \u2014 her power over Mrs. Holt through the rental agreement is implied, not stated as a direct ultimatum; ordinary institutional power is more chilling than melodrama",
+    "Mrs. Holt's decision to speak must feel earned by Voss crossing into her private space, not by a sudden change of heart; her flaw has been fear, and it is a specific violation that finally overrides it",
+    "Exactly one major revelation: Mrs. Holt's eyewitness account \u2014 do not layer additional shocking facts onto it"
+  ],
+  "forbidden_moves": [
+    "Do not re-dramatise the Voss Agency confrontation \u2014 episode 4 covered it; one brief reference in dialogue is enough",
+    "Do not have Jamie find or receive any new physical evidence \u2014 the camera is his only asset and must remain so",
+    "Do not introduce any new characters",
+    "Do not resolve thread_004 \u2014 the race between Jamie and Voss must carry as the final tension into episode 6"
+  ],
+  "vocabulary_targets": [
+    "witness",
+    "statement",
+    "flee",
+    "deliberate",
+    "steady",
+    "admit",
+    "protect"
+  ],
+  "ending_hook": "Voss's car has disappeared around the corner and Jamie knows exactly where she is going \u2014 back to her office and the locked drawer. He and Mrs. Holt have the camera footage and her eyewitness account, but Voss has the physical evidence and a head start."
+}

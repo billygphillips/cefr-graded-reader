@@ -1,0 +1,60 @@
+{
+  "story_id": "B2_001",
+  "episode": 3,
+  "level": "B2",
+  "director": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "director_b2_v5",
+    "max_tokens": 12000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 5211,
+      "output_tokens": 10076
+    },
+    "duration_s": 421.0,
+    "timestamp": "2026-04-01T19:24:36.786160"
+  },
+  "writer": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "writer_b2_v6",
+    "max_tokens": 12000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 4947,
+      "output_tokens": 8184
+    },
+    "duration_s": 111.8,
+    "timestamp": "2026-04-01T19:26:28.606986"
+  },
+  "state_manager": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "state_manager_v4",
+    "max_tokens": 16000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 5213,
+      "output_tokens": 9793
+    },
+    "duration_s": 166.3,
+    "timestamp": "2026-04-01T19:29:15.219455"
+  },
+  "classifier": {
+    "predicted": "C1",
+    "target": "B2",
+    "confidence": 0.4042274305358532,
+    "probs": {
+      "A2": 0.04332096350619653,
+      "B1": 0.3822328165877925,
+      "B2": 0.1702187893701578,
+      "C1": 0.4042274305358532
+    }
+  },
+  "continuity_warnings": [
+    "The episode opens within the scene described as last_scene_position rather than starting after it: last_scene_position stated that Episode 3 should begin after the moment Voss held her eyes on the floorboard one beat too long, but the episode opens with Voss still present in the room \u2014 'Voss brought her eyes back to Jamie's face' \u2014 which is the immediate next beat of the same scene rather than a fresh start after it.",
+    "A 'tool bag' containing a flat-head screwdriver is used by Jamie without prior mention in his key_items or in any previous episode's prose; while plausible for a house-clearance worker, the item was not established on the page before it was needed."
+  ],
+  "review_needed": true
+}

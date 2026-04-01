@@ -1,0 +1,212 @@
+{
+  "metadata": {
+    "title": "What the Floor Hides",
+    "genre": "mystery",
+    "cefr_level": "B2",
+    "target_subband": "B2-mid",
+    "setting": "A quiet English town in the present day, where an abandoned terrace house on Crane Street conceals a fifty-year-old secret.",
+    "tone": "tense, grounded"
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Jamie Cole",
+      "role": "protagonist",
+      "description": "A 20-year-old with dark hair and restless eyes who is quick to notice things other people overlook.",
+      "flaw": "Acts on impulse without thinking through the risk to himself or others, which consistently puts him in danger before he is ready.",
+      "current_location": "loc_002",
+      "current_state": "tense and guarded, hiding the metal box from Voss and uncertain whether she suspects it is gone",
+      "key_items": [
+        "old video camera (scratched casing, found wrapped in dark cloth behind the cupboard rag)",
+        "small metal box (rusted lock, retrieved from beneath the third floorboard, wrapped in old grey cloth inside his bag)"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Margaret Voss",
+      "role": "antagonist",
+      "description": "A 45-year-old estate agent with neat clothes and a businesslike manner who hired Jamie to clear the house quickly.",
+      "flaw": "Prioritises protecting her family's reputation above honesty, which makes her reckless when she feels cornered.",
+      "current_location": "loc_002",
+      "current_state": "appearing casual but visibly suspicious, her eyes having gone directly to the exact floorboard spot near the bay window",
+      "key_items": []
+    },
+    {
+      "id": "char_003",
+      "name": "Mrs. Holt",
+      "role": "supporting",
+      "description": "A sharp-eyed woman in her mid-seventies who has lived next door to the abandoned house for decades and notices everything.",
+      "flaw": "Stays silent when speaking out would help, because she fears the trouble that telling the truth might bring.",
+      "current_location": "loc_004",
+      "current_state": "deliberately withholding further information, having closed the door on Jamie after confirming the Warners' disappearance",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "The Abandoned House, Crane Street",
+      "description": "A narrow two-storey terrace house, empty for decades, its walls streaked with damp and its hallway thick with the smell of old plaster."
+    },
+    {
+      "id": "loc_002",
+      "name": "The Front Room",
+      "description": "The largest room in the house, with a wide bay window facing the street, wide bare floorboards, and a single old cupboard set into the wall beside the fireplace."
+    },
+    {
+      "id": "loc_003",
+      "name": "Voss Estate Agency",
+      "description": "A glass-fronted office on the high street, always tidy, with a framed photo of the town on the wall and a strong smell of fresh coffee."
+    },
+    {
+      "id": "loc_004",
+      "name": "Mrs. Holt's House",
+      "description": "The terrace house immediately next door, its front window offering a direct view of the Crane Street property's entrance and front room."
+    }
+  ],
+  "episode_history": [
+    {
+      "episode": 1,
+      "summary": "Jamie begins clearing the abandoned house on Crane Street and finds an old video camera tucked behind a rag in the front-room cupboard, wrapped in dark cloth. The camera footage shows an unidentified middle-aged man hiding a rectangular object beneath a floorboard near the bay window. When Jamie investigates the same floorboard, he finds the dust wiped away and fresh scratch marks along its edge, showing it has been disturbed recently \u2014 someone else has already located the hiding spot but left without taking what is there. Jamie says nothing to Margaret Voss when she calls, and as he stands by the window he notices Mrs. Holt next door watching him with silent, unbroken attention."
+    },
+    {
+      "episode": 2,
+      "summary": "Jamie knocks on Mrs. Holt's door and shows her the camera footage; she identifies the man as Frank Warner and reveals that the Warner family \u2014 Frank, his wife, and their young daughter \u2014 vanished overnight from the house in 1974, with the property sitting empty ever since, before closing the door and refusing to say more. Back in the front room, Jamie lifts the third floorboard and retrieves a small metal box wrapped in grey cloth, its lock rusted solid; he hides it in his bag and replaces the floorboard so the room appears undisturbed. Margaret Voss arrives unexpectedly to check on progress and, while appearing casual, moves her eyes directly to the exact floorboard spot and holds them there one beat too long \u2014 leaving Jamie unable to tell whether she already knows the box is gone."
+    }
+  ],
+  "unresolved_threads": [
+    {
+      "id": "thread_002",
+      "description": "Someone recently disturbed the floorboard and located the hiding spot but left without taking the box \u2014 who, and why did they stop? Voss's eyes going directly to the exact spot during her visit strongly implies she is the one, but this has not been confirmed on the page."
+    },
+    {
+      "id": "thread_003",
+      "description": "Mrs. Holt confirmed the Warners vanished overnight in 1974 but then deliberately closed the door \u2014 she knows more than she has said, and it is unclear what she is protecting or afraid of."
+    },
+    {
+      "id": "thread_004",
+      "description": "Jamie is now concealing both the camera and the metal box from Margaret Voss \u2014 what will he do with them, and what happens if she discovers they are gone?"
+    },
+    {
+      "id": "thread_005",
+      "description": "Jamie has the metal box but cannot open its rusted lock \u2014 what is inside it, and what will he find when it is opened?"
+    }
+  ],
+  "series_plan": {
+    "total_episodes": 6,
+    "central_question": "What secret did the Warner family hide in that house fifty years ago, and who is willing to bury it again today?",
+    "arc_beats": [
+      {
+        "episode": 1,
+        "act": "setup",
+        "role": "establish",
+        "beat": "Jamie finds the old camera, watches the footage of the hiding, and discovers the floorboard has already been recently disturbed \u2014 someone else knows."
+      },
+      {
+        "episode": 2,
+        "act": "rising",
+        "role": "complicate",
+        "beat": "Jamie finds the metal box still hidden beneath the floor, and Mrs. Holt tells him who the family on the tape were \u2014 the Warners, who vanished from the street overnight in 1974."
+      },
+      {
+        "episode": 3,
+        "act": "rising",
+        "role": "reveal",
+        "beat": "Jamie opens the box and finds photographs and a handwritten note that point to a deliberate arson in 1974 \u2014 and the name on the note is Voss."
+      },
+      {
+        "episode": 4,
+        "act": "midpoint",
+        "role": "pressure",
+        "beat": "Margaret confronts Jamie, takes the box from him, and warns him to stop; Jamie is left with nothing physical \u2014 only the camera footage."
+      },
+      {
+        "episode": 5,
+        "act": "climax",
+        "role": "confront",
+        "beat": "Jamie uses the camera footage and Mrs. Holt's testimony to force the truth into the open, facing direct intimidation from Margaret."
+      },
+      {
+        "episode": 6,
+        "act": "resolution",
+        "role": "resolve",
+        "beat": "The truth about the 1974 arson and the Warner family's disappearance is exposed; consequences fall on those responsible, and Jamie's choice to act despite real risk is shown to matter."
+      }
+    ],
+    "thread_management": {
+      "max_open_threads": 4,
+      "new_threads_allowed_until": 3,
+      "all_threads_resolved_by": 6
+    }
+  },
+  "vocabulary_introduced": {
+    "episode": 2,
+    "from_targets": [
+      {
+        "word": "vanish",
+        "context": "\"the whole family just \u2014 vanished\" \u2014 and earlier: \"Then one morning in 1974 they were gone. Overnight. No removal van, no goodbye.\""
+      },
+      {
+        "word": "hesitate",
+        "context": "\"Jamie hesitated for half a second, then held the camera up and turned the small screen towards her.\""
+      },
+      {
+        "word": "convince",
+        "context": "\"He was not sure he could convince her to say more if she chose to stop\" / \"He kept his voice even enough to convince her. Or to convince himself.\""
+      },
+      {
+        "word": "property",
+        "context": "\"The Warners lived in that property for about six years.\" / \"The property sat empty after that. Years and years.\""
+      },
+      {
+        "word": "lock",
+        "context": "\"The lock on the front was rusted solid, the kind that had not moved in years.\""
+      },
+      {
+        "word": "recognise",
+        "context": "\"Do you recognise him?\" / \"He recognised the look that followed: not confusion, but a decision.\""
+      },
+      {
+        "word": "clue",
+        "context": "\"He turned the box over, searching for any other clue \u2014 a name, a date, a mark\" / \"Anyone coming in would find no clue that anything had been disturbed.\""
+      }
+    ],
+    "additional_scaffolded_words": [
+      {
+        "word": "rusted",
+        "context": "\"The lock on the front was rusted solid, the kind that had not moved in years\" / \"the rusted lock hidden under a layer of old cloth\" \u2014 meaning: corroded by rust so that it no longer moves"
+      },
+      {
+        "word": "casual",
+        "context": "\"she walked a little further into the room, the way someone does when they want to appear casual\" \u2014 meaning: relaxed and unconcerned, as though nothing is wrong"
+      },
+      {
+        "word": "level",
+        "context": "\"Jamie kept his voice level\" / \"He kept his voice even enough\" \u2014 meaning: calm and controlled, showing no strong emotion"
+      }
+    ]
+  },
+  "vocabulary_taught": [
+    "footage",
+    "disturb",
+    "scratch",
+    "wrap",
+    "charge",
+    "tuck",
+    "investigate",
+    "grainy",
+    "brisk",
+    "compact",
+    "vanish",
+    "hesitate",
+    "convince",
+    "property",
+    "lock",
+    "recognise",
+    "clue",
+    "rusted",
+    "casual",
+    "level"
+  ],
+  "last_scene_position": "Jamie is standing in the front room of the abandoned house (loc_002), facing Margaret Voss, who has just let her eyes move directly to the exact spot of the third floorboard near the bay window and hold there one beat too long before smiling again. Jamie's bag, containing the metal box hidden beneath a layer of old grey cloth, sits on the floor behind him. Voss has said nothing to indicate she knows the box is gone, but Jamie cannot tell whether her stillness is genuine or strategic \u2014 this uncertainty is unresolved as the episode ends. Episode 3 begins after this moment."
+}

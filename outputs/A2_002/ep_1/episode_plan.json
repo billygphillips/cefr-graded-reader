@@ -1,0 +1,56 @@
+{
+  "episode_number": 1,
+  "hook": "Kai opens a cupboard in an empty back room and finds an old video camera hidden inside.",
+  "goal": "Find which floorboard in the back room hides the metal box from the tape.",
+  "start_state": {
+    "location": "The Old House \u2014 the back room (loc_002)",
+    "time": "morning",
+    "with_whom": [],
+    "items": [
+      "bag of cleaning supplies",
+      "house key given by Mr. Holt"
+    ],
+    "knowledge": [
+      "Mr. Holt hired Kai to clean and clear out the old house",
+      "The house has been empty for many years",
+      "Mr. Holt told Kai to start in the back rooms and ask no questions"
+    ],
+    "suspicions": []
+  },
+  "continuity_rules": [
+    "N/A \u2014 this is Episode 1; there is no prior scene position to follow",
+    "No key items exist yet; the camera must be discovered in this episode",
+    "Mr. Holt is established as employer only; do not make him suspicious yet"
+  ],
+  "key_events": [
+    "Event 1 \u2014 Kai begins cleaning the back room. He opens the built-in cupboard to empty it and finds an old video camera sitting on the shelf. He should put it in his rubbish bag, but he cannot. He is too curious. He picks it up.",
+    "Event 2 \u2014 The camera is old but still has power. Kai finds the small screen on its side and presses play. The tape shows a family inside this same room \u2014 he recognises the window and the cupboard behind them. The family looks frightened. A man kneels on the floor, lifts a floorboard, places a metal box inside, then nails the board back down. The tape cuts to black.",
+    "Event 3 \u2014 Therefore Kai kneels and searches every floorboard in the room. He presses on each board with both hands. But they all look the same \u2014 old, dark wood, close together \u2014 and none of them move. He cannot tell which one the man used. He presses harder on boards near the wall, then boards near the centre. Still nothing.",
+    "Event 4 \u2014 The light through the dirty window fades. Kai cannot keep searching in the dark. He puts the camera carefully into his bag, planning to watch the tape again at home. As he walks to the hallway, he stops. There is a long straight mark in the dust on the hallway floor, like something heavy was dragged. He did not see it when he arrived. He stares at it, then looks up at the dark staircase."
+  ],
+  "major_reveal": "A video tape proves that a metal box was hidden under a floorboard in the back room \u2014 and it is still there.",
+  "threads_advanced": [],
+  "threads_resolved": [],
+  "new_thread_created": "Who is the frightened family on the tape, and when did they hide the box?",
+  "tone_guardrails": [
+    "Keep the house grounded and physical \u2014 dust, dim light, old wood",
+    "The tape must feel like a real home video, not a dramatic performance",
+    "One revelation only: the box exists and is under a floorboard here",
+    "The drag mark is a quiet seed \u2014 do not over-explain it"
+  ],
+  "forbidden_moves": [
+    "Do not let Kai find the correct floorboard \u2014 that is Episode 2's beat",
+    "Do not reveal who the family on the tape is",
+    "Do not show Mr. Holt behaving suspiciously \u2014 he is employer only in this episode",
+    "Do not have anyone else appear in the house in person"
+  ],
+  "vocabulary_targets": [
+    "floorboard \u2014 a single long piece of wood that makes up a floor",
+    "tape \u2014 a recorded video on a small cassette inside a camera",
+    "frightened \u2014 very scared, showing fear on the face and body",
+    "screen \u2014 the small flat surface on the camera that shows the video",
+    "nail \u2014 to hammer a nail through wood to fix it in place (verb use)",
+    "drag \u2014 to pull something heavy slowly across the floor"
+  ],
+  "ending_hook": "The drag mark in the dust was not there when Kai arrived \u2014 so who made it, and when?"
+}

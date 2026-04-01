@@ -1,0 +1,67 @@
+{
+  "episode_number": 2,
+  "hook": "Jamie breaks eye contact with Mrs. Holt and, without stopping to think, walks straight out of the house and knocks on her door.",
+  "goal": "Jamie wants to understand who the man on the footage is and what is really beneath the floorboard, but he must move quickly and carefully before Voss finds out what he is doing.",
+  "start_state": {
+    "location": "loc_002, front room of the abandoned house",
+    "time": "daytime, continuing directly from Episode 1",
+    "with_whom": [],
+    "items": [
+      "old video camera (wrapped in dark cloth)"
+    ],
+    "knowledge": [
+      "Found the camera hidden in the front-room cupboard",
+      "Watched footage of an unidentified man hiding a rectangular object beneath the third floorboard near the bay window",
+      "The third floorboard has been recently wiped clean and has fresh scratch marks along its edge \u2014 someone disturbed it recently",
+      "Mrs. Holt next door was watching him through her window with unusual, unmoving attention",
+      "He told Voss nothing when she called"
+    ],
+    "suspicions": [
+      "Mrs. Holt knows something about the house or the people who lived there",
+      "Someone has already found the hiding spot under the floorboard but chose not to take what is there"
+    ]
+  },
+  "continuity_rules": [
+    "Must begin after the moment of eye contact between Jamie and Mrs. Holt through the front-room window \u2014 do not re-show that moment",
+    "Must not re-describe or re-explain the camera discovery or the initial floorboard examination \u2014 the reader already knows both",
+    "The camera is with Jamie at the start; the metal box is still beneath the floorboard",
+    "Voss does not yet know Jamie has the camera or has examined the floorboard"
+  ],
+  "key_events": [
+    "Jamie acts on impulse and knocks on Mrs. Holt's door \u2014 she starts to close it, suspicious of a stranger; but when Jamie holds up the small screen and plays the footage, she stops and stares, her hand still on the door frame.",
+    "Mrs. Holt recognises the man on the footage as Frank Warner and tells Jamie that the Warner family \u2014 a mother, a father, and a young daughter \u2014 disappeared from Crane Street overnight in 1974; neighbours were given no explanation; she adds nothing more, closes the door, and leaves Jamie standing on the step.",
+    "Jamie returns to the front room and lifts the third floorboard; beneath it, wrapped in a piece of old cloth, is a small, heavy metal box with a rusted lock \u2014 he puts it in his bag without opening it and replaces the floorboard so the gap is not obvious.",
+    "Voss arrives at the house unannounced; she makes conversation about progress, then asks \u2014 a little too casually \u2014 whether Jamie has come across anything interesting in the front room; before he answers, her gaze drifts to the exact spot in the floorboards and stays there a beat too long."
+  ],
+  "major_reveal": "The man on the camera is Frank Warner; the Warner family disappeared from Crane Street overnight in 1974, with no explanation given to anyone who lived nearby.",
+  "threads_advanced": [
+    "thread_001: the man on the camera is now identified as Frank Warner; the hidden object has been found \u2014 a locked metal box \u2014 but its contents are still unknown",
+    "thread_002: Voss's unprompted gaze at the exact floorboard location suggests she is the person who previously disturbed it, but Jamie has no proof",
+    "thread_003: Mrs. Holt shares the Warner family name and the fact of their overnight disappearance, but closes the door before saying more \u2014 she is clearly holding something back",
+    "thread_004: Jamie now has both the camera and the metal box hidden from Voss; her too-casual question raises the stakes for what happens if she finds out"
+  ],
+  "threads_resolved": [],
+  "new_thread_created": null,
+  "tone_guardrails": [
+    "One major revelation only: the Warner name and the 1974 disappearance",
+    "Voss's suspicion must be shown through behaviour \u2014 a glance held too long, a question asked too lightly \u2014 not stated directly",
+    "Mrs. Holt must feel guarded and deliberate, not suddenly open; she gives exactly as much as she chooses and no more",
+    "Keep the pacing grounded \u2014 no dramatic confrontation this episode; the tension is quiet and internal"
+  ],
+  "forbidden_moves": [
+    "Do not open the metal box \u2014 that is Episode 3's central event",
+    "Do not explain why the Warners disappeared \u2014 that is a later revelation",
+    "Do not have Voss search Jamie or directly accuse him of hiding something",
+    "Do not re-explain the camera footage or the Episode 1 floorboard examination to the reader"
+  ],
+  "vocabulary_targets": [
+    "vanish",
+    "hesitate",
+    "convince",
+    "property",
+    "lock",
+    "recognise",
+    "clue"
+  ],
+  "ending_hook": "Voss's gaze lingers on the empty floorboard space a moment too long before she looks up and smiles \u2014 and Jamie, his bag heavy against his leg, cannot tell whether she already knows the box is gone."
+}

@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "title": "The Box Under the Floor",
+    "genre": "mystery",
+    "cefr_level": "A2",
+    "target_subband": "A2-mid",
+    "setting": "A quiet small town in the present day, centred on an old abandoned house that holds a fifty-year-old secret.",
+    "tone": "tense, grounded"
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Kai",
+      "role": "protagonist",
+      "description": "A 19-year-old with short brown hair and an honest face who takes odd jobs to earn money but cannot stop himself from investigating things he should leave alone.",
+      "flaw": "too curious \u2014 he cannot ignore a mystery, even when stopping would be the safer choice",
+      "current_location": "loc_001",
+      "key_items": []
+    },
+    {
+      "id": "char_002",
+      "name": "Mr. Holt",
+      "role": "secondary \u2014 employer, significance to grow in later episodes",
+      "description": "A quiet man in his sixties with grey hair and careful, watchful eyes who hired Kai to clean out the old house.",
+      "flaw": "secretive \u2014 he shares as little information as possible",
+      "current_location": "loc_003",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "The Old House",
+      "description": "A two-storey wooden house on the edge of town, empty for many years, with dusty rooms, creaking floors, and boards nailed over some of the windows."
+    },
+    {
+      "id": "loc_002",
+      "name": "The Back Room",
+      "description": "A small bare room at the back of the old house with old wooden floorboards, a single built-in cupboard against the wall, and one dirty window facing the yard."
+    },
+    {
+      "id": "loc_003",
+      "name": "The Town",
+      "description": "A quiet small town where everyone knows each other and old stories are still passed between neighbours."
+    }
+  ],
+  "episode_history": [],
+  "unresolved_threads": [],
+  "series_plan": {
+    "total_episodes": 6,
+    "central_question": "What is hidden inside the metal box under the floorboards, and who does it truly belong to?",
+    "arc_beats": [
+      {
+        "episode": 1,
+        "act": "setup",
+        "role": "inciting-incident",
+        "beat": "Kai finds the video camera and watches the tape; he sees a frightened family hiding a metal box under a floorboard in the very room he is standing in, and he begins searching for the right board."
+      },
+      {
+        "episode": 2,
+        "act": "rising",
+        "role": "complication",
+        "beat": "Kai locates the correct floorboard but cannot lift it alone; he also finds fresh evidence that someone else has been inside the house very recently, raising the danger of his search."
+      },
+      {
+        "episode": 3,
+        "act": "midpoint",
+        "role": "reversal",
+        "beat": "Kai opens the box and finds a small key and an old photograph; the name 'HOLT' scratched on the lid connects the hidden secret directly to his employer."
+      },
+      {
+        "episode": 4,
+        "act": "rising",
+        "role": "escalation",
+        "beat": "An old neighbour recognises the photograph and tells Kai that the Holt family once owned the house and that the father disappeared with money that was not his; Kai begins to suspect Mr. Holt is the son trying to recover the box."
+      },
+      {
+        "episode": 5,
+        "act": "climax",
+        "role": "confrontation",
+        "beat": "Mr. Holt discovers Kai has the box and demands it back; Kai uses the key to reach the hidden contents at the old post office before Mr. Holt can stop him."
+      },
+      {
+        "episode": 6,
+        "act": "resolution",
+        "role": "resolution",
+        "beat": "The contents of the post office box prove that Mr. Holt's father stole the house from another family fifty years ago; the rightful owner is found, the documents are returned, and all secrets are answered."
+      }
+    ],
+    "thread_management": {
+      "max_open_threads": 4,
+      "new_threads_allowed_until": 3,
+      "all_threads_resolved_by": 6
+    }
+  }
+}

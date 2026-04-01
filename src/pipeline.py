@@ -308,7 +308,7 @@ def run_writer(episode_plan, confirmed_story_bible,
 
     t0 = time.time()
     raw_output, stop_reason, usage = api_call_with_retry(
-        provider=provider, model=model, max_tokens=12000,
+        provider=provider, model=model, max_tokens=16000,
         system_prompt=system_prompt, user_message=user_message,
     )
     duration = round(time.time() - t0, 1)
@@ -321,7 +321,7 @@ def run_writer(episode_plan, confirmed_story_bible,
         "model": model,
         "provider": provider,
         "prompt_version": get_writer_version(level),
-        "max_tokens": 12000,
+        "max_tokens": 16000,
         "stop_reason": stop_reason,
         "token_usage": usage,
         "duration_s": duration,
@@ -330,7 +330,7 @@ def run_writer(episode_plan, confirmed_story_bible,
     return extract_prose(raw_output), meta
 
 
-def run_state_manager(prose, confirmed_story_bible, vocabulary_targets,
+def run_state_manager(prose, episode_plan, confirmed_story_bible, vocabulary_targets,
                       provider=DEFAULT_PROVIDER, model=DEFAULT_SM_MODEL):
     """
     Run the State Manager agent to update the Story Bible from the new episode prose.
@@ -339,6 +339,7 @@ def run_state_manager(prose, confirmed_story_bible, vocabulary_targets,
     system_prompt = get_state_manager_prompt()
 
     user_message = (
+        f"<episode_plan>{json.dumps(episode_plan, indent=2)}</episode_plan>\n"
         f"<current_story_bible>{json.dumps(confirmed_story_bible, indent=2)}</current_story_bible>\n"
         f"<vocabulary_targets>{json.dumps(vocabulary_targets)}</vocabulary_targets>\n"
         f"<new_episode_prose>{prose}</new_episode_prose>"
@@ -492,6 +493,7 @@ def cmd_plan(args):
     print(f"  series_plan.json → {series_plan_path}")
     print(f"  metadata.json    → {metadata_path}")
     print(f"\nNext: python src/pipeline.py --generate --story {story_dir}")
+    return story_dir
 
 
 # ── Phase 2: Generate an episode ──────────────────────────────────────────────
@@ -613,7 +615,7 @@ def cmd_generate(args):
     # Run State Manager to update story bible
     print(f"\n--- STATE MANAGER ---")
     updated_bible, sm_meta = run_state_manager(
-        prose, confirmed_story_bible,
+        prose, episode_plan, confirmed_story_bible,
         episode_plan.get("vocabulary_targets", []),
         provider=provider, model=sm_model,
     )
@@ -673,6 +675,27 @@ def cmd_generate(args):
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+def cmd_all(args):
+    """
+    Plan a new series and generate all episodes in one run.
+    Equivalent to --plan followed by --generate for each episode.
+    """
+    args.force = True   # allow creation alongside any existing same-level series
+    story_dir = cmd_plan(args)
+    if story_dir is None:
+        return
+
+    with open(story_dir / "metadata.json") as f:
+        total_episodes = json.load(f)["total_episodes"]
+
+    args.story = str(story_dir)
+    args.episode = None
+    args.force = False
+
+    for _ in range(total_episodes):
+        cmd_generate(args)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="CEFR Graded Reader Pipeline",
@@ -708,6 +731,7 @@ Examples:
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--plan",     action="store_true", help="Plan a new series (Director creates Story Bible)")
     mode.add_argument("--generate", action="store_true", help="Generate next episode for an existing series")
+    mode.add_argument("--all",      action="store_true", help="Plan a new series and generate all episodes in one run")
 
     # --plan options
     parser.add_argument("--level", type=str, default="A2",
@@ -744,6 +768,10 @@ Examples:
         if not args.seed:
             parser.error("--plan requires --seed")
         cmd_plan(args)
+    elif args.all:
+        if not args.seed:
+            parser.error("--all requires --seed")
+        cmd_all(args)
     else:
         if not args.story:
             parser.error("--generate requires --story")

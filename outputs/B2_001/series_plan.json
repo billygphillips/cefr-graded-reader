@@ -1,0 +1,110 @@
+{
+  "metadata": {
+    "title": "What the Floor Hides",
+    "genre": "mystery",
+    "cefr_level": "B2",
+    "target_subband": "B2-mid",
+    "setting": "A quiet English town in the present day, where an abandoned terrace house on Crane Street conceals a fifty-year-old secret.",
+    "tone": "tense, grounded"
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Jamie Cole",
+      "role": "protagonist",
+      "description": "A 20-year-old with dark hair and restless eyes who is quick to notice things other people overlook.",
+      "flaw": "Acts on impulse without thinking through the risk to himself or others, which consistently puts him in danger before he is ready.",
+      "current_location": "loc_001",
+      "key_items": []
+    },
+    {
+      "id": "char_002",
+      "name": "Margaret Voss",
+      "role": "antagonist",
+      "description": "A 45-year-old estate agent with neat clothes and a businesslike manner who hired Jamie to clear the house quickly.",
+      "flaw": "Prioritises protecting her family's reputation above honesty, which makes her reckless when she feels cornered.",
+      "current_location": "loc_003",
+      "key_items": []
+    },
+    {
+      "id": "char_003",
+      "name": "Mrs. Holt",
+      "role": "supporting",
+      "description": "A sharp-eyed woman in her mid-seventies who has lived next door to the abandoned house for decades and notices everything.",
+      "flaw": "Stays silent when speaking out would help, because she fears the trouble that telling the truth might bring.",
+      "current_location": "loc_004",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "The Abandoned House, Crane Street",
+      "description": "A narrow two-storey terrace house, empty for decades, its walls streaked with damp and its hallway thick with the smell of old plaster."
+    },
+    {
+      "id": "loc_002",
+      "name": "The Front Room",
+      "description": "The largest room in the house, with a wide bay window facing the street, wide bare floorboards, and a single old cupboard set into the wall beside the fireplace."
+    },
+    {
+      "id": "loc_003",
+      "name": "Voss Estate Agency",
+      "description": "A glass-fronted office on the high street, always tidy, with a framed photo of the town on the wall and a strong smell of fresh coffee."
+    },
+    {
+      "id": "loc_004",
+      "name": "Mrs. Holt's House",
+      "description": "The terrace house immediately next door, its front window offering a direct view of the Crane Street property's entrance and front room."
+    }
+  ],
+  "episode_history": [],
+  "unresolved_threads": [],
+  "series_plan": {
+    "total_episodes": 6,
+    "central_question": "What secret did the Warner family hide in that house fifty years ago, and who is willing to bury it again today?",
+    "arc_beats": [
+      {
+        "episode": 1,
+        "act": "setup",
+        "role": "establish",
+        "beat": "Jamie finds the old camera, watches the footage of the hiding, and discovers the floorboard has already been recently disturbed \u2014 someone else knows."
+      },
+      {
+        "episode": 2,
+        "act": "rising",
+        "role": "complicate",
+        "beat": "Jamie finds the metal box still hidden beneath the floor, and Mrs. Holt tells him who the family on the tape were \u2014 the Warners, who vanished from the street overnight in 1974."
+      },
+      {
+        "episode": 3,
+        "act": "rising",
+        "role": "reveal",
+        "beat": "Jamie opens the box and finds photographs and a handwritten note that point to a deliberate arson in 1974 \u2014 and the name on the note is Voss."
+      },
+      {
+        "episode": 4,
+        "act": "midpoint",
+        "role": "pressure",
+        "beat": "Margaret confronts Jamie, takes the box from him, and warns him to stop; Jamie is left with nothing physical \u2014 only the camera footage."
+      },
+      {
+        "episode": 5,
+        "act": "climax",
+        "role": "confront",
+        "beat": "Jamie uses the camera footage and Mrs. Holt's testimony to force the truth into the open, facing direct intimidation from Margaret."
+      },
+      {
+        "episode": 6,
+        "act": "resolution",
+        "role": "resolve",
+        "beat": "The truth about the 1974 arson and the Warner family's disappearance is exposed; consequences fall on those responsible, and Jamie's choice to act despite real risk is shown to matter."
+      }
+    ],
+    "thread_management": {
+      "max_open_threads": 4,
+      "new_threads_allowed_until": 3,
+      "all_threads_resolved_by": 6
+    }
+  }
+}

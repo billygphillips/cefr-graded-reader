@@ -1,0 +1,61 @@
+{
+  "story_id": "B2_001",
+  "episode": 4,
+  "level": "B2",
+  "director": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "director_b2_v5",
+    "max_tokens": 12000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 5664,
+      "output_tokens": 13379
+    },
+    "duration_s": 261.5,
+    "timestamp": "2026-04-01T19:33:36.711735"
+  },
+  "writer": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "writer_b2_v6",
+    "max_tokens": 12000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 4882,
+      "output_tokens": 7373
+    },
+    "duration_s": 112.3,
+    "timestamp": "2026-04-01T19:35:29.044596"
+  },
+  "state_manager": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "state_manager_v4",
+    "max_tokens": 16000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 5698,
+      "output_tokens": 8477
+    },
+    "duration_s": 164.1,
+    "timestamp": "2026-04-01T19:38:13.505038"
+  },
+  "classifier": {
+    "predicted": "B1",
+    "target": "B2",
+    "confidence": 0.4853708402895264,
+    "probs": {
+      "A2": 0.025745983478268997,
+      "B1": 0.4853708402895264,
+      "B2": 0.17215921208584622,
+      "C1": 0.3167239641463584
+    }
+  },
+  "continuity_warnings": [
+    "The episode opens with Jamie still sitting on the bare floor of the front room ('Jamie sat for another minute on the bare floor'), which replays the closing image of last_scene_position. The bible specified that Episode 4 should begin after that moment, not at it.",
+    "The prose shows Jamie placing only the note and three photographs on Voss's desk, but Voss is later described as collecting 'the note, the photographs, and the box from the desk.' The box was never shown being placed on the desk, making its presence there unexplained.",
+    "Voss's on-page disclosure that R. Voss is her father, Robert Voss (dead twenty years), is a major plot revelation not listed in the arc beat for Episode 4. This resolves thread_006 one episode earlier than the plan's narrative structure implies."
+  ],
+  "review_needed": true
+}

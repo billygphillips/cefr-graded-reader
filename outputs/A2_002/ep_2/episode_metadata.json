@@ -1,0 +1,59 @@
+{
+  "story_id": "A2_002",
+  "episode": 2,
+  "level": "A2",
+  "director": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "director_a2_v7",
+    "max_tokens": 12000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 4353,
+      "output_tokens": 11740
+    },
+    "duration_s": 195.1,
+    "timestamp": "2026-04-01T20:41:57.108363"
+  },
+  "writer": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "writer_a2_v6",
+    "max_tokens": 16000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 3607,
+      "output_tokens": 6893
+    },
+    "duration_s": 93.1,
+    "timestamp": "2026-04-01T20:43:30.187249"
+  },
+  "state_manager": {
+    "model": "claude-sonnet-4-6",
+    "provider": "anthropic",
+    "prompt_version": "state_manager_v5",
+    "max_tokens": 16000,
+    "stop_reason": "end_turn",
+    "token_usage": {
+      "input_tokens": 5527,
+      "output_tokens": 4961
+    },
+    "duration_s": 94.1,
+    "timestamp": "2026-04-01T20:45:04.617140"
+  },
+  "classifier": {
+    "predicted": "B1",
+    "target": "A2",
+    "confidence": 0.6202634289519915,
+    "probs": {
+      "A2": 0.11290929863812293,
+      "B1": 0.6202634289519915,
+      "B2": 0.1312507462932758,
+      "C1": 0.13557652611660986
+    }
+  },
+  "continuity_warnings": [
+    "The prose opens with Kai still looking at the dark staircase ('Kai looked at the staircase for a long moment'), which is the exact moment described in last_scene_position rather than a point after it. The update rules require each episode to start after last_scene_position, not at it. The episode plan directed this opening, but it technically replays the final beat of Episode 1 rather than advancing past it."
+  ],
+  "review_needed": true
+}
