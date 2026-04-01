@@ -1,0 +1,112 @@
+{
+  "metadata": {
+    "title": "The Hidden Box",
+    "genre": "mystery",
+    "cefr_level": "A2",
+    "target_subband": "A2-mid",
+    "setting": "A small town in the present day, centred on a tall abandoned house at the end of a quiet street that hides a fifty-year-old secret.",
+    "tone": "tense, curious"
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Marco",
+      "role": "protagonist",
+      "description": "A 17-year-old boy with short dark hair and quick eyes who is always asking questions and looking into things he should leave alone.",
+      "flaw": "Too curious \u2014 he cannot ignore a mystery, even when it gets him into trouble.",
+      "current_location": "loc_001",
+      "key_items": [
+        "old video camera with tape inside"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Mr. Webb",
+      "role": "supporting",
+      "description": "A quiet, practical man in his fifties who owns the abandoned house and has hired Marco to help clean it at weekends.",
+      "flaw": "Impatient \u2014 he wants the work done quickly and never asks questions about the house.",
+      "current_location": "loc_001",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "The Abandoned House",
+      "description": "A tall, narrow house at the end of a quiet street, its rooms full of dust, dark furniture, and forgotten objects."
+    },
+    {
+      "id": "loc_002",
+      "name": "The Town Street",
+      "description": "A quiet street of old houses leading to the abandoned house, mostly empty on weekend mornings."
+    }
+  ],
+  "episode_history": [],
+  "unresolved_threads": [
+    {
+      "id": "thread_001",
+      "description": "What is inside the metal box hidden under the floorboard?",
+      "introduced_episode": 1,
+      "status": "open"
+    },
+    {
+      "id": "thread_002",
+      "description": "Is the metal box still under the floorboard, or has someone already taken it?",
+      "introduced_episode": 1,
+      "status": "open"
+    },
+    {
+      "id": "thread_003",
+      "description": "Who is the family on the tape, and why were they afraid when they hid the box?",
+      "introduced_episode": 1,
+      "status": "open"
+    }
+  ],
+  "series_plan": {
+    "total_episodes": 6,
+    "central_question": "What secret is hidden inside the metal box, and why has someone kept it buried for fifty years?",
+    "arc_beats": [
+      {
+        "episode": 1,
+        "act": "setup",
+        "role": "discovery",
+        "beat": "Marco finds an old video camera and watches a tape showing a frightened family hide a metal box under the floorboards; he marks the spot, takes the camera, and leaves desperate to return."
+      },
+      {
+        "episode": 2,
+        "act": "rising",
+        "role": "complication",
+        "beat": "Marco returns to lift the marked floorboard but the box is gone; he finds a torn scrap of paper in the hole with a woman's name on it, proving someone else already knows the secret."
+      },
+      {
+        "episode": 3,
+        "act": "rising",
+        "role": "investigation",
+        "beat": "Marco asks around town and meets Rosa, an elderly woman who lives across the street and reacts with sudden fear when he mentions the house \u2014 establishing her as the key figure in the mystery."
+      },
+      {
+        "episode": 4,
+        "act": "midpoint",
+        "role": "reversal",
+        "beat": "Marco follows Rosa and discovers she has the metal box in her home; before he can act, she sees him \u2014 the confrontation can no longer be avoided, and no new questions are introduced from this point."
+      },
+      {
+        "episode": 5,
+        "act": "climax",
+        "role": "confrontation",
+        "beat": "Marco and Rosa face each other; she opens the box and its contents reveal the secret she has protected for fifty years, but her reason for hiding it forces Marco into a difficult choice."
+      },
+      {
+        "episode": 6,
+        "act": "resolution",
+        "role": "closure",
+        "beat": "Marco acts on his choice, the consequences play out for both him and Rosa, and the central question is fully and finally answered."
+      }
+    ],
+    "thread_management": {
+      "max_open_threads": 5,
+      "new_threads_allowed_until": 3,
+      "all_threads_resolved_by": 6
+    }
+  }
+}

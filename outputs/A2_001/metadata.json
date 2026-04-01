@@ -1,0 +1,8 @@
+{
+  "story_id": "A2_001",
+  "created": "2026-04-01T10:38:25.535899",
+  "level": "A2",
+  "seed": "\nA young man gets a weekend job helping to clean out an old, abandoned house in his town.\nIn a dusty cupboard, he finds an old video camera. The tape inside shows the exact room\nhe is standing in fifty years ago, and the family is hiding a small metal box under the floorboards.\n",
+  "total_episodes": 6,
+  "model": "claude-sonnet-4-6"
+}

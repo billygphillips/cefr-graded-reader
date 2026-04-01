@@ -1,0 +1,23 @@
+{
+  "episode_number": 1,
+  "hook": "Marco is cleaning an abandoned house for Mr. Webb when he finds an old video camera with a tape inside.",
+  "key_events": [
+    "Marco arrives at the abandoned house to help Mr. Webb clean it on a Saturday morning. He is curious about the old rooms and keeps looking at forgotten objects.",
+    "In a back room, he finds an old video camera inside a broken cabinet. He opens it and finds a small tape inside.",
+    "He connects the camera to an old TV in another room. On the screen, he sees a family \u2014 a man, a woman, and a young girl. They look frightened. The man lifts a floorboard and hides a metal box underneath. The woman writes something on the wall but then wipes it off.",
+    "The tape finishes. Marco now knows where the box is hidden. He marks the spot with his pencil. He takes the camera and the tape. He finishes his work. He leaves the house, but he cannot stop thinking about the box. He must come back."
+  ],
+  "vocabulary_targets": [
+    "dusty",
+    "camera",
+    "tape",
+    "floorboard",
+    "mark",
+    "cabinet",
+    "frightened",
+    "pencil",
+    "screen",
+    "family"
+  ],
+  "ending_hook": "When Marco returns next weekend, will the metal box still be hidden under the floorboard, or has someone already taken it?"
+}
