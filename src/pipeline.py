@@ -83,7 +83,7 @@ def run_director(story_bible=None):
 
     response = api_call_with_retry(lambda: client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=8000,
+        max_tokens=12000,
         system=DIRECTOR_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_message}],
     ))
