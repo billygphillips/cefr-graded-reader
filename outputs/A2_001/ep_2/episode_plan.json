@@ -1,0 +1,63 @@
+{
+  "episode_number": 2,
+  "hook": "Luca walks back to the Cole House with the camera in his bag and the key in his hand, determined to find the floorboard he saw on the tape.",
+  "goal": "Locate the room shown on the tape, lift the loose floorboard, and retrieve the metal box hidden beneath it.",
+  "start_state": {
+    "location": "Luca's flat (loc_003), about to leave for the Cole House (loc_001)",
+    "time": "morning, the day after Episode 1",
+    "with_whom": [],
+    "items": [
+      "old video camera (tape inside)",
+      "Cole House key"
+    ],
+    "knowledge": [
+      "The tape shows a man and woman hiding a metal box under a loose floorboard in a room with pale walls, a window on the left, and dark floorboards \u2014 features Luca recognised as matching the Cole House",
+      "Ray was insistent at the house that Luca bag and throw away everything without keeping anything",
+      "The tape is inside the camera, which Luca still has"
+    ],
+    "suspicions": [
+      "The box on the tape may still be under the floorboard after fifty years",
+      "Ray may know something important about the contents of the house"
+    ]
+  },
+  "continuity_rules": [
+    "Must start after Luca has already watched the tape and picked up the house key \u2014 do not replay or re-describe the tape as a new discovery",
+    "Must not re-present the tape's contents as a revelation \u2014 Luca uses it as a reference tool, not a surprise",
+    "The room must match the tape's description: pale walls, window on the left, dark floorboards",
+    "The metal box must be exactly where the tape showed it \u2014 under a loose floorboard near the far wall",
+    "Must not open the box or reveal its contents \u2014 it stays locked throughout this episode"
+  ],
+  "key_events": [
+    "Luca arrives at the Cole House, unlocks the door, and moves through the ground-floor rooms one by one, holding the camera so he can check each room against the tape \u2014 he is looking for pale walls and a window on the left.",
+    "Most rooms do not match: wrong wall colour, wrong window position; THEREFORE he reaches a room at the back of the house that fits exactly \u2014 pale walls, window on the left, dark floorboards \u2014 and he puts the camera down.",
+    "He gets on his knees and presses each floorboard in turn; most are firm; BUT one near the far wall shifts under his hand \u2014 he lifts it and pulls out the metal box from the dark gap below; it is cold and heavy; he tries the lid and it does not open \u2014 it is locked; he turns the box over and sees letters scratched into the metal side: COLE.",
+    "While he is still kneeling on the floor, his phone rings \u2014 it is Ray; Ray asks, in a voice that is too calm, whether Luca found anything of value in the house; Luca says no, there is nothing; Ray says thank you and hangs up before Luca can ask anything; Luca carries the box out of the house and walks back to his flat."
+  ],
+  "major_reveal": "The metal box from the tape is real and still in its hiding place \u2014 but it is locked, and the name COLE is scratched into its side, confirming the family's identity for the first time.",
+  "threads_advanced": [
+    "thread_001",
+    "thread_002",
+    "thread_003"
+  ],
+  "threads_resolved": [],
+  "new_thread_created": "thread_004: Why does Ray Brennan call to ask about 'anything of value' on the exact day Luca finds the box \u2014 and how did he know to ask?",
+  "tone_guardrails": [
+    "Ray's phone call must be brief and quiet \u2014 suspicion comes from what he does not say, not from dramatic accusation",
+    "Only one major revelation: the box is real, locked, and marked COLE",
+    "No confrontation \u2014 Luca simply lies and leaves; the tension lives in the silence after the call ends"
+  ],
+  "forbidden_moves": [
+    "Do not re-present the tape's contents as a new discovery \u2014 Luca already knows what is on it and uses it as a guide only",
+    "Do not open the box or hint at its specific contents",
+    "Do not have Ray appear in person \u2014 the phone call is his only presence in this episode",
+    "Do not explain or reveal how Ray knew to call today"
+  ],
+  "vocabulary_targets": [
+    "search",
+    "locked",
+    "lid",
+    "scratch",
+    "value"
+  ],
+  "ending_hook": "Luca sits at his table with the locked box in front of him; the name COLE means nothing to him yet \u2014 but Ray asked about 'anything of value' on the same day Luca found it, and that cannot be a coincidence."
+}

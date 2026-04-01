@@ -1,0 +1,73 @@
+{
+  "episode_number": 5,
+  "hook": "Luca knocks on Agnes Ward's door, and the moment he says the words 'Cole House' she tries to close it in his face.",
+  "goal": "Luca must convince Agnes Ward to tell him the truth about what her husband Edward did to the Cole family fifty years ago.",
+  "start_state": {
+    "location": "The doorstep of Agnes Ward's house, 11 Birch Street (loc_005)",
+    "time": "morning",
+    "with_whom": [],
+    "items": [
+      "old video camera (tape inside)",
+      "Cole House key",
+      "handwritten note (Cole family left Harden July 1974; E. Ward)",
+      "address slip (Agnes Ward, 11 Birch Street)"
+    ],
+    "knowledge": [
+      "E. Ward was Edward Ward, who died two years ago",
+      "Agnes Ward is Edward's widow and still lives in Harden",
+      "The Cole family left Harden in July 1974 without warning",
+      "E. Ward was listed as a witness on the Cole House property sale",
+      "Ray Brennan stole the metal box from Luca's flat",
+      "Ray called Luca asking about 'value' on the same morning the box was found"
+    ],
+    "suspicions": [
+      "Ray and Edward Ward had a connection that links them both to the Cole family's departure",
+      "Agnes Ward may know what her late husband did",
+      "The box contains something that proves wrongdoing by Edward Ward or Ray Brennan"
+    ]
+  },
+  "continuity_rules": [
+    "Must open with Luca arriving at 11 Birch Street \u2014 not at the library or in transit",
+    "Must not repeat or re-dramatise the library discoveries from Episode 4",
+    "Must not contradict established facts: Ray has the box, Edward Ward died two years ago, the Cole family left in July 1974",
+    "Agnes Ward was named in Episode 4 \u2014 her appearance is not a surprise introduction",
+    "No new unresolved threads may be created \u2014 Episode 5 is past the thread-introduction cutoff"
+  ],
+  "key_events": [
+    "Luca arrives at 11 Birch Street and knocks; Agnes opens the door \u2014 her expression shows a flicker of recognition before Luca speaks (dramatic irony: Ray already came to warn her, but Luca does not know this); the moment Luca says he worked at the Cole House, Agnes grips the door and begins to close it.",
+    "Luca raises the video camera and says he found it inside the Cole House; Agnes goes still, stares at the camera, and after a long pause steps back and lets him in without a word \u2014 the camera means something to her.",
+    "Inside, Luca plays the tape on the small screen; Agnes watches in silence; then she says quietly, 'That is Edward. My husband.' Her hands tremble; she tells Luca what Edward confessed to her before he died two years ago: he borrowed a large sum of money from the Cole family, signed a document promising to repay it, but instead used his connections to force them out of Harden so the debt would never be collected; he hid the box \u2014 containing the signed document and part of the original cash \u2014 in the Cole House because he feared the family would one day return.",
+    "Luca asks about Ray Brennan; Agnes confirms that Ray was Edward's closest friend and knew everything; she then tells Luca that two days ago Ray came to her door and said someone had found the box \u2014 and in that moment Luca understands that Ray stole the box not for himself but to destroy the document inside before it could surface; Agnes gives Luca the address of Ray's office in town and says, very quietly, that she is tired of carrying the secret."
+  ],
+  "major_reveal": "Edward Ward borrowed a large sum of money from the Cole family, signed a document as proof of the debt, then used his local connections to force the Cole family out of Harden rather than repay what he owed; the metal box holds that signed document and part of the original cash; Ray Brennan has known this all along and stole the box to destroy the evidence before it could be used.",
+  "threads_advanced": [
+    "thread_002",
+    "thread_004"
+  ],
+  "threads_resolved": [
+    "thread_001",
+    "thread_003",
+    "thread_005"
+  ],
+  "new_thread_created": null,
+  "tone_guardrails": [
+    "Agnes's confession must feel sad and exhausted, not theatrical \u2014 she is a woman who has waited two years for this and is relieved as much as she is ashamed",
+    "The revelation is one connected truth \u2014 the debt, the document, and Ray's knowledge are parts of the same secret, not three separate shocks stacked together",
+    "Keep the scene physically anchored: the camera screen, the tape playing, Agnes's shaking hands, the quiet room",
+    "No new mystery is introduced \u2014 this is the climax; the episode closes questions, not opens them"
+  ],
+  "forbidden_moves": [
+    "Do not re-explain what was already found in Episodes 3 and 4 \u2014 Agnes may mention the Cole family or the property sale in passing, but must not retell what the reader already knows",
+    "Do not reveal where the Cole family's descendants are now \u2014 that discovery belongs to Episode 6",
+    "Do not bring Ray Brennan on stage \u2014 maximum two characters this episode: Luca and Agnes",
+    "Do not introduce any new unanswered question \u2014 the thread window is closed"
+  ],
+  "vocabulary_targets": [
+    "confess",
+    "document",
+    "proof",
+    "debt",
+    "forced"
+  ],
+  "ending_hook": "Luca walks away from Agnes Ward's house knowing the full truth \u2014 but the signed document and the cash, the only physical proof, are locked inside the box, and Ray Brennan has the box at his office; Luca must reach Ray before Ray destroys the evidence."
+}

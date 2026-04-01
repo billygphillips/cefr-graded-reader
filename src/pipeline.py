@@ -179,8 +179,8 @@ def parse_json_response(raw_output):
         return result
 
     # Both passes failed — print raw output so the user can see what happened
-    print("  [ERROR] Could not extract JSON. Raw output (first 1000 chars):")
-    print("  " + raw_output[:1000].replace("\n", "\n  "))
+    print("  [ERROR] Could not extract JSON. Raw output (first 3000 chars):")
+    print("  " + raw_output[:3000].replace("\n", "\n  "))
     raise ValueError("No JSON object found in model response.")
 
 
@@ -250,7 +250,7 @@ def run_director(story_bible=None, seed=None, level="A2",
 
     t0 = time.time()
     raw_output, stop_reason, usage = api_call_with_retry(
-        provider=provider, model=model, max_tokens=12000,
+        provider=provider, model=model, max_tokens=20000,
         system_prompt=system_prompt, user_message=user_message,
     )
     duration = round(time.time() - t0, 1)
@@ -346,7 +346,7 @@ def run_state_manager(prose, confirmed_story_bible, vocabulary_targets,
 
     t0 = time.time()
     raw_output, stop_reason, usage = api_call_with_retry(
-        provider=provider, model=model, max_tokens=8000,
+        provider=provider, model=model, max_tokens=16000,
         system_prompt=system_prompt, user_message=user_message,
     )
     duration = round(time.time() - t0, 1)
@@ -359,7 +359,7 @@ def run_state_manager(prose, confirmed_story_bible, vocabulary_targets,
         "model": model,
         "provider": provider,
         "prompt_version": get_state_manager_version(),
-        "max_tokens": 8000,
+        "max_tokens": 16000,
         "stop_reason": stop_reason,
         "token_usage": usage,
         "duration_s": duration,
@@ -456,7 +456,16 @@ def cmd_plan(args):
         provider=args.provider, model=director_model,
     )
 
-    # Save Story Bible as series_plan.json
+    # Save Story Bible as series_plan.json.
+    # The Director during --plan imagines the world state AFTER Episode 1 (characters have items,
+    # are at end-of-episode locations, etc.). We must reset these to the initial pre-Episode-1 state
+    # so that --generate for Episode 1 doesn't think Episode 1 already happened.
+    story_bible["episode_history"] = []
+    story_bible["unresolved_threads"] = []
+    story_bible.pop("last_scene_position", None)
+    for char in story_bible.get("characters", []):
+        char["key_items"] = []
+        char.pop("current_state", None)
     series_plan_path = story_dir / "series_plan.json"
     with open(series_plan_path, "w") as f:
         json.dump(story_bible, f, indent=2)

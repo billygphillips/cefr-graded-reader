@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "title": "What the Floor Hides",
+    "genre": "mystery",
+    "cefr_level": "A2",
+    "target_subband": "A2-mid",
+    "setting": "A small, quiet town where a young man takes a weekend job clearing out a long-abandoned house and uncovers a fifty-year-old secret.",
+    "tone": "tense, restrained"
+  },
+  "characters": [
+    {
+      "id": "char_001",
+      "name": "Luca Marr",
+      "role": "protagonist",
+      "description": "A 19-year-old with a lean build and dark hair who is restless and always needs to know the answer to things.",
+      "flaw": "Too curious \u2014 he cannot leave an unexplained thing alone, even when he should.",
+      "current_location": "loc_005",
+      "current_state": "urgent and determined; has left Agnes Ward's house and is walking fast toward Ray Brennan's office on Cale Street",
+      "key_items": [
+        "old video camera (tape inside)",
+        "Cole House key",
+        "handwritten note (Cole family left Harden July 1974; E. Ward)",
+        "address slip (Agnes Ward, 11 Birch Street)",
+        "paper with Ray Brennan's Cale Street office address (written by Agnes Ward)"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Ray Brennan",
+      "role": "supporting",
+      "description": "A cautious, businesslike man in his fifties who owns the old house and hired Luca to clear it out.",
+      "flaw": "Secretive \u2014 he gives information only when he must.",
+      "current_location": "loc_002",
+      "current_state": "has the stolen metal box and intends to destroy the document inside it; visited Agnes Ward two days ago claiming the situation was under control",
+      "key_items": [
+        "metal box (COLE; contains signed document and part of the original money)"
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "Agnes Ward",
+      "role": "supporting",
+      "description": "An elderly woman with white hair and pale eyes; widow of Edward Ward, living at 11 Birch Street in Harden. She knew her husband's secret for two years and said nothing.",
+      "flaw": "Kept silent about the secret for two years out of loyalty to her late husband.",
+      "current_location": "loc_005",
+      "current_state": "exhausted and relieved; has confessed the full truth to Luca and given him Ray Brennan's office address",
+      "key_items": []
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_001",
+      "name": "The Cole House",
+      "description": "A two-storey abandoned house on the edge of Harden, with dusty rooms, broken windows, and dark wooden floorboards."
+    },
+    {
+      "id": "loc_002",
+      "name": "Harden Town",
+      "description": "A small, quiet town with a public library, a few old shops, and houses that have stood for over a hundred years."
+    },
+    {
+      "id": "loc_003",
+      "name": "Luca's Flat",
+      "description": "A small rented room above a hardware shop in Harden, where Luca lives alone."
+    },
+    {
+      "id": "loc_004",
+      "name": "Harden Public Library",
+      "description": "A cool, quiet building at the far end of Harden's main street, smelling of old paper, where old town newspapers and property records are kept."
+    },
+    {
+      "id": "loc_005",
+      "name": "Agnes Ward's House",
+      "description": "A house at 11 Birch Street in Harden, the home of Agnes Ward, widow of Edward Ward."
+    }
+  ],
+  "episode_history": [
+    {
+      "episode": 1,
+      "summary": "Ray Brennan meets Luca at the Cole House, hands him a key, and tells him firmly to bag and throw away everything inside, refusing to name the family who lived there or answer any questions. While clearing the back room, Luca finds a small video camera hidden under a pile of dusty curtains; he takes it home, charges it via a cable, and plays the tape. The tape shows a man and a frightened woman hiding a metal box under a loose floorboard in a room Luca recognises as the Cole House, and the episode ends with Luca picking up the house key."
+    },
+    {
+      "episode": 2,
+      "summary": "Luca returns to the Cole House and methodically searches each room until he finds the one matching the tape: pale walls, window on the left, and dark wooden floorboards. He lifts a loose board near the far wall and pulls out a small, locked metal box with the name 'COLE' scratched into its side. Ray Brennan calls that same morning and asks, too casually, whether Luca found anything of value; Luca lies and says no, then takes the box back to his flat, where he concludes that Ray's timing was not a coincidence."
+    },
+    {
+      "episode": 3,
+      "summary": "Luca fails to open the locked box with a knife and goes to the public library, where he finds a 1974 newspaper article confirming the Cole family left Harden without warning and a property record listing 'E. Ward' as a witness to the subsequent house sale; he writes both details down. When he returns to his flat that evening, the front door is ajar, a drawer has been disturbed, and the metal box is gone. Luca concludes that Ray Brennan \u2014 the only person who knew about the box \u2014 is responsible for the theft."
+    },
+    {
+      "episode": 4,
+      "summary": "The morning after the theft, Luca returns to the library and asks the librarian to search for the name E. Ward. She finds that Edward Ward died two years ago and that his wife, Agnes Ward, still lives in Harden at 11 Birch Street; she writes the address on a slip of paper and gives it to Luca. Luca thanks her, walks out of the library, and heads toward Birch Street, which is ten minutes away."
+    },
+    {
+      "episode": 5,
+      "summary": "Luca arrives at Agnes Ward's house on Birch Street and shows her the video camera; she recognises Edward Ward on the tape and confesses that fifty years ago her husband borrowed a large sum of money from the Cole family, signed a document promising to repay it, then used his connections to force the family out of Harden to escape the debt. Agnes confirms that the metal box holds the signed document and part of the original money, that Ray Brennan knew everything, and that Ray came to her door two days ago claiming it was 'not a problem.' Agnes also admits she herself has kept silent for two years; she gives Luca a paper with Ray's Cale Street office address, and Luca leaves walking fast."
+    }
+  ],
+  "unresolved_threads": [],
+  "series_plan": {
+    "total_episodes": 6,
+    "central_question": "What secret did the family hide in the metal box fifty years ago, and who in Harden is protecting that secret today?",
+    "arc_beats": [
+      {
+        "episode": 1,
+        "act": "setup",
+        "role": "inciting-incident",
+        "beat": "Luca finds an old video camera in the abandoned house; the tape inside shows the previous family hiding a locked metal box under the floorboards of the very room he is standing in."
+      },
+      {
+        "episode": 2,
+        "act": "rising",
+        "role": "complication",
+        "beat": "Luca lifts the floorboard and finds the real metal box, but it is locked; he also sees a name scratched on the box \u2014 Cole; his employer Ray Brennan calls and asks, too casually, whether Luca found anything of value in the house."
+      },
+      {
+        "episode": 3,
+        "act": "rising",
+        "role": "midpoint-reversal",
+        "beat": "At the town library Luca learns the Cole family left Harden suddenly in 1974 and never came back; when he returns to his flat that evening, the metal box has been stolen."
+      },
+      {
+        "episode": 4,
+        "act": "rising",
+        "role": "rising-climax",
+        "beat": "Luca finds evidence pointing to an elderly woman, Mrs. Ward, whose late husband was a close friend of Ray Brennan and once did business with the Cole family; Luca goes to her house."
+      },
+      {
+        "episode": 5,
+        "act": "climax",
+        "role": "confrontation",
+        "beat": "Mrs. Ward admits the truth: fifty years ago her husband took money that belonged to the Cole family, forcing them to leave town; the box holds a signed document and the cash that prove it; Brennan knew and stayed silent."
+      },
+      {
+        "episode": 6,
+        "act": "resolution",
+        "role": "resolution",
+        "beat": "Luca locates the Cole family's descendants and returns the box to them; Mrs. Ward and Brennan face the consequences of the secret; the central question is answered and all threads are closed."
+      }
+    ],
+    "thread_management": {
+      "max_open_threads": 5,
+      "new_threads_allowed_until": 3,
+      "all_threads_resolved_by": 6
+    }
+  },
+  "vocabulary_introduced": {
+    "episode": 5,
+    "from_targets": [
+      "confess",
+      "document",
+      "proof",
+      "debt",
+      "forced"
+    ],
+    "additional": [
+      "tremble",
+      "repay"
+    ]
+  },
+  "vocabulary_taught": [
+    "camera",
+    "tape",
+    "floorboard",
+    "dusty",
+    "battery",
+    "cable",
+    "loose",
+    "weeds",
+    "curtains",
+    "search",
+    "locked",
+    "lid",
+    "scratch",
+    "value",
+    "gap",
+    "crack",
+    "coincidence",
+    "newspaper",
+    "record",
+    "article",
+    "drawer",
+    "stolen",
+    "headline",
+    "witness",
+    "address",
+    "passed away",
+    "eyebrows",
+    "confess",
+    "document",
+    "proof",
+    "debt",
+    "forced",
+    "tremble",
+    "repay"
+  ],
+  "last_scene_position": "Luca has just walked out of Agnes Ward's house at 11 Birch Street (loc_005) into the cold morning air. He is holding a piece of paper Agnes wrote for him giving Ray Brennan's office address on Cale Street, and he is walking fast toward it. He now knows the full truth \u2014 that the metal box holds a signed document and part of the original money proving Edward Ward's debt to the Cole family \u2014 but Ray Brennan currently has the box and intends to destroy the document before any proof can be used. The next episode must begin after Luca has left Birch Street, not revisit his conversation with Agnes."
+}

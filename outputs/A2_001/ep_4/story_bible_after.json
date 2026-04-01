@@ -14,11 +14,13 @@
       "role": "protagonist",
       "description": "A 19-year-old with a lean build and dark hair who is restless and always needs to know the answer to things.",
       "flaw": "Too curious \u2014 he cannot leave an unexplained thing alone, even when he should.",
-      "current_location": "loc_003",
-      "current_state": "alert and determined; has just recognised the room on the tape as the Cole House and picked up the house key",
+      "current_location": "loc_004",
+      "current_state": "determined; has learned E. Ward is Edward Ward (deceased two years ago) and is walking toward Agnes Ward's house on Birch Street",
       "key_items": [
         "old video camera (tape inside)",
-        "Cole House key"
+        "Cole House key",
+        "handwritten note (Cole family left Harden July 1974; E. Ward)",
+        "address slip (Agnes Ward, 11 Birch Street)"
       ]
     },
     {
@@ -28,7 +30,7 @@
       "description": "A cautious, businesslike man in his fifties who owns the old house and hired Luca to clear it out.",
       "flaw": "Secretive \u2014 he gives information only when he must.",
       "current_location": "loc_002",
-      "current_state": "guarded; gave Luca the house key and left the Cole House quickly without answering any questions",
+      "current_state": "suspiciously calm; called Luca the same morning the box was found and asked about 'value', then ended the call quickly after Luca said no",
       "key_items": []
     }
   ],
@@ -47,12 +49,34 @@
       "id": "loc_003",
       "name": "Luca's Flat",
       "description": "A small rented room above a hardware shop in Harden, where Luca lives alone."
+    },
+    {
+      "id": "loc_004",
+      "name": "Harden Public Library",
+      "description": "A cool, quiet building at the far end of Harden's main street, smelling of old paper, where old town newspapers and property records are kept."
+    },
+    {
+      "id": "loc_005",
+      "name": "Agnes Ward's House",
+      "description": "A house at 11 Birch Street in Harden, the home of Agnes Ward, widow of Edward Ward."
     }
   ],
   "episode_history": [
     {
       "episode": 1,
       "summary": "Ray Brennan meets Luca at the Cole House, hands him a key, and tells him firmly to bag and throw away everything inside, refusing to name the family who lived there or answer any questions. While clearing the back room, Luca finds a small video camera hidden under a pile of dusty curtains; he takes it home, charges it via a cable, and plays the tape. The tape shows a man and a frightened woman hiding a metal box under a loose floorboard in a room Luca recognises as the Cole House, and the episode ends with Luca picking up the house key."
+    },
+    {
+      "episode": 2,
+      "summary": "Luca returns to the Cole House and methodically searches each room until he finds the one matching the tape: pale walls, window on the left, and dark wooden floorboards. He lifts a loose board near the far wall and pulls out a small, locked metal box with the name 'COLE' scratched into its side. Ray Brennan calls that same morning and asks, too casually, whether Luca found anything of value; Luca lies and says no, then takes the box back to his flat, where he concludes that Ray's timing was not a coincidence."
+    },
+    {
+      "episode": 3,
+      "summary": "Luca fails to open the locked box with a knife and goes to the public library, where he finds a 1974 newspaper article confirming the Cole family left Harden without warning and a property record listing 'E. Ward' as a witness to the subsequent house sale; he writes both details down. When he returns to his flat that evening, the front door is ajar, a drawer has been disturbed, and the metal box is gone. Luca concludes that Ray Brennan \u2014 the only person who knew about the box \u2014 is responsible for the theft."
+    },
+    {
+      "episode": 4,
+      "summary": "The morning after the theft, Luca returns to the library and asks the librarian to search for the name E. Ward. She finds that Edward Ward died two years ago and that his wife, Agnes Ward, still lives in Harden at 11 Birch Street; she writes the address on a slip of paper and gives it to Luca. Luca thanks her, walks out of the library, and heads toward Birch Street, which is ten minutes away."
     }
   ],
   "unresolved_threads": [
@@ -66,7 +90,15 @@
     },
     {
       "id": "thread_003",
-      "description": "Who are the man and woman shown on the tape hiding the metal box?"
+      "description": "Who are the man and woman shown on the tape hiding the metal box \u2014 and does the name COLE scratched on the box identify them?"
+    },
+    {
+      "id": "thread_004",
+      "description": "Why did Ray Brennan call asking about 'value' on the exact morning Luca found the metal box, and how much does Ray already know?"
+    },
+    {
+      "id": "thread_005",
+      "description": "Who is E. Ward, whose name appears as a witness on the 1974 property record for the Cole House, and what is their connection to the Cole family and to Ray Brennan?"
     }
   ],
   "series_plan": {
@@ -117,19 +149,13 @@
     }
   },
   "vocabulary_introduced": {
-    "episode": 1,
+    "episode": 4,
     "from_targets": [
-      "camera",
-      "tape",
-      "floorboard",
-      "dusty",
-      "battery",
-      "cable",
-      "loose"
+      "address"
     ],
     "additional": [
-      "weeds",
-      "curtains"
+      "passed away",
+      "eyebrows"
     ]
   },
   "vocabulary_taught": [
@@ -141,7 +167,25 @@
     "cable",
     "loose",
     "weeds",
-    "curtains"
+    "curtains",
+    "search",
+    "locked",
+    "lid",
+    "scratch",
+    "value",
+    "gap",
+    "crack",
+    "coincidence",
+    "newspaper",
+    "record",
+    "article",
+    "drawer",
+    "stolen",
+    "headline",
+    "witness",
+    "address",
+    "passed away",
+    "eyebrows"
   ],
-  "last_scene_position": "Luca is at the table in his flat (loc_003), the charged video camera resting in front of him. He has just finished watching the tape, which shows a man pressing a metal box under a loose floorboard in a room with dark wooden floors and pale walls \u2014 features he recognises as matching the Cole House. He has reached across the table and picked up the Cole House key. It remains unresolved exactly which room in the house contains the loose floorboard, and what the metal box holds."
+  "last_scene_position": "Luca has just stepped out of the Harden Public Library (loc_004) and is walking toward Birch Street, ten minutes away. He is carrying an address slip written by the librarian \u2014 Agnes Ward, 11 Birch Street \u2014 and has learned that E. Ward was Edward Ward, who died two years ago, leaving his wife Agnes Ward still living in town. Luca has not yet reached Agnes Ward's house, and what she knows about the metal box, the Cole family, and Ray Brennan remains entirely unresolved."
 }

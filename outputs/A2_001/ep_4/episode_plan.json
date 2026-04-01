@@ -1,0 +1,61 @@
+{
+  "episode_number": 4,
+  "hook": "Luca stands in his flat the morning after the break-in, holding the note with E. Ward's name \u2014 the only lead the thief did not take.",
+  "goal": "Find out who E. Ward is and make face-to-face contact with them.",
+  "start_state": {
+    "location": "Luca's flat (loc_003)",
+    "time": "morning, the day after the metal box was stolen",
+    "with_whom": [],
+    "items": [
+      "old video camera (tape inside)",
+      "Cole House key",
+      "handwritten note (E. Ward)"
+    ],
+    "knowledge": [
+      "The metal box has been stolen from his flat",
+      "Ray Brennan is the most likely thief",
+      "The Cole family left Harden in July 1974 without warning",
+      "E. Ward was listed as a witness on the 1974 Cole House property record"
+    ],
+    "suspicions": [
+      "E. Ward may know why the Cole family left Harden",
+      "E. Ward may have a personal connection to Ray Brennan"
+    ]
+  },
+  "continuity_rules": [
+    "Must start after last_scene_position \u2014 Luca already knows the box is gone; do not re-show that discovery",
+    "Must not repeat the library newspaper-and-property-record scene from Episode 3 \u2014 this library visit has a single, different purpose: identify E. Ward",
+    "Must not contradict established facts: Cole family left July 1974; E. Ward witnessed the property sale; Ray Brennan has the stolen box"
+  ],
+  "key_events": [
+    "Luca examines the note in his flat and decides that E. Ward is now his only lead; despite the break-in being a clear warning, his curiosity overrides his fear and he leaves for the library.",
+    "At the library the librarian checks the town register and tells him Edward Ward died two years ago \u2014 BUT his widow, Agnes Ward, still lives on Birch Street; she writes the address on a slip of paper and hands it to Luca.",
+    "Therefore Luca walks to Birch Street and knocks on a small, neat house; an elderly woman with white hair opens the door; she is calm until Luca says he is working at the Cole House, and her whole expression changes \u2014 she grips the door frame and goes nervous.",
+    "Agnes denies knowing anything about the Cole House and begins to close the door; but through the narrowing gap Luca sees a framed photograph on the hallway wall \u2014 three men standing together outside the Cole House \u2014 before the door clicks shut."
+  ],
+  "major_reveal": "E. Ward is Edward Ward, now deceased; his widow Agnes Ward lives in Harden, and a photograph inside her home places her late husband directly at the Cole House \u2014 confirming the Ward family had a personal connection to the Cole family that Agnes is actively hiding.",
+  "threads_advanced": [
+    "thread_005 \u2014 E. Ward is now identified and located; Agnes Ward's fearful reaction and her denial confirm she is protecting a secret connected to the Coles and to that house"
+  ],
+  "threads_resolved": [],
+  "new_thread_created": null,
+  "tone_guardrails": [
+    "Agnes Ward must not confess or explain \u2014 she only reacts physically; the revelation comes from the photograph alone, not from her words",
+    "Exactly one major revelation: the Ward-Cole House connection established by the photograph",
+    "The scene at the door must be brief and grounded \u2014 no speeches, no dramatic confrontation; just a closed door and one glimpsed image"
+  ],
+  "forbidden_moves": [
+    "Do not reveal what is inside the metal box \u2014 that is reserved for Episode 5",
+    "Do not have Agnes Ward mention or confirm Ray Brennan's involvement \u2014 that is Episode 5",
+    "Do not re-show or re-describe the stolen-box discovery from Episode 3",
+    "Do not introduce any new unanswered question beyond the one ending hook"
+  ],
+  "vocabulary_targets": [
+    "address",
+    "elderly",
+    "photograph",
+    "nervous",
+    "deny"
+  ],
+  "ending_hook": "The door is closed and Agnes Ward has said almost nothing \u2014 but Luca saw the photograph: three men standing outside the Cole House, one of them her husband. She knows exactly what happened fifty years ago. Will she open the door again?"
+}

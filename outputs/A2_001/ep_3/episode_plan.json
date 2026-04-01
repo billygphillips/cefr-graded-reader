@@ -1,0 +1,64 @@
+{
+  "episode_number": 3,
+  "hook": "Luca cannot open the locked box, so he goes to the library to find out who the Cole family were \u2014 but while he is gone, someone enters his flat and takes the box.",
+  "goal": "Luca wants to identify the Cole family by searching old records at the public library.",
+  "start_state": {
+    "location": "Luca's flat, loc_003",
+    "time": "morning",
+    "with_whom": [],
+    "items": [
+      "locked metal box",
+      "old video camera (tape inside)",
+      "Cole House key"
+    ],
+    "knowledge": [
+      "The box was hidden under the Cole House floorboard by a man and a frightened woman on the tape",
+      "The name COLE is scratched on the box",
+      "Ray called the same morning Luca found the box and asked about value",
+      "Luca lied to Ray and said he found nothing"
+    ],
+    "suspicions": [
+      "Ray knows more about the box than he has said",
+      "Ray's call was not a coincidence"
+    ]
+  },
+  "continuity_rules": [
+    "Must open after Luca is already home with the box \u2014 do not re-show the walk back from Cole House",
+    "Must not repeat the detail of Ray's phone call as a new discovery \u2014 Luca already knows this",
+    "Must not contradict: Luca has the box, the camera, and the Cole House key at the start of this episode"
+  ],
+  "key_events": [
+    "Event 1 \u2014 Luca tries to force the box open with a kitchen knife; the metal does not give. THEREFORE he decides he must learn who the Cole family were before he can go further, and he leaves for the public library, setting the box on the table.",
+    "Event 2 \u2014 At the library Luca asks for old town newspapers. He finds a short article from July 1974: the Cole family left Harden without explanation; their house passed to a new owner shortly after. A property record from the same period carries a single name as witness to the sale: E. Ward. Luca writes both facts on a piece of paper.",
+    "Event 3 \u2014 Luca leaves the library and walks back to his flat. BUT when he reaches his door, it is slightly open \u2014 he did not leave it that way.",
+    "Event 4 \u2014 Luca steps inside. The table is bare. The drawer beside the bed is pulled open. The metal box is gone. Someone came in while he was at the library and took it."
+  ],
+  "major_reveal": "The Cole family left Harden suddenly in July 1974 and never returned \u2014 their departure was unexplained and the house was quickly transferred to a new owner.",
+  "threads_advanced": [
+    "thread_001 \u2014 the box is now stolen, raising the stakes of its contents",
+    "thread_002 \u2014 the theft suggests Ray or someone connected to him acted quickly to recover the box",
+    "thread_003 \u2014 the Cole family's 1974 departure is now confirmed as real and abrupt",
+    "thread_004 \u2014 the theft strongly implies Ray knew Luca had the box despite Luca's lie"
+  ],
+  "threads_resolved": [],
+  "new_thread_created": "thread_005 \u2014 Who is E. Ward, whose name appears in the 1974 property record, and what was their connection to the Cole family's sudden departure?",
+  "tone_guardrails": [
+    "Keep the theft quiet and physical \u2014 no violence, no confrontation, just an open door and an empty table",
+    "Only one major revelation: the 1974 departure; the theft is the reversal, not a second revelation",
+    "Do not have Luca immediately accuse Ray by name \u2014 suspicion only, no confirmation"
+  ],
+  "forbidden_moves": [
+    "Do not re-explain Ray's suspicious phone call as if it is new information \u2014 Luca already processed this",
+    "Do not reveal what is inside the box",
+    "Do not confirm that Ray stole the box \u2014 suspicion only",
+    "Do not introduce any character beyond a nameless librarian as a background helper"
+  ],
+  "vocabulary_targets": [
+    "newspaper",
+    "record",
+    "article",
+    "drawer",
+    "stolen"
+  ],
+  "ending_hook": "Luca stands in his empty flat staring at the bare table \u2014 the box is gone, and the only person who knew he had it was Ray Brennan."
+}

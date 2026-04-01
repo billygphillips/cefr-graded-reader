@@ -1,0 +1,79 @@
+{
+  "episode_number": 6,
+  "hook": "Luca reaches Ray's office door and sees through the glass panel that Ray is holding the signed document over an open flame \u2014 he is seconds away from destroying it.",
+  "goal": "Luca must stop Ray from destroying the document and return the metal box to the Cole family's descendants.",
+  "start_state": {
+    "location": "Walking the street toward Ray Brennan's office on Cale Street, Harden",
+    "time": "morning",
+    "with_whom": [],
+    "items": [
+      "old video camera (tape inside)",
+      "Cole House key",
+      "handwritten note (Cole family left Harden July 1974; E. Ward)",
+      "address slip (Agnes Ward, 11 Birch Street)",
+      "paper with Ray Brennan's Cale Street office address"
+    ],
+    "knowledge": [
+      "Edward Ward borrowed a large sum from the Cole family and signed a document promising repayment",
+      "Edward Ward used his connections to force the Cole family out of Harden in 1974 to escape the debt",
+      "The metal box holds the signed document and part of the original money",
+      "Ray Brennan stole the box from Luca's flat",
+      "Ray Brennan visited Agnes Ward two days ago and told her the situation was under control",
+      "Agnes Ward kept silent for two years after learning the truth"
+    ],
+    "suspicions": [
+      "Ray intends to destroy the document inside the metal box before Luca can use it as proof"
+    ]
+  },
+  "continuity_rules": [
+    "Must open after Luca has already left Birch Street \u2014 do not revisit or summarise the Agnes Ward conversation",
+    "Must not re-explain the content of Agnes's confession \u2014 the reader already knows it",
+    "Ray Brennan currently holds the metal box \u2014 his possession of it must be visible at the start of the confrontation",
+    "The video camera with tape must be used as Luca's active leverage \u2014 it is the item that shifts power in the confrontation",
+    "Do not contradict: Ray stole the box, Agnes has no key items, Luca has the camera"
+  ],
+  "key_events": [
+    "Luca arrives at Ray's office on Cale Street and pauses at the door: through the glass panel he sees Ray sitting at his desk with the metal box open and the signed document in his hands, holding it toward a lit match \u2014 he is about to destroy it; this is what the reader has feared since Episode 5 and Luca sees it happening right now; Luca pushes through the door hard before Ray can act. [Dramatic irony payoff: reader knew Ray intended to destroy the document; the timing is now razor-thin]",
+    "Ray is startled; the match goes out; he closes his hand around the document and tells Luca to leave, his voice flat and controlled; Luca says Agnes Ward told him everything; Ray says Luca has no proof and nothing here belongs to him; hard, clipped dialogue \u2014 Ray: 'You have nothing.' / Luca: 'I have the tape.' / Ray: 'A tape proves nothing.' / Luca: 'Then why did you take the box from my flat?' \u2014 Ray does not answer; the silence is the answer.",
+    "Luca sets the video camera on Ray's desk and says clearly: the tape is evidence of the box being hidden, and he will carry it to the police in the next ten minutes unless Ray gives him the box right now; Ray stares at the camera \u2014 he cannot destroy what Luca is holding; he can burn the document, but the tape will still exist and Luca's testimony will still exist; a police search of this office would find everything; he is trapped and he knows it.",
+    "Ray pushes the metal box across the desk without a word \u2014 he admits, in that single gesture, that it is over; then, in a quiet and bitter voice, he tells Luca something Luca did not know: he has always had the Cole granddaughter's address, in the next town, because for fifty years he has been watching in case she ever came looking; he slides a piece of paper toward Luca with her name and address on it and says, 'Give it to her. Then it is finished.' This is the major reveal: Ray's cover-up was deliberate and long-running, not merely passive.",
+    "Luca travels to the next town and finds the Cole granddaughter at her home; he gives her the metal box without a long explanation \u2014 he says only that it belonged to her family and was kept from them; she opens the box, reads the signed document, and holds it in both hands, saying nothing; Luca leaves; the secret that was sealed under the floorboards fifty years ago is finally out; back in Harden, Ray Brennan and Agnes Ward will face the consequences of what they knew."
+  ],
+  "major_reveal": "Ray Brennan has always known where the Cole family's granddaughter lives and has been monitoring her location for fifty years \u2014 his cover-up was active and deliberate, not merely the result of staying quiet.",
+  "threads_advanced": [
+    "The metal box is recovered from Ray Brennan and delivered to its rightful owner",
+    "Ray Brennan's full role \u2014 active and long-running \u2014 is finally exposed",
+    "The Cole family's story reaches a direct resolution through the granddaughter",
+    "Agnes Ward's silence and Ray's protection of the secret both meet their consequences"
+  ],
+  "threads_resolved": [
+    "What the metal box contains and who it belongs to",
+    "Who stole the box from Luca's flat and why",
+    "Why the Cole family left Harden in 1974 and never returned",
+    "Who in Harden has been protecting the secret and how deliberately",
+    "Whether the Cole family will ever learn the truth"
+  ],
+  "new_thread_created": null,
+  "tone_guardrails": [
+    "Ray's defeat must be quiet and controlled \u2014 he is a cautious man; he does not shout or threaten physically",
+    "The Cole granddaughter scene must be brief and restrained \u2014 one or two sentences of dialogue at most, no emotional speech",
+    "The ending must feel earned and still, not triumphant \u2014 a wrong made right, not a celebration",
+    "No new facts or complications after Ray's reveal in event 4 \u2014 the last beat is pure resolution",
+    "Consequences for Ray and Agnes are implied in a single closing sentence \u2014 do not detail legal outcomes"
+  ],
+  "forbidden_moves": [
+    "Do not re-explain Agnes's confession \u2014 reference it only in a single short line if needed",
+    "Do not introduce any new mystery, question, or complication",
+    "Do not have Ray physically threaten or attack Luca \u2014 the confrontation is verbal and calculated",
+    "Do not make the Cole granddaughter a developed character \u2014 she is the recipient of the resolution, not a new presence",
+    "Do not specify legal punishments for Ray or Agnes \u2014 leave consequences concrete but brief"
+  ],
+  "vocabulary_targets": [
+    "destroy",
+    "evidence",
+    "admit",
+    "consequence",
+    "return"
+  ],
+  "ending_hook": "Luca walks away from the Cole granddaughter's door; for the first time since he found the camera in that dusty back room, he does not need to know anything more \u2014 the answer is in her hands."
+}

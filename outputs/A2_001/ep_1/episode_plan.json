@@ -1,23 +1,57 @@
 {
   "episode_number": 1,
-  "hook": "Marco is cleaning an abandoned house for Mr. Webb when he finds an old video camera with a tape inside.",
+  "hook": "Luca arrives at an old abandoned house for his first day of work and is given one instruction: throw everything away.",
+  "goal": "Clear the rooms of the house as instructed by Ray Brennan.",
+  "start_state": {
+    "location": "Front door of the abandoned house (loc_001)",
+    "time": "Saturday morning",
+    "with_whom": [
+      "Ray Brennan (briefly, at the door)"
+    ],
+    "items": [
+      "work bag"
+    ],
+    "knowledge": [
+      "Ray Brennan hired him for the weekend to clear the house",
+      "The house has been empty for a long time",
+      "He must bag everything and throw it away \u2014 Ray was clear about this",
+      "He does not know the name of the family who lived there"
+    ],
+    "suspicions": []
+  },
+  "continuity_rules": [
+    "This is Episode 1 \u2014 there are no prior events to reference or avoid",
+    "Do not show or hint at the contents of the metal box",
+    "Do not use the family name 'Cole' anywhere in the narrative \u2014 Luca has not learned it yet"
+  ],
   "key_events": [
-    "Marco arrives at the abandoned house to help Mr. Webb clean it on a Saturday morning. He is curious about the old rooms and keeps looking at forgotten objects.",
-    "In a back room, he finds an old video camera inside a broken cabinet. He opens it and finds a small tape inside.",
-    "He connects the camera to an old TV in another room. On the screen, he sees a family \u2014 a man, a woman, and a young girl. They look frightened. The man lifts a floorboard and hides a metal box underneath. The woman writes something on the wall but then wipes it off.",
-    "The tape finishes. Marco now knows where the box is hidden. He marks the spot with his pencil. He takes the camera and the tape. He finishes his work. He leaves the house, but he cannot stop thinking about the box. He must come back."
+    "Ray meets Luca at the front door, hands him the key, and says the same thing twice: throw everything away, do not keep anything. Luca asks who lived here. Ray says 'an old family' and walks back to his car without turning around. His hurry leaves Luca with more questions than answers.",
+    "Luca works alone in the back room, shifting old boxes and a broken chair. In the corner, under a pile of dusty curtains, his hand finds something hard and smooth \u2014 an old video camera. He opens the small door on its side: a tape is still inside.",
+    "Luca tries to turn the camera on. Nothing happens. The battery is dead. He holds the camera for a moment, then puts it in his work bag. He does not throw it away. He finishes the afternoon, locks the house, and takes the camera home.",
+    "At his flat, Luca searches a box of old cables until he finds one that fits the camera. He charges it for one hour. Then he presses play. The tape shows a man and a woman inside a room \u2014 the same dark wooden floor, the same pale walls. The man sets a metal box on the floor, lifts a loose board, pushes the box underneath, and stamps the board flat. The woman stands near the door, watching. She looks afraid. The tape ends after two minutes."
+  ],
+  "major_reveal": "A tape in the old camera shows two people hiding a locked metal box under a loose floorboard in the very room where Luca was working.",
+  "threads_advanced": [],
+  "threads_resolved": [],
+  "new_thread_created": "Is the metal box still under the floorboard in the back room of the abandoned house?",
+  "tone_guardrails": [
+    "Ray's evasiveness must feel like ordinary human caution, not theatrical villainy",
+    "The camera discovery should feel like a routine find that quietly becomes important",
+    "Only one revelation: the tape showing the hidden box \u2014 do not add a second surprise"
+  ],
+  "forbidden_moves": [
+    "Do not use the family name 'Cole' \u2014 Luca does not know it yet; save it for the box discovery in Episode 2",
+    "Do not show or hint at what is inside the metal box",
+    "Do not let Ray explain anything about the house, the family, or why he wants everything thrown away"
   ],
   "vocabulary_targets": [
-    "dusty",
     "camera",
     "tape",
     "floorboard",
-    "mark",
-    "cabinet",
-    "frightened",
-    "pencil",
-    "screen",
-    "family"
+    "dusty",
+    "battery",
+    "cable",
+    "loose"
   ],
-  "ending_hook": "When Marco returns next weekend, will the metal box still be hidden under the floorboard, or has someone already taken it?"
+  "ending_hook": "The floor in the tape is the same floor Luca stood on all day. Is the box still there?"
 }
