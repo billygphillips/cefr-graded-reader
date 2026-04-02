@@ -97,7 +97,9 @@ The Writer receives the episode plan, a continuity packet (character states, rec
 
 ### Classifier
 
-After the Writer produces prose, a Calibrated Linear SVC with dual TF-IDF features predicts the CEFR level. A separate diagnostic layer extracts 14 hand-crafted linguistic features and compares them against reference bands for the target level. If the diagnostic layer identifies specific feature violations or above-band vocabulary, it provides feedback and the Writer can retry. If the classifier predicts the wrong level but the diagnostic layer finds no specific feature-level issues, the prose is accepted --- retrying without specific guidance produced worse prose in testing. In practice, due to domain mismatch (see [The Classifier](#the-classifier)), the retry mechanism is rarely triggered.
+After the Writer produces prose, a Calibrated Linear SVC with dual TF-IDF features predicts the CEFR level. A separate diagnostic layer extracts 14 hand-crafted linguistic features and compares them against reference bands for the target level. If the diagnostic layer identifies specific feature violations or above-band vocabulary, it provides feedback and the Writer can retry. If the classifier predicts the wrong level but the diagnostic layer finds no specific feature-level issues, the prose is accepted --- retrying without specific guidance produced worse prose in testing.
+
+A key limitation of the current feedback mechanism is granularity: diagnostics operate at the document level ("your average sentence length is too high") rather than identifying *which* sentences or *which* words are problematic. The lexical diagnostic does flag individual above-band words, but feature-level feedback lacks sentence-level targeting. An open question is whether moving to sentence- or paragraph-level diagnostics (e.g., via sliding-window feature extraction) would enable more effective targeted revision --- either by the Writer itself or by a dedicated Editor agent that rewrites only the problematic spans.
 
 ### State Manager
 
@@ -181,19 +183,25 @@ The diagnostic layer is direction-aware: if the text is predicted as too complex
 
 The classifier was trained on the UniversalCEFR dataset --- human-written, primarily academic and learner exam text --- achieving **69% macro-F1 on a 4-class problem (A2/B1/B2/C1)**.
 
-### Domain mismatch
+### Domain mismatch and boundary uncertainty
 
-The classifier's most significant limitation is domain mismatch. It was trained on academic and exam text but is used to score AI-generated literary fiction. These domains have substantially different linguistic profiles:
+The classifier's main limitation is not total inaccuracy but **boundary uncertainty under domain shift**. It appears to be broadly directionally useful --- it distinguishes simpler text from more complex text --- yet adjacent levels are difficult to separate reliably, especially A2/B1 and B2/C1.
+
+Two factors contribute to this:
+
+**1. The generator often overshoots its target.** In testing, some A2-targeted outputs read closer to upper A2 or low B1 on expert review (longer descriptive passages, occasional vocabulary above the level). Some B2-targeted outputs appeared closer to C1 (participial phrases, atmospheric description, past perfect). The classifier may be catching real level-control issues in the prompts, not hallucinating errors.
+
+**2. The classifier's judgments are blurred by domain shift.** It was trained on human-written exam and academic CEFR data but is applied to AI-generated fiction. These domains have substantially different linguistic profiles:
 
 - Fiction uses concrete nouns (*camera, cupboard, floorboard, stairs*) that are low-frequency in academic corpora but standard at A2 in any ESL curriculum. The TF-IDF features respond to this distributional difference.
 - Academic text relies on passive voice, nominalisation, and formal cohesion markers as complexity signals. Fiction at the same CEFR level uses active voice, dialogue, and temporal connectives --- a fundamentally different surface profile.
 - Average sentence length is misleading in fiction: dialogue introduces short utterances ("Stop!" / "Where?" / "I don't know.") that pull the mean down, masking the complexity of surrounding descriptive prose.
 
-This is a known challenge in CEFR text classification research. Vajjala & Lucic (2018) demonstrated that transferring between text types requires domain-specific adaptation.
+This domain shift effect is well-documented. Vajjala & Lucic (2018) demonstrated that CEFR classification performance degrades when transferring between text types.
 
-**Practical impact:** Across the A2_001 series (6 episodes), the classifier predicted B1 for 4 of 6 episodes, despite the prose reading as solid A2 to a qualified ESL teacher with 5+ years of experience. The A2 probability ranged from 19% to 58%. Across the B2_001 series (6 episodes), the classifier *never predicted B2* --- it oscillated between B1 (3 episodes) and C1 (3 episodes), with B2 probability averaging 21%.
+**Practical impact:** Across the A2_001 series (6 episodes), the classifier predicted B1 for 4 of 6 episodes. The A2 probability ranged from 19% to 58%. On expert review, the prose sits in the A2/B1 border zone --- the classifier's B1 predictions are not obviously wrong, but nor are they clearly right. Across the B2_001 series (6 episodes), the classifier never predicted B2 --- it oscillated between B1 (3 episodes) and C1 (3 episodes), with B2 probability averaging 21%. On review, the B2 prose leans toward C1 in its complexity, suggesting the prompt overshoot is real.
 
-These results led to two decisions: reducing the acceptance margin from 0.10 to 0.05, and moving the classifier from a hard veto role to an informational diagnostic role.
+These results led to two decisions: reducing the acceptance margin from 0.10 to 0.05, and moving the classifier from a hard veto role to an informational diagnostic role. The open question is how much of the mismatch is the classifier and how much is the generator --- disentangling them requires either a better classifier (trained on fiction) or better prompts (that reliably hit the target), or both.
 
 ---
 
@@ -217,7 +225,7 @@ The three-agent architecture (Director, Writer, State Manager) emerged during th
 
 Built the CEFR classifier in a single session. Started with Naive Bayes and Logistic Regression on hand-crafted features, then moved to TF-IDF representations. The Calibrated Linear SVC with dual TF-IDF (word-level and character-level n-grams) reached 69% macro-F1, the best of all architectures tested. Added 14 hand-crafted linguistic features as a diagnostic layer and computed reference bands (IQR per level per feature) from the training corpus.
 
-The first pipeline integration test revealed the domain mismatch immediately: A2 prose that read correctly to a human was classified as B1.
+The first pipeline integration test revealed a gap between the classifier's predictions and the target level. Initially attributed entirely to domain mismatch, later review suggested the classifier was partially right --- the A2-targeted prose often sat in the A2/B1 border zone.
 
 ### Phase 3: Pipeline integration (Sessions 5--8, March 31--April 1)
 
@@ -229,7 +237,7 @@ Key integration challenges:
 
 ### Phase 4: Level-specific prompts and output (Sessions 9--10)
 
-Generated complete 6-episode series at A2 and B2. The A2 output (A2_001) reads well as graded reader material. The B2 output (B2_001) is readable fiction but the classifier cannot confirm the level (see [Finding 4](#4-b2-is-the-hardest-level-to-hit)).
+Generated complete 6-episode series at A2 and B2. The A2 output (A2_001) is usable graded reader material, though several episodes sit in the A2/B1 border zone rather than firmly at A2. The B2 output (B2_001) is readable fiction but tends toward C1 complexity (see [Finding 4](#4-b2-is-the-hardest-level-to-hit)).
 
 Prompt changes during this phase:
 - **A2 Writer** reframed from "skilled fiction author" to "plain-language renderer" with performance targets. The prose became more natural, though classifier scores did not measurably change.
@@ -244,7 +252,9 @@ Prompt changes during this phase:
 
 The single biggest lever for CEFR control is how you frame the creative task in the prompt, not how you filter the output afterward. Changing the Writer's identity from "award-winning author known for gripping, character-driven fiction" to "experienced author of graded readers for [level] English learners" produced a noticeable shift in output complexity. The model optimises for whatever the prompt rewards --- when rewarded for literary prestige, it produces literary prestige.
 
-This is consistent with the Stanford/Duolingo CaLM work (2024), which found that simpler prompt framing (CEFR level descriptions + few-shot examples) often produced more natural output than heavy constraint stacks. The emerging pattern is: **detailed Director, compact Writer, strong validator** --- planning constraints should be rich, but prose generation should be lightly steered.
+The CaLM work (Malik et al., 2024) supports this: their prompt experiments found that richer CEFR guidance (target-level descriptions, all-level descriptions, few-shot examples) improved proficiency control for GPT-4 compared to simple "write at level X" instructions. Their strongest results came from treating CEFR targeting as a **multi-objective problem** --- balancing level control, text quality, and cost --- rather than as a single yes/no classification gate.
+
+A plausible architecture is **detailed Director, compact Writer, strong validator** --- but we have not yet built a feedback mechanism effective enough to test whether a strong validator can compensate for a lightly steered Writer. The current classifier provides document-level diagnostics that rarely trigger actionable retries, so the "strong validator" component remains aspirational. An alternative approach from the CaLM paper --- **candidate reranking** (generate multiple drafts, classify all, pick the one closest to the target level) --- may be more practical than iterative revision, at the cost of additional generation tokens.
 
 ### 2. Prohibition lists vs positive targets
 
@@ -269,7 +279,7 @@ Across the B2_001 series (6 episodes), the classifier never once predicted B2. R
 | 5 | B1 | 16% | 58% | 23% |
 | 6 | C1 | 20% | 33% | 43% |
 
-B2 probability averaged 21% and never exceeded 32%. This may reflect thin B2 representation in the training data, the classifier's domain mismatch with fiction, or a genuine property of B2 --- it is defined more by what a learner *can do* (understand main ideas of complex text, interact with fluency) than by clear surface-level text features that distinguish it from B1 or C1.
+B2 probability averaged 21% and never exceeded 32%. On expert review, the B2-targeted prose leans toward C1 complexity, suggesting the generator is genuinely overshooting. But the CaLM paper (Malik et al., 2024) explicitly flags adjacent-level ambiguity as inherent to the task: there is very little confusion between distant levels (A1 vs C2) but substantial uncertainty between neighbouring ones. B2 may be especially hard because it is defined more by what a learner *can do* (understand main ideas of complex text, interact with fluency) than by clear surface-level text features that distinguish it from B1 or C1.
 
 ### 5. Self-correction can drift vocabulary upward
 
@@ -281,7 +291,9 @@ This means the classifier must catch violations introduced *during self-correcti
 
 The lexical diagnostic initially used NGSL (New General Service List) frequency rank as a proxy for CEFR level, flagging words outside the top 1,000 lemmas as "above A2." But NGSL is a general English frequency list derived from corpus statistics, not a CEFR syllabus. Common concrete nouns like *camera*, *bedroom*, *cupboard*, *metal*, and *stairs* are standard A2 vocabulary in the Cambridge A2 Key wordlist and the English Vocabulary Profile, but they rank outside the top 1,000 in general English corpora because frequency is dominated by abstract, grammatical, and academic vocabulary.
 
-This produced systematic false positives: the diagnostic told the Writer to replace perfectly appropriate A2 words. The short-term fix was filtering Director-assigned vocabulary targets from the feedback. The correct long-term fix is replacing NGSL bands with CEFR-aligned wordlists (Oxford 3000, Cambridge A2 Key, CEFR-J) and using NGSL only as a frequency/readability signal, not as a CEFR judge.
+This produced systematic false positives: the diagnostic told the Writer to replace perfectly appropriate A2 words. The short-term fix was filtering Director-assigned vocabulary targets from the feedback.
+
+The longer-term fix is not to discard NGSL but to use it alongside CEFR-aligned wordlists (Oxford 3000, Cambridge A2 Key, CEFR-J). The two serve different purposes: a CEFR whitelist answers "is this word appropriate for the level?" while NGSL frequency answers "how common is this word in general English?" A word that is CEFR A2 but rank 5,000 in general English is still harder for a learner to *encounter* outside the classroom than a rank 500 word. Both signals matter for readability --- CEFR alignment for level correctness, frequency for practical accessibility.
 
 ### 7. Continuity is a planning problem, not a prose problem
 
@@ -315,7 +327,7 @@ Both stories use the same seed: *"A young man gets a weekend job helping to clea
 >
 > "Don't keep anything," Ray said again. His voice was flat and clear.
 
-*Classifier: A2 at 43% confidence (B1 at 34%). Short declarative sentences, past simple throughout, concrete physical actions, dialogue with micro-conflict. The classifier's low confidence reflects domain mismatch, not quality issues --- the prose uses only A2 grammar and vocabulary.*
+*Classifier: A2 at 43% confidence (B1 at 34%). Short declarative sentences, past simple throughout, concrete physical actions, dialogue with micro-conflict. This episode is solidly A2. Other episodes in the series were classified as B1 --- on review, those sit closer to the A2/B1 border, tending toward low B1.*
 
 ### B2 --- Episode 1 (excerpt)
 
@@ -323,7 +335,7 @@ Both stories use the same seed: *"A young man gets a weekend job helping to clea
 >
 > He moved into the front room. A bay window faced the street, its glass filmed with dirt. The fireplace grate was rusted, and beside it an old wooden cupboard stood against the wall, its door hanging slightly open. Jamie started with the easier things --- a broken chair, a stack of damp newspapers, a crate full of nothing worth keeping.
 
-*Classifier: C1 at 51% confidence (B2 at 24%). Longer sentences, past perfect, participial phrases, atmospheric description. The classifier overshoot reflects both the B2 classification challenge and the domain mismatch discussed above.*
+*Classifier: C1 at 51% confidence (B2 at 24%). Longer sentences, past perfect, participial phrases, atmospheric description. On review, the prose does lean toward C1 --- the classifier appears to be catching real overshoot from the B2 prompt rather than misclassifying.*
 
 ---
 
@@ -335,7 +347,7 @@ This project draws on several areas of applied linguistics and NLP research:
 
 **The NGSL.** The New General Service List (Browne & Culligan, 2013) provides 2,809 high-frequency word families covering approximately 92% of general English text. We use NGSL frequency bands as one input to the lexical diagnostic, though as noted in [Finding 6](#6-ngsl-frequency-bands-are-not-cefr-levels), frequency rank is not equivalent to CEFR level.
 
-**CEFR-aligned text generation.** Malik et al. (2024), in "From Tarzan to Tolkien," explored CEFR-aligned text generation via distillation and reinforcement learning, demonstrating that LLMs can be steered toward specific proficiency levels but reliability varies, particularly at lower levels. Our prompt engineering approach is complementary --- rather than fine-tuning the model, we structure the generation task through multi-agent orchestration and constraint propagation.
+**CEFR-aligned text generation.** Malik et al. (2024), in "From Tarzan to Tolkien" (ACL 2024 Findings), defined the "Proficiency Control Task" with three evaluation dimensions: control error, quality, and cost. Key findings: GPT-4 achieves reasonable CEFR control via prompting alone; richer CEFR descriptions in prompts improve control; adjacent-level ambiguity (A2/B1, B2/C1) is inherent to the task; and top-*k* candidate reranking (generate multiple drafts, select the closest to target) substantially improves control without needing a new generator. Their strongest system, CaLM, uses supervised fine-tuning on synthetic CEFR data with PPO alignment, demonstrating that fine-tuning can outperform prompting for open models. Our approach is complementary --- rather than fine-tuning, we structure the generation task through multi-agent orchestration and prompt constraints, with a classifier providing post-hoc diagnostics.
 
 **CEFR text classification.** The classifier draws on established approaches to automatic text difficulty assessment. Vajjala & Lucic (2018) demonstrated that CEFR classification performance degrades significantly under domain shift --- a finding our results confirm directly. The two-layer architecture (TF-IDF classification + hand-crafted feature diagnosis) follows common practice in readability research, where surface features and linguistic features provide complementary signals. Recent work on ordinal approaches to CEFR classification (Porwal et al., 2025; Thuy et al., 2025) suggests that exploiting the ordered structure of CEFR levels with ordinal regression losses (CORN, QWK) can improve both accuracy and calibration, particularly for adjacent-level discrimination.
 
@@ -472,7 +484,13 @@ Each episode saves to `outputs/{LEVEL}_{NNN}/ep_{N}/` with:
 
 ### Generation improvements
 
-**CEFR-aligned vocabulary system.** Replace NGSL frequency bands with the Oxford 3000 (organised by CEFR level), the Cambridge A2 Key vocabulary list, and CEFR-J vocabulary and grammar profiles. Use NGSL only as a frequency/readability signal.
+**Thinking block ablation.** The extended thinking block consumes 50%+ of output tokens and can drift vocabulary upward during self-correction (see [Finding 5](#5-self-correction-can-drift-vocabulary-upward)). The CaLM researchers likely did not use thinking-enabled models. Testing generation without extended thinking may improve level control while substantially reducing cost --- the self-correction that happens in the thinking block may be counterproductive if it introduces vocabulary above the target level.
+
+**Candidate reranking.** The CaLM paper found that generating multiple candidates and selecting the one with the lowest control error substantially improved proficiency targeting. This is simpler than the current retry-with-feedback approach and avoids the problem of degraded prose on revision. Generate 3--5 drafts per episode, classify all, select the best match.
+
+**CEFR-aligned vocabulary system.** Replace NGSL frequency bands with the Oxford 3000 (organised by CEFR level), the Cambridge A2 Key vocabulary list, and CEFR-J vocabulary and grammar profiles. Retain NGSL as a complementary frequency/readability signal.
+
+**Richer CEFR descriptions in Writer prompts.** The CaLM paper found that richer CEFR guidance (target-level descriptions, all-level descriptions, few-shot examples) improved control compared to simple "write at level X" instructions. The current Writer prompt uses constraint lists but does not include a prose description of what the target level *feels like* to read, or examples of correctly-leveled text.
 
 **Vocabulary audit after planning.** Score Director-assigned vocabulary targets on concreteness, register, and CEFR alignment before passing them to the Writer. Flag abstract or literary-register vocabulary that is likely to push prose above the target level.
 
@@ -492,7 +510,7 @@ Each episode saves to `outputs/{LEVEL}_{NNN}/ep_{N}/` with:
 
 ## Acknowledgements
 
-Built by Billy Phillips as a portfolio project during the NLP course of a Master of Computer Science (AI specialisation) at Monash University. The project was developed with assistance from Claude (Anthropic), with additional research analysis from Perplexity AI and GPT-4.
+Built by Billy Phillips as a portfolio project during the NLP course of a Master of Computer Science (AI specialisation) at Monash University. The project was developed with assistance from Claude (Anthropic).
 
 ## License
 
