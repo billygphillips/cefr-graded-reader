@@ -1,12 +1,12 @@
 # CEFR Graded Reader Generator
 
-An AI pipeline that generates difficulty-controlled serialised fiction for English language learners, using multi-agent LLM orchestration and an ML classifier to target CEFR levels A2 through C1.
+An AI pipeline that generates difficulty-controlled serialised fiction for English language learners, using multi-agent LLM orchestration and ML classifiers. Originally built to target CEFR levels, the project has evolved toward vocabulary-frequency-band control as a more empirically grounded approach to text difficulty --- with CEFR retained as the learner-facing label.
 
 ## Table of Contents
 
 - [Motivation](#motivation)
 - [How It Works](#how-it-works)
-- [CEFR Level Control](#cefr-level-control)
+- [Difficulty Control](#difficulty-control)
 - [The Classifier](#the-classifier)
 - [Development Process](#development-process)
 - [Key Findings](#key-findings)
@@ -31,9 +31,11 @@ For the **learner**, the process of extracting full value from a graded reader h
 
 Some apps have begun to close this gap, presenting stories at specific levels with tap-to-translate, built-in vocabulary saving, and audio narration. But these apps tend to be linguistically unreliable in their difficulty targeting, limited or formulaic in their content, and expensive.
 
-This project explores whether a multi-agent LLM pipeline can generate stories that are both **engaging and reliably difficulty-controlled** --- producing graded fiction from A2 to C1, with each story verified against CEFR targets by an ML classifier. The longer-term vision is a constantly evolving inventory of level-controlled content that feeds into an interactive reader application with tap-to-translate, vocabulary review, and audio narration.
+This project started by asking whether a multi-agent LLM pipeline can generate stories that are both **engaging and reliably difficulty-controlled** --- producing graded fiction at specific CEFR levels, with each story verified by an ML classifier. The longer-term vision is a constantly evolving inventory of level-controlled content that feeds into an interactive reader application with tap-to-translate, vocabulary review, and audio narration.
 
-This is not straightforward. Malik et al. (2024) showed that while LLMs can be prompted to produce text at specific CEFR levels, reliability varies significantly and tends to degrade at lower levels where constraints are tightest. Our findings confirm this: prompt calibration --- how you frame the creative task to the model --- is the primary lever for difficulty control, and it matters at least as much as the linguistic rules you impose.
+**This is a work in progress.** The pipeline generates readable, engaging fiction, but I have not yet achieved output that reliably sits at a specific CEFR level. A2-targeted prose often lands in the A2/B1 border zone; B2-targeted prose oscillates between B1 and C1. Investigating why led to one of the project's most interesting findings: CEFR was designed as a communicative proficiency framework, not a text-complexity measurement system. Its level boundaries are inherently imprecise for text classification --- a problem that no classifier architecture can fully resolve. The project has since evolved toward using vocabulary-frequency bands (NGSL headword counts) as the primary control mechanism, with CEFR retained as the learner-facing label. This shift, and the findings that motivated it, are documented in detail in [Why Classification Is Hard](#why-classification-is-hard----and-how-much-is-fixable) and [Limitations](#limitations).
+
+Malik et al. (2024) showed that while LLMs can be prompted to produce text at specific CEFR levels, reliability varies significantly and tends to degrade at lower levels where constraints are tightest. My findings confirm this: prompt calibration --- how you frame the creative task to the model --- is the primary lever for difficulty control, and it matters at least as much as the linguistic rules you impose.
 
 ---
 
@@ -67,8 +69,8 @@ The pipeline uses three LLM-powered agents and one ML classifier, each with a di
                     ▼                             ▼
            ┌───────────────┐             ┌───────────────┐
            │  CLASSIFIER   │             │ STATE MANAGER  │
-           │  (SVM + TF-IDF│             │                │
-           │  + features)  │             │ Updates story  │
+           │ (DistilBERT or│             │                │
+           │  SVM + TF-IDF)│             │ Updates story  │
            │               │             │ bible: chars,  │
            │ Predicts CEFR │             │ items, threads,│
            │ level + diag- │             │ locations,     │
@@ -97,7 +99,7 @@ The Writer receives the episode plan, a continuity packet (character states, rec
 
 ### Classifier
 
-After the Writer produces prose, a Calibrated Linear SVC with dual TF-IDF features predicts the CEFR level. A separate diagnostic layer extracts 14 hand-crafted linguistic features and compares them against reference bands for the target level. If the diagnostic layer identifies specific feature violations or above-band vocabulary, it provides feedback and the Writer can retry. If the classifier predicts the wrong level but the diagnostic layer finds no specific feature-level issues, the prose is accepted --- retrying without specific guidance produced worse prose in testing.
+After the Writer produces prose, a classifier predicts the CEFR level. Two classifiers are available: a fine-tuned DistilBERT model (6-class, 70% macro-F1) and a Calibrated Linear SVC with dual TF-IDF features (4-class, 69% macro-F1). A separate diagnostic layer extracts 14 hand-crafted linguistic features and compares them against reference bands for the target level. If the diagnostic layer identifies specific feature violations or above-band vocabulary, it provides feedback and the Writer can retry. If the classifier predicts the wrong level but the diagnostic layer finds no specific feature-level issues, the prose is accepted --- retrying without specific guidance produced worse prose in testing.
 
 A key limitation of the current feedback mechanism is granularity: diagnostics operate at the document level ("your average sentence length is too high") rather than identifying *which* sentences or *which* words are problematic. The lexical diagnostic does flag individual above-band words, but feature-level feedback lacks sentence-level targeting. An open question is whether moving to sentence- or paragraph-level diagnostics (e.g., via sliding-window feature extraction) would enable more effective targeted revision --- either by the Writer itself or by a dedicated Editor agent that rewrites only the problematic spans.
 
@@ -107,9 +109,9 @@ The State Manager reads the accepted prose and updates the story bible: characte
 
 ---
 
-## CEFR Level Control
+## Difficulty Control
 
-Difficulty control operates at three layers: **planning constraints** (Director), **prose constraints** (Writer), and **post-hoc verification** (Classifier).
+Difficulty control operates at three layers: **planning constraints** (Director), **prose constraints** (Writer), and **post-hoc verification** (Classifier). The pipeline currently uses CEFR level labels throughout, but the actual control mechanisms are largely vocabulary-frequency-based --- the NGSL headword ceilings in the Director prompt are doing most of the work.
 
 ### Planning constraints (Director)
 
@@ -181,27 +183,48 @@ The diagnostic layer is direction-aware: if the text is predicted as too complex
 
 ### Training data and performance
 
-The classifier was trained on the UniversalCEFR dataset --- human-written, primarily academic and learner exam text --- achieving **69% macro-F1 on a 4-class problem (A2/B1/B2/C1)**.
+Both classifiers were trained on the same combined corpus: four document-level subsets from UniversalCEFR (`elg_cefr_en`, `cambridge_exams_en`, `cefr_asag_en`, `icle500_en`) plus a Kaggle CEFR-labeled text dataset --- 3,324 documents total, primarily academic and learner exam text.
 
-### Domain mismatch and boundary uncertainty
+| Model | Classes | Macro-F1 | Strengths | Weaknesses |
+|---|---|---|---|---|
+| **Calibrated Linear SVC** (TF-IDF word + char n-grams) | 4 (A2--C1) | 69% | Fast inference, no GPU needed, interpretable via feature weights | No contextual understanding, bag-of-words only |
+| **Fine-tuned DistilBERT** | 6 (A1--C2) | 70% | Contextual embeddings, covers full CEFR range, strong at extremes (A1: 84% F1, C2: 76% F1) | Needs PyTorch, truncates at 512 tokens, struggles in the B1/B2/C1 middle band (54--63% F1) |
 
-The classifier's main limitation is not total inaccuracy but **boundary uncertainty under domain shift**. It appears to be broadly directionally useful --- it distinguishes simpler text from more complex text --- yet adjacent levels are difficult to separate reliably, especially A2/B1 and B2/C1.
+The DistilBERT confusion matrix reveals that misclassification is almost always between adjacent levels (B1↔B2: 53 errors, B2↔C1: 61 errors), never between distant ones (zero A1↔C2 confusion). This is consistent with the ordered nature of CEFR and suggests the model has learned a meaningful difficulty gradient, even where it cannot draw sharp boundaries.
 
-Two factors contribute to this:
+### Why classification is hard --- and how much is fixable
 
-**1. The generator often overshoots its target.** In testing, some A2-targeted outputs read closer to upper A2 or low B1 on expert review (longer descriptive passages, occasional vocabulary above the level). Some B2-targeted outputs appeared closer to C1 (participial phrases, atmospheric description, past perfect). The classifier may be catching real level-control issues in the prompts, not hallucinating errors.
+The classifier's main limitation is not total inaccuracy but **boundary uncertainty**. It distinguishes simpler text from more complex text, but adjacent levels are difficult to separate reliably, especially B1/B2 and B2/C1. Three factors contribute, and they are partially independent:
 
-**2. The classifier's judgments are blurred by domain shift.** It was trained on human-written exam and academic CEFR data but is applied to AI-generated fiction. These domains have substantially different linguistic profiles:
+**1. CEFR was not designed to measure text difficulty.** CEFR is a communicative proficiency framework built on teacher consensus and "can-do" descriptors, not a text-complexity measurement system --- something even its creators acknowledged. It describes what a learner can *do* at each level (understand main ideas, interact with fluency), not measurable surface features of text. The boundary between B1 and B2 is not a specific sentence length or vocabulary size --- it is a shift in communicative competence. Two human CEFR raters will disagree on adjacent levels routinely, and MetaMetrics research found that graded readers labeled the same CEFR level by different publishers can differ by 250+ Lexile points in actual text complexity. Expecting a classifier to draw sharp boundaries on a scale that is inherently imprecise is a ceiling on performance that no model architecture can overcome.
+
+More empirically grounded alternatives exist for text leveling: vocabulary-frequency-band control (Nation's 1,000/2,000/3,000-word levels, formalised in the ERF Graded Reader Scale), the Lexile Framework (psychometric, reproducible, places reader ability and text complexity on the same scale), and Pearson's Global Scale of English (GSE, more granular than CEFR but proprietary). The most defensible approach --- and the one this project is converging toward --- is to use CEFR as the surface label (because it is what teachers and learners recognise) while grounding the actual writing and classification decisions in headword counts and word-frequency bands. CEFR earns its place as a communication tool linking generated content into the wider ecosystem of language courses and exams, but treating it as a precise specification for text generation would be a mistake.
+
+**2. Domain mismatch amplifies boundary uncertainty.** Both classifiers were trained on academic and exam text but are applied to AI-generated fiction. These domains have substantially different linguistic profiles:
 
 - Fiction uses concrete nouns (*camera, cupboard, floorboard, stairs*) that are low-frequency in academic corpora but standard at A2 in any ESL curriculum. The TF-IDF features respond to this distributional difference.
 - Academic text relies on passive voice, nominalisation, and formal cohesion markers as complexity signals. Fiction at the same CEFR level uses active voice, dialogue, and temporal connectives --- a fundamentally different surface profile.
 - Average sentence length is misleading in fiction: dialogue introduces short utterances ("Stop!" / "Where?" / "I don't know.") that pull the mean down, masking the complexity of surrounding descriptive prose.
 
-This domain shift effect is well-documented. Vajjala & Lucic (2018) demonstrated that CEFR classification performance degrades when transferring between text types.
+This domain shift effect is well-documented. Vajjala & Lucic (2018) demonstrated that CEFR classification performance degrades when transferring between text types. Adding DistilBERT improved contextual understanding but did not resolve this --- the model still learns from the same mismatched training distribution.
 
-**Practical impact:** Across the A2_001 series (6 episodes), the classifier predicted B1 for 4 of 6 episodes. The A2 probability ranged from 19% to 58%. On expert review, the prose sits in the A2/B1 border zone --- the classifier's B1 predictions are not obviously wrong, but nor are they clearly right. Across the B2_001 series (6 episodes), the classifier never predicted B2 --- it oscillated between B1 (3 episodes) and C1 (3 episodes), with B2 probability averaging 21%. On review, the B2 prose leans toward C1 in its complexity, suggesting the prompt overshoot is real.
+**3. The generator often overshoots its target.** In testing, some A2-targeted outputs read closer to upper A2 or low B1 on my review (longer descriptive passages, occasional vocabulary above the level). Some B2-targeted outputs appeared closer to C1 (participial phrases, atmospheric description, past perfect). The classifier may be catching real level-control issues in the prompts, not hallucinating errors.
 
-These results led to two decisions: reducing the acceptance margin from 0.10 to 0.05, and moving the classifier from a hard veto role to an informational diagnostic role. The open question is how much of the mismatch is the classifier and how much is the generator --- disentangling them requires either a better classifier (trained on fiction) or better prompts (that reliably hit the target), or both.
+**Practical impact:** Across the A2_001 series (6 episodes), the SVM classifier predicted B1 for 4 of 6 episodes. The A2 probability ranged from 19% to 58%. On my review, the prose sits in the A2/B1 border zone --- the classifier's B1 predictions are not obviously wrong, but nor are they clearly right. Across the B2_001 series (6 episodes), the classifier never predicted B2 --- it oscillated between B1 (3 episodes) and C1 (3 episodes), with B2 probability averaging 21%. On review, the B2 prose leans toward C1 in its complexity, suggesting the prompt overshoot is real.
+
+These results led to two decisions: reducing the acceptance margin from 0.10 to 0.05, and moving the classifier from a hard veto role to an informational diagnostic role. Disentangling how much of the mismatch comes from the classifier versus the generator requires either better training data (fiction-specific CEFR corpora), better prompts (that reliably hit the target), or both.
+
+### Future classifier architecture
+
+Several architectural improvements could address the limitations above:
+
+**Fiction-specific training data.** The single highest-impact change. Candidate corpora include the CLEAR Corpus (4,724 literary/informational excerpts with human difficulty judgments; Crossley et al., 2023), OneStopEnglish (189 articles professionally simplified to three reading levels; Vajjala & Lucic, 2018), and Ace-CEFR (890 conversational texts with fine-grained CEFR labels). Even a small amount of in-domain data mixed into training could substantially reduce the domain shift penalty.
+
+**Ordinal regression.** The current flat multiclass setup penalises an A2→C1 error the same as an A2→B1 error. Ordinal approaches like CORN (Conditional Ordinal Regression; Porwal et al., 2025) or QWK loss (Quadratic Weighted Kappa) exploit CEFR's ordered structure and provide better-calibrated uncertainty for adjacent levels --- exactly the discrimination both classifiers struggle with.
+
+**Complexity contours.** Replace global feature averaging with sliding-window extraction (3--5 sentence windows) to map how complexity varies across a text. Fiction naturally fluctuates --- dense descriptive prose followed by simple dialogue --- and averaging destroys this signal. Feeding complexity contours into a sequence model could improve classification of dialogue-heavy fiction.
+
+**Hybrid transformer + hand-crafted features.** Concatenate DistilBERT's contextual embeddings with pruned hand-crafted features (retaining domain-independent features like tree depth and subordination ratio, dropping domain-dependent ones like passive rate) to combine interpretability with contextual understanding.
 
 ---
 
@@ -244,6 +267,14 @@ Prompt changes during this phase:
 - **B2 Writer** stripped of literary/psychological depth framing ("award-winning author known for gripping fiction"). Grammar targets changed from required per-episode structures to allowed features. This reduced C1 overshoot.
 - **B2 Director** grammar section changed from "Episode 3 must include: passive modals, perfect infinitive, third conditional" to "these structures are available across the series."
 
+### Phase 5: Classifier upgrade and CEFR reappraisal (Session 11, April 6)
+
+Fine-tuned a DistilBERT classifier on the same training data (6-class, A1--C2), achieving 70% macro-F1. The confusion matrix confirmed that misclassification is almost exclusively between adjacent levels --- the model understands the difficulty gradient but cannot draw sharp boundaries. This, combined with research into how CEFR is used (and misused) in graded reader publishing, led to a reappraisal of the project's framing.
+
+CEFR was designed to describe learner communicative competence, not to measure text complexity. Publisher-assigned CEFR labels are inconsistent (MetaMetrics found 250+ Lexile point differences between books labeled the same CEFR level by different publishers), and the framework's "can-do" descriptors do not map cleanly to measurable text features. The classifier's boundary uncertainty is not purely a technical failure --- it reflects genuine imprecision in the target labels themselves.
+
+This motivated a shift in direction: the pipeline already uses vocabulary-frequency bands (NGSL headword ceilings) as the primary control mechanism, and the findings suggest that leaning further into vocabulary-based metrics --- headword coverage, frequency-band ratios, possibly Lexile scores --- would give both the generator and the classifier more precise, empirically grounded targets. CEFR remains valuable as the learner-facing label that connects generated content to the wider ecosystem of language courses and exams, but treating it as the ground truth for text difficulty was holding the project back.
+
 ---
 
 ## Key Findings
@@ -254,7 +285,7 @@ The single biggest lever for CEFR control is how you frame the creative task in 
 
 The CaLM work (Malik et al., 2024) supports this: their prompt experiments found that richer CEFR guidance (target-level descriptions, all-level descriptions, few-shot examples) improved proficiency control for GPT-4 compared to simple "write at level X" instructions. Their strongest results came from treating CEFR targeting as a **multi-objective problem** --- balancing level control, text quality, and cost --- rather than as a single yes/no classification gate.
 
-A plausible architecture is **detailed Director, compact Writer, strong validator** --- but we have not yet built a feedback mechanism effective enough to test whether a strong validator can compensate for a lightly steered Writer. The current classifier provides document-level diagnostics that rarely trigger actionable retries, so the "strong validator" component remains aspirational. An alternative approach from the CaLM paper --- **candidate reranking** (generate multiple drafts, classify all, pick the one closest to the target level) --- may be more practical than iterative revision, at the cost of additional generation tokens.
+A plausible architecture is **detailed Director, compact Writer, strong validator** --- but I have not yet built a feedback mechanism effective enough to test whether a strong validator can compensate for a lightly steered Writer. The current classifier provides document-level diagnostics that rarely trigger actionable retries, so the "strong validator" component remains aspirational. An alternative approach from the CaLM paper --- **candidate reranking** (generate multiple drafts, classify all, pick the one closest to the target level) --- may be more practical than iterative revision, at the cost of additional generation tokens.
 
 ### 2. Prohibition lists vs positive targets
 
@@ -343,13 +374,13 @@ Both stories use the same seed: *"A young man gets a weekend job helping to clea
 
 This project draws on several areas of applied linguistics and NLP research:
 
-**Vocabulary coverage and comprehension.** Nation (2006) established that learners need 98% known-word coverage for unassisted reading comprehension. Hu & Nation (2000) confirmed this threshold experimentally. Waring's graded reader design principles operationalise this as a maximum of 2 unknown words per 100 running words. These thresholds directly inform the vocabulary constraints in our Director and Writer prompts.
+**Vocabulary coverage and comprehension.** Nation (2006) established that learners need 98% known-word coverage for unassisted reading comprehension. Hu & Nation (2000) confirmed this threshold experimentally. Waring's graded reader design principles operationalise this as a maximum of 2 unknown words per 100 running words. These thresholds directly inform the vocabulary constraints in the Director and Writer prompts.
 
-**The NGSL.** The New General Service List (Browne & Culligan, 2013) provides 2,809 high-frequency word families covering approximately 92% of general English text. We use NGSL frequency bands as one input to the lexical diagnostic, though as noted in [Finding 6](#6-ngsl-frequency-bands-are-not-cefr-levels), frequency rank is not equivalent to CEFR level.
+**The NGSL.** The New General Service List (Browne & Culligan, 2013) provides 2,809 high-frequency word families covering approximately 92% of general English text. I use NGSL frequency bands as one input to the lexical diagnostic, though as noted in [Finding 6](#6-ngsl-frequency-bands-are-not-cefr-levels), frequency rank is not equivalent to CEFR level.
 
-**CEFR-aligned text generation.** Malik et al. (2024), in "From Tarzan to Tolkien" (ACL 2024 Findings), defined the "Proficiency Control Task" with three evaluation dimensions: control error, quality, and cost. Key findings: GPT-4 achieves reasonable CEFR control via prompting alone; richer CEFR descriptions in prompts improve control; adjacent-level ambiguity (A2/B1, B2/C1) is inherent to the task; and top-*k* candidate reranking (generate multiple drafts, select the closest to target) substantially improves control without needing a new generator. Their strongest system, CaLM, uses supervised fine-tuning on synthetic CEFR data with PPO alignment, demonstrating that fine-tuning can outperform prompting for open models. Our approach is complementary --- rather than fine-tuning, we structure the generation task through multi-agent orchestration and prompt constraints, with a classifier providing post-hoc diagnostics.
+**CEFR-aligned text generation.** Malik et al. (2024), in "From Tarzan to Tolkien" (ACL 2024 Findings), defined the "Proficiency Control Task" with three evaluation dimensions: control error, quality, and cost. Key findings: GPT-4 achieves reasonable CEFR control via prompting alone; richer CEFR descriptions in prompts improve control; adjacent-level ambiguity (A2/B1, B2/C1) is inherent to the task; and top-*k* candidate reranking (generate multiple drafts, select the closest to target) substantially improves control without needing a new generator. Their strongest system, CaLM, uses supervised fine-tuning on synthetic CEFR data with PPO alignment, demonstrating that fine-tuning can outperform prompting for open models. My approach is complementary --- rather than fine-tuning, I structure the generation task through multi-agent orchestration and prompt constraints, with a classifier providing post-hoc diagnostics.
 
-**CEFR text classification.** The classifier draws on established approaches to automatic text difficulty assessment. Vajjala & Lucic (2018) demonstrated that CEFR classification performance degrades significantly under domain shift --- a finding our results confirm directly. The two-layer architecture (TF-IDF classification + hand-crafted feature diagnosis) follows common practice in readability research, where surface features and linguistic features provide complementary signals. Recent work on ordinal approaches to CEFR classification (Porwal et al., 2025; Thuy et al., 2025) suggests that exploiting the ordered structure of CEFR levels with ordinal regression losses (CORN, QWK) can improve both accuracy and calibration, particularly for adjacent-level discrimination.
+**CEFR text classification.** The classifier draws on established approaches to automatic text difficulty assessment. Vajjala & Lucic (2018) demonstrated that CEFR classification performance degrades significantly under domain shift --- a finding my results confirm directly. The two-layer architecture (TF-IDF classification + hand-crafted feature diagnosis) follows common practice in readability research, where surface features and linguistic features provide complementary signals. Recent work on ordinal approaches to CEFR classification (Porwal et al., 2025; Thuy et al., 2025) suggests that exploiting the ordered structure of CEFR levels with ordinal regression losses (CORN, QWK) can improve both accuracy and calibration, particularly for adjacent-level discrimination.
 
 **Graded reader design.** The project is informed by established principles of graded reader design: controlled vocabulary introduction, grammar staging, narrative engagement at constrained complexity, and systematic recycling of target vocabulary across episodes.
 
@@ -368,7 +399,9 @@ cefr-graded-reader/
 │   └── classifier/
 │       ├── classify.py             # classify() + diagnose() + lexical_diagnostic()
 │       ├── features.py             # 14 hand-crafted linguistic features
-│       └── models/                 # Trained model files (.joblib)
+│       └── models/                 # Trained model files
+│           ├── svc_calibrated.joblib        # SVM baseline
+│           └── cefr-distilbert-final/       # Fine-tuned DistilBERT (6-class)
 ├── data/
 │   ├── ngsl/                       # NGSL frequency data
 │   └── cefr_dataset/               # Training corpus (UniversalCEFR)
@@ -381,7 +414,8 @@ cefr-graded-reader/
 │   └── A2_002/, A2_003/, A2_004/   # Additional generation runs (partial)
 ├── experiments/                    # 22 prompt engineering experiment logs
 ├── notebooks/
-│   └── 01_data_exploration.ipynb   # Classifier training and data exploration
+│   ├── 01_data_exploration.ipynb   # SVM classifier training and data exploration
+│   └── 02_transformer_classifier.ipynb  # DistilBERT fine-tuning (6-class CEFR)
 └── requirements.txt
 ```
 
@@ -398,6 +432,10 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
+
+# For the DistilBERT classifier, download model weights
+# (config and tokenizer are in the repo; weights must be trained via notebooks/02_transformer_classifier.ipynb)
+
 ```
 
 ### Configuration
@@ -432,6 +470,9 @@ python src/pipeline.py --generate --story outputs/A2_001 \
   --director-model anthropic/claude-sonnet-4-6 \
   --writer-model minimax/minimax-m2.5
 
+# Use the DistilBERT classifier instead of SVM
+python src/pipeline.py --generate --story outputs/A2_001 --transformer
+
 # Use Anthropic directly instead of OpenRouter
 python src/pipeline.py --generate --story outputs/A2_001 \
   --provider anthropic --model claude-sonnet-4-6
@@ -448,15 +489,17 @@ Each episode saves to `outputs/{LEVEL}_{NNN}/ep_{N}/` with:
 
 ## Limitations
 
-**Classifier domain mismatch.** The SVM classifier was trained on academic/exam text and produces systematic bias on AI-generated fiction. It tends to classify well-written A2 fiction as B1, and never predicts B2 for any B2-targeted episode. It is useful as a directional signal but not reliable as an authoritative judge of CEFR level.
+**CEFR as a text-difficulty metric.** CEFR was designed to describe learner communicative competence, not to measure text complexity. Using it as a classification target means training models to predict a label that is inherently imprecise and inconsistent across publishers and raters. The pipeline already uses vocabulary-frequency bands (NGSL) as the primary control mechanism, with CEFR as the surface label --- but the classifier still attempts to predict CEFR directly, which may be the wrong target. A shift toward vocabulary-band coverage, Lexile scores, or ERF headword levels as the primary classification target could improve both accuracy and actionability of the feedback loop.
+
+**Classifier domain mismatch.** Both classifiers (SVM and DistilBERT) were trained on academic/exam text and produce systematic bias on AI-generated fiction. The SVM tends to classify well-written A2 fiction as B1, and never predicts B2 for any B2-targeted episode. The DistilBERT model improves on this slightly (70% macro-F1 across 6 classes vs 69% across 4) but inherits the same domain gap. Both are useful as directional signals but not reliable as authoritative judges of CEFR level.
 
 **NGSL-to-CEFR mapping.** The lexical diagnostic uses NGSL frequency bands as a proxy for CEFR levels. This produces false positives for common concrete nouns that are low-frequency in general corpora but standard in ESL curricula. A proper CEFR-aligned wordlist (Oxford 3000, CEFR-J) would resolve this.
 
 **Single seed tested.** All series were generated from the same story premise. The pipeline has not been tested with diverse genres, settings, or narrative structures.
 
-**No human evaluation.** Output quality has been assessed by the developer (a qualified ESL teacher with 5+ years of experience) but has not undergone formal human evaluation with learners, other teachers, or independent CEFR assessors.
+**No human evaluation.** Output quality has been assessed by me (a qualified ESL teacher with 5+ years of experience) but has not undergone formal human evaluation with learners, other teachers, or independent CEFR assessors.
 
-**B2 level targeting is unreliable.** The B2 output oscillates between B1 and C1 according to the classifier. This may be a prompt calibration issue, a classifier training data issue, or an inherent property of B2 as a classification target.
+**Level targeting is unreliable at B2.** The B2 output oscillates between B1 and C1 according to the classifier. This is likely a combination of prompt overshoot, classifier domain mismatch, and the inherent imprecision of CEFR as a text-level boundary.
 
 **Limited prompt variants.** Only A2 and B2 have dedicated prompt profiles. B1 and C1 would need their own prompt variants, constraint tables, and testing.
 
@@ -474,7 +517,9 @@ Each episode saves to `outputs/{LEVEL}_{NNN}/ep_{N}/` with:
 
 **Ordinal regression.** The current flat multiclass classifier penalises an A2→C1 error the same as an A2→B1 error. Ordinal approaches like CORN (Conditional Ordinal Regression; Porwal et al., 2025) or QWK loss (Quadratic Weighted Kappa) exploit CEFR's ordered structure and provide better-calibrated uncertainty for adjacent levels --- exactly the discrimination this system struggles with.
 
-**Transformer-based classifier.** Fine-tune DistilBERT or RoBERTa with a CORN classification head. A hybrid approach that concatenates the transformer's contextual embeddings with pruned hand-crafted features (retaining domain-independent features like tree depth and subordination ratio, dropping domain-dependent ones like passive rate) could preserve interpretability while improving accuracy.
+**Transformer-based classifier (in progress).** A fine-tuned DistilBERT model (6-class, 70% macro-F1) is now integrated as an alternative to the SVM baseline. Next steps: add a CORN ordinal classification head, and experiment with a hybrid approach that concatenates the transformer's contextual embeddings with pruned hand-crafted features (retaining domain-independent features like tree depth and subordination ratio, dropping domain-dependent ones like passive rate) to combine interpretability with contextual understanding.
+
+**Reframing the classification target.** Rather than predicting CEFR levels directly --- which are imprecise and inconsistent as text-difficulty labels --- the classifier could target more empirically grounded metrics: vocabulary-band coverage (percentage of tokens within the top N frequency bands), Lexile scores, or ERF headword levels. CEFR labels could then be derived from these metrics via established cross-walks (e.g., MetaMetrics' Lexile-to-CEFR mapping), giving both a more precise training signal and more actionable diagnostic feedback.
 
 **Feature pruning.** Audit the 14 hand-crafted features for domain robustness. Passive voice rate is highly predictive in academic text but nearly absent in fiction at all levels. Average sentence length is misleading in dialogue-heavy text. These features should be deprioritised or replaced with dialogue-aware variants.
 
