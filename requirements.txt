@@ -8,6 +8,8 @@ spacy               # Sentence parsing, POS tags, dependency trees
 
 # Machine learning
 scikit-learn        # Naive Bayes, Logistic Regression, evaluation metrics
+torch               # PyTorch (DistilBERT inference)
+transformers        # HuggingFace Transformers (DistilBERT classifier)
 pandas              # Data manipulation (tables, CSV files)
 numpy               # Numerical operations (arrays, math)
 

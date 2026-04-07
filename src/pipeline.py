@@ -585,7 +585,7 @@ def cmd_generate(args):
     # Load classifier once before writer loop
     print(f"\n--- CLASSIFIER ---")
     print("  Loading classifier...")
-    classifier = load_classifier()
+    classifier = load_classifier(use_transformer=args.transformer)
 
     # Validate Director's vocabulary targets against the target level's NGSL band.
     # Also builds vocab_target_lemmas — used in the retry loop to avoid penalising
@@ -833,6 +833,10 @@ Examples:
                         help=f"API provider for all agents (default: {DEFAULT_PROVIDER})")
     parser.add_argument("--model", type=str, default=None,
                         help="Override model for ALL agents (overrides per-agent defaults)")
+
+    # Classifier choice
+    parser.add_argument("--transformer", action="store_true",
+                        help="Use fine-tuned DistilBERT classifier instead of SVM")
 
     # Per-agent model overrides (highest priority)
     parser.add_argument("--director-model",      dest="director_model",  type=str, default=None,

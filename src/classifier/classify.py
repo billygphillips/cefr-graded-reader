@@ -1,26 +1,44 @@
+import json
 import joblib
+import torch
 from pathlib import Path
 from scipy.sparse import hstack
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from classifier.features import load_spacy, load_ngsl, extract_features
 
 MODELS_DIR = Path(__file__).parent / "models"
 NGSL_PATH = Path(__file__).parent.parent.parent / "data" / "ngsl" / "NGSL_12_stats.csv"
+TRANSFORMER_DIR = MODELS_DIR / "cefr-distilbert-final"
 
 
-def load_classifier():
+def load_classifier(use_transformer=False):
     """
-    Load the production model (Calibrated SVC + Word/Char TF-IDF) and
-    supporting resources (reference bands, spaCy, NGSL) from disk.
-    Returns a dict with everything needed to run classify() and diagnose().
+    Load classifier and supporting resources from disk.
+    use_transformer=True loads the fine-tuned DistilBERT model;
+    otherwise loads the Calibrated SVC + TF-IDF baseline.
     """
-    return {
-        "model": joblib.load(MODELS_DIR / "svc_calibrated.joblib"),
-        "tfidf_word": joblib.load(MODELS_DIR / "tfidf_word.joblib"),
-        "tfidf_char": joblib.load(MODELS_DIR / "tfidf_char.joblib"),
+    base = {
         "bands": joblib.load(MODELS_DIR / "reference_bands.joblib"),
         "nlp": load_spacy(),
         "ngsl": load_ngsl(NGSL_PATH),
     }
+
+    if use_transformer:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        base["type"] = "transformer"
+        base["model"] = AutoModelForSequenceClassification.from_pretrained(TRANSFORMER_DIR).to(device)
+        base["tokenizer"] = AutoTokenizer.from_pretrained(TRANSFORMER_DIR)
+        base["device"] = device
+        with open(TRANSFORMER_DIR / "label_config.json") as f:
+            label_config = json.load(f)
+        base["id2label"] = {int(k): v for k, v in label_config["id2label"].items()}
+    else:
+        base["type"] = "svm"
+        base["model"] = joblib.load(MODELS_DIR / "svc_calibrated.joblib")
+        base["tfidf_word"] = joblib.load(MODELS_DIR / "tfidf_word.joblib")
+        base["tfidf_char"] = joblib.load(MODELS_DIR / "tfidf_char.joblib")
+
+    return base
 
 
 def classify(text, classifier):
@@ -33,6 +51,12 @@ def classify(text, classifier):
             confidence  — probability of the predicted class (0.0–1.0)
             probs       — dict of all class probabilities
     """
+    if classifier["type"] == "transformer":
+        return _classify_transformer(text, classifier)
+    return _classify_svm(text, classifier)
+
+
+def _classify_svm(text, classifier):
     X_word = classifier["tfidf_word"].transform([text])
     X_char = classifier["tfidf_char"].transform([text])
     X = hstack([X_word, X_char])
@@ -45,6 +69,26 @@ def classify(text, classifier):
         "level": predicted,
         "confidence": float(max(proba)),
         "probs": {cls: float(p) for cls, p in zip(classes, proba)},
+    }
+
+
+def _classify_transformer(text, classifier):
+    tokenizer = classifier["tokenizer"]
+    model = classifier["model"]
+    device = classifier["device"]
+
+    inputs = tokenizer(text, truncation=True, max_length=512, return_tensors="pt").to(device)
+    with torch.no_grad():
+        logits = model(**inputs).logits
+    probs = torch.softmax(logits, dim=-1).squeeze().cpu().numpy()
+
+    id2label = classifier["id2label"]
+    predicted_id = int(probs.argmax())
+
+    return {
+        "level": id2label[predicted_id],
+        "confidence": float(probs[predicted_id]),
+        "probs": {id2label[i]: float(p) for i, p in enumerate(probs)},
     }
 
 

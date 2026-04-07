@@ -30,3 +30,8 @@ data/cefr_dataset/*.tsv
 
 # Generated outputs (optional — we might want SOME in the repo as examples)
 # outputs/stories/*.json
+
+
+# Transformer model weights (too large for GitHub — retrain via notebook)
+src/classifier/models/cefr-distilbert-final/*.safetensors
+src/classifier/models/cefr-distilbert-final/training_args.bin
