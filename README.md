@@ -1,4 +1,4 @@
-# CEFR Graded Reader Generator
+# Graded Reader Generator
 
 An AI pipeline that generates difficulty-controlled serialised fiction for English language learners, using multi-agent LLM orchestration and ML classifiers. Originally built to target CEFR levels, the project has evolved toward vocabulary-frequency-band control as a more empirically grounded approach to text difficulty --- with CEFR retained as the learner-facing label.
 
